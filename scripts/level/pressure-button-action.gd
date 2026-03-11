@@ -1,6 +1,6 @@
 class_name PressureButtonAction extends Action
 
-#@export var 
+@export var buttonPressHandler : ButtonPressHandler
 
 func act() -> bool:
-	return false
+	return buttonPressHandler.isPressed

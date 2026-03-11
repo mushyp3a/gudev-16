@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnyhwjikbldwd"]
+[gd_scene load_steps=7 format=3 uid="uid://dnyhwjikbldwd"]
 
 [ext_resource type="PackedScene" uid="uid://cvt63ig62reiu" path="res://scenes/replayable-player.tscn" id="1_arvqo"]
 [ext_resource type="PackedScene" uid="uid://daulrrci12efy" path="res://scenes/level/pressure-button.tscn" id="2_0vhbu"]
 [ext_resource type="PackedScene" uid="uid://bt6uk4j22n6l1" path="res://scenes/level/right-conveyor-belt.tscn" id="3_lgngl"]
+[ext_resource type="Script" path="res://scripts/level/print-action-group.gd" id="4_x50ur"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
 
@@ -29,6 +30,17 @@ shape = SubResource("WorldBoundaryShape2D_ug2m1")
 [node name="PressureButton" parent="." instance=ExtResource("2_0vhbu")]
 position = Vector2(-69, 104)
 
+[node name="PressureButton2" parent="." instance=ExtResource("2_0vhbu")]
+position = Vector2(-138, 208)
+
+[node name="PressureButton3" parent="." instance=ExtResource("2_0vhbu")]
+position = Vector2(-276, 416)
+
 [node name="RightConveyorBelt" parent="." instance=ExtResource("3_lgngl")]
 position = Vector2(109, 104)
 physics_material_override = SubResource("PhysicsMaterial_o1bgt")
+
+[node name="PrintActionGroup" type="Node" parent="." node_paths=PackedStringArray("actionNodes")]
+script = ExtResource("4_x50ur")
+msg = ">=)"
+actionNodes = [NodePath("../PressureButton"), NodePath("../PressureButton2"), NodePath("../PressureButton3")]
