@@ -1,8 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://dnyhwjikbldwd"]
+[gd_scene load_steps=6 format=3 uid="uid://dnyhwjikbldwd"]
 
 [ext_resource type="PackedScene" uid="uid://cvt63ig62reiu" path="res://scenes/replayable-player.tscn" id="1_arvqo"]
+[ext_resource type="PackedScene" uid="uid://daulrrci12efy" path="res://scenes/level/pressure-button.tscn" id="2_0vhbu"]
+[ext_resource type="PackedScene" uid="uid://bt6uk4j22n6l1" path="res://scenes/level/right-conveyor-belt.tscn" id="3_lgngl"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_o1bgt"]
+resource_local_to_scene = true
+friction = 0.0
+bounce = 0.9
 
 [node name="Game" type="Node2D"]
 
@@ -11,8 +18,17 @@
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(-43, 110)
+collision_layer = 2
+collision_mask = 5
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape2D_ug2m1")
+
+[node name="PressureButton" parent="." instance=ExtResource("2_0vhbu")]
+position = Vector2(-69, 104)
+
+[node name="RightConveyorBelt" parent="." instance=ExtResource("3_lgngl")]
+position = Vector2(109, 104)
+physics_material_override = SubResource("PhysicsMaterial_o1bgt")

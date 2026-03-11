@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://4thnh388de76"]
+[gd_scene load_steps=5 format=3 uid="uid://4thnh388de76"]
 
 [ext_resource type="Texture2D" uid="uid://csar0knqm284w" path="res://icon.svg" id="2_cf401"]
 [ext_resource type="Script" path="res://scripts/replay-clone.gd" id="2_menae"]
@@ -14,7 +14,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="ReplayClone" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nfdha"]
+
+[node name="ReplayClone" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.17, 0.17)
@@ -22,3 +26,6 @@ sprite_frames = SubResource("SpriteFrames_g2els")
 
 [node name="ReplayCloneScript" type="Node" parent="."]
 script = ExtResource("2_menae")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nfdha")
