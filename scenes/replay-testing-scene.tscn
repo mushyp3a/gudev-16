@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnyhwjikbldwd"]
+
+[ext_resource type="PackedScene" uid="uid://cvt63ig62reiu" path="res://scenes/replayable-player.tscn" id="1_arvqo"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
+
+[node name="Game" type="Node2D"]
+
+[node name="ReplayablePlayer" parent="." instance=ExtResource("1_arvqo")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-43, 110)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_ug2m1")
