@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="gudev-16"
-run/main_scene="uid://i4yqwb7kdpan"
-config/features=PackedStringArray("4.5", "Forward Plus")
+run/main_scene="res://scenes/replay-testing-scene.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -28,6 +28,10 @@ window/size/borderless=true
 window/size/always_on_top=true
 window/stretch/mode="canvas_items"
 display_server/driver.linuxbsd="wayland"
+
+[dotnet]
+
+project/assembly_name="gudev-16"
 
 [input]
 
@@ -61,3 +65,14 @@ crouch={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
+test_clone={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":80,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Level"
+2d_physics/layer_3="Clones"

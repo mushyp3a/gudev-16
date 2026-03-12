@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://cvt63ig62reiu"]
+
+[ext_resource type="Script" path="res://scripts/player-movement.gd" id="1_5fd8c"]
+[ext_resource type="Script" path="res://scripts/replayable.gd" id="2_dywpr"]
+[ext_resource type="Texture2D" uid="uid://csar0knqm284w" path="res://icon.svg" id="2_nca1l"]
+[ext_resource type="Script" path="res://scripts/player-cloning.gd" id="4_oyey1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g2els"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_nca1l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="ReplayablePlayer" type="CharacterBody2D"]
+collision_mask = 2
+script = ExtResource("1_5fd8c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_g2els")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.17, 0.17)
+sprite_frames = SubResource("SpriteFrames_g2els")
+
+[node name="ReplayableScript" type="Node" parent="." node_paths=PackedStringArray("node")]
+script = ExtResource("2_dywpr")
+node = NodePath("..")
+
+[node name="PlayerCloningScript" type="Node" parent="." node_paths=PackedStringArray("replayable", "posNode")]
+script = ExtResource("4_oyey1")
+replayable = NodePath("../ReplayableScript")
+posNode = NodePath("..")
+timeLimit = 10.0
