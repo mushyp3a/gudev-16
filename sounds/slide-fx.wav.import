@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://b1bv57rnbsssg"
-path="res://.godot/imported/cyberpunk.wav-751243b0c9deba5dbd8a049c88c84a94.sample"
+uid="uid://nbuyhsas7t4i"
+path="res://.godot/imported/slide-fx.wav-d3ed669f6137a01c20d526c77c32da91.sample"
 
 [deps]
 
-source_file="res://sounds/cyberpunk.wav"
-dest_files=["res://.godot/imported/cyberpunk.wav-751243b0c9deba5dbd8a049c88c84a94.sample"]
+source_file="res://sounds/slide-fx.wav"
+dest_files=["res://.godot/imported/slide-fx.wav-d3ed669f6137a01c20d526c77c32da91.sample"]
 
 [params]
 

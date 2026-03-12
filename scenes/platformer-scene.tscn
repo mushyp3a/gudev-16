@@ -8,7 +8,7 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ug2m1"]
-size = Vector2(20, 336)
+size = Vector2(20, 2000)
 
 [node name="Game" type="Node2D"]
 
@@ -24,7 +24,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.2, 0.2)
 
 [node name="TextureRect" type="TextureRect" parent="bg"]
 layout_mode = 1
@@ -36,13 +35,16 @@ grow_vertical = 2
 texture = ExtResource("1_xw8ud")
 
 [node name="Player" parent="." instance=ExtResource("1_ug2m1")]
-position = Vector2(-46, 94)
+position = Vector2(-41, 70)
+
+[node name="Player2" parent="." instance=ExtResource("1_ug2m1")]
+modulate = Color(1, 1, 1, 0.19607843)
+position = Vector2(22.999996, 68)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(5, 5)
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(-43, 109)
+position = Vector2(-48, 540)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape2D_ug2m1")

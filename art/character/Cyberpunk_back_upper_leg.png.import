@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfxww0k6r88ai"
-path="res://.godot/imported/cyberpunk_head.png-8659d8ccfa3565386e8f6c65616b1732.ctex"
+uid="uid://b8cltsjj06qps"
+path="res://.godot/imported/Cyberpunk_back_upper_leg.png-f127256b81cb2e2dca6f55770026889d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/cyberpunk_head.png"
-dest_files=["res://.godot/imported/cyberpunk_head.png-8659d8ccfa3565386e8f6c65616b1732.ctex"]
+source_file="res://art/character/Cyberpunk_back_upper_leg.png"
+dest_files=["res://.godot/imported/Cyberpunk_back_upper_leg.png-f127256b81cb2e2dca6f55770026889d.ctex"]
 
 [params]
 
