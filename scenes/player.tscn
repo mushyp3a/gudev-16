@@ -1156,6 +1156,7 @@ collision_mode = 2
 
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.1, 0.1)
+collision_mask = 2
 script = ExtResource("1_g2els")
 
 [node name="Node2" type="Node" parent="." node_paths=PackedStringArray("replayable", "posNode")]
@@ -1188,7 +1189,7 @@ texture = ExtResource("2_tuyoq")
 
 [node name="head" type="Bone2D" parent="Skeleton2D/hips/spine"]
 position = Vector2(-29, -418)
-scale = Vector2(0.99999756, 0.99999756)
+scale = Vector2(0.9999975, 0.9999975)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/spine/head"]
 z_index = 10
@@ -1207,7 +1208,7 @@ texture = ExtResource("4_fjrip")
 
 [node name="lower-arm" type="Bone2D" parent="Skeleton2D/hips/spine/upper-arm"]
 position = Vector2(-53.898087, 179.58711)
-scale = Vector2(0.99999785, 0.99999785)
+scale = Vector2(0.9999978, 0.9999978)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/spine/upper-arm/lower-arm"]
 z_index = 14

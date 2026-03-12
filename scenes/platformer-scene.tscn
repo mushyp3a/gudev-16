@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://i4yqwb7kdpan"]
+[gd_scene load_steps=8 format=3 uid="uid://i4yqwb7kdpan"]
 
 [ext_resource type="AudioStream" uid="uid://b1bv57rnbsssg" path="res://sounds/cyberpunk.wav" id="1_atnvu"]
 [ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="1_ug2m1"]
 [ext_resource type="Texture2D" uid="uid://bju52kjgk1unh" path="res://art/bg/Interior.png" id="1_xw8ud"]
 [ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="2_atnvu"]
+[ext_resource type="Texture2D" uid="uid://c40ywp28saast" path="res://art/Cyberpunk_block.png" id="5_k2ydu"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
 
@@ -26,6 +27,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="TextureRect" type="TextureRect" parent="bg"]
+z_index = -1000
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,14 +43,25 @@ position = Vector2(-41, 70)
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(-48, 540)
+collision_layer = 2
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape2D_ug2m1")
 
 [node name="Wall" type="StaticBody2D" parent="."]
-position = Vector2(189, 2)
+position = Vector2(786, -21)
+collision_layer = 2
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
 shape = SubResource("RectangleShape2D_ug2m1")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall"]
+z_index = -100
+position = Vector2(633, 117)
+rotation = -1.5707964
+scale = Vector2(4, 4)
+texture = ExtResource("5_k2ydu")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
