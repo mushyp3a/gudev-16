@@ -11,20 +11,23 @@ var paused = false
 
 var cloneCount : int = 0
 
+func _ready() -> void:
+	startPosition = posNode.global_position  # grab it automatically on start
+
 func createClone() -> void:
+	replayable.newRecording()  # push new replay FIRST
 	var clone = cloneSprite.instantiate()
 	var script = clone.get_node("ReplayCloneScript")
 	script.cloneId = cloneCount
 	script.replayable = replayable
 	cloneCount += 1
-	replayable.newRecording()
 	cloneSpace.add_child(clone)
 	replayable.recording = true
 	
 func timeLoop() -> void:
-	replayable.reset()
 	createClone()
 	posNode.global_position = startPosition
+	replayable.reset()
 	timeElapsed = 0
 
 func _process(delta: float) -> void:

@@ -37,10 +37,6 @@ texture = ExtResource("1_xw8ud")
 [node name="Player" parent="." instance=ExtResource("1_ug2m1")]
 position = Vector2(-41, 70)
 
-[node name="Player2" parent="." instance=ExtResource("1_ug2m1")]
-modulate = Color(1, 1, 1, 0.19607843)
-position = Vector2(22.999996, 68)
-
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="Floor" type="StaticBody2D" parent="."]
@@ -54,3 +50,5 @@ position = Vector2(189, 2)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
 shape = SubResource("RectangleShape2D_ug2m1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]

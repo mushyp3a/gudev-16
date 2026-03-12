@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dnyhwjikbldwd"]
+[gd_scene load_steps=8 format=3 uid="uid://dnyhwjikbldwd"]
 
 [ext_resource type="PackedScene" uid="uid://cvt63ig62reiu" path="res://scenes/replayable-player.tscn" id="1_arvqo"]
+[ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="1_pr7vd"]
 [ext_resource type="PackedScene" uid="uid://daulrrci12efy" path="res://scenes/level/pressure-button.tscn" id="2_0vhbu"]
 [ext_resource type="PackedScene" uid="uid://bt6uk4j22n6l1" path="res://scenes/level/right-conveyor-belt.tscn" id="3_lgngl"]
-[ext_resource type="Script" path="res://scripts/level/print-action-group.gd" id="4_x50ur"]
+[ext_resource type="Script" uid="uid://cduriw68aux3b" path="res://scripts/level/print-action-group.gd" id="4_x50ur"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
 
@@ -13,6 +14,8 @@ friction = 0.0
 bounce = 0.9
 
 [node name="Game" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_pr7vd")]
 
 [node name="ReplayablePlayer" parent="." instance=ExtResource("1_arvqo")]
 
