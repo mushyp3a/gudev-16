@@ -1,19 +1,56 @@
-[gd_scene load_steps=3 format=3 uid="uid://i4yqwb7kdpan"]
+[gd_scene load_steps=7 format=3 uid="uid://i4yqwb7kdpan"]
 
+[ext_resource type="AudioStream" uid="uid://b1bv57rnbsssg" path="res://sounds/cyberpunk.wav" id="1_atnvu"]
 [ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="1_ug2m1"]
+[ext_resource type="Texture2D" uid="uid://bju52kjgk1unh" path="res://art/bg/Interior.png" id="1_xw8ud"]
+[ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="2_atnvu"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ug2m1"]
+size = Vector2(20, 2000)
+
 [node name="Game" type="Node2D"]
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_atnvu")
+autoplay = true
+
+[node name="cyberpunk-shader" parent="." instance=ExtResource("2_atnvu")]
+
+[node name="bg" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="bg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_xw8ud")
+
 [node name="Player" parent="." instance=ExtResource("1_ug2m1")]
-position = Vector2(-52, -21)
+position = Vector2(-41, 70)
+
+[node name="Player2" parent="." instance=ExtResource("1_ug2m1")]
+modulate = Color(1, 1, 1, 0.19607843)
+position = Vector2(22.999996, 68)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(3, 3)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(-43, 110)
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(-48, 540)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("WorldBoundaryShape2D_ug2m1")
+
+[node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2(189, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+shape = SubResource("RectangleShape2D_ug2m1")
