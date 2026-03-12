@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b80d7j5jpwmhn"]
+[gd_scene load_steps=10 format=3 uid="uid://b80d7j5jpwmhn"]
 
 [ext_resource type="Texture2D" uid="uid://csar0knqm284w" path="res://icon.svg" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://bwdurgqthyhi7" path="res://scripts/player-movement.gd" id="1_g2els"]
@@ -16,6 +16,32 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_g2els"]
+colors = PackedColorArray(3.85046e-06, 0.85818845, 0.8020454, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qhqgy"]
+gradient = SubResource("Gradient_g2els")
+
+[sub_resource type="Curve" id="Curve_g2els"]
+_data = [Vector2(0.5378788, 0.6516854), 0.0, 0.0, 0, 0, Vector2(1, 0.3146068), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qhqgy"]
+curve = SubResource("Curve_g2els")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qhqgy"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(2.41, 1.555, 1)
+emission_shape = 1
+emission_sphere_radius = 1.75
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 49.409996
+radial_accel_max = 49.409996
+scale_min = 3.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_qhqgy")
+color_ramp = SubResource("GradientTexture1D_qhqgy")
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_g2els")
 
@@ -25,3 +51,23 @@ shape = SubResource("RectangleShape2D_g2els")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.17, 0.17)
 sprite_frames = SubResource("SpriteFrames_g2els")
+
+[node name="FloorParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, 10)
+emitting = false
+amount = 30
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_qhqgy")
+
+[node name="WallParticles" type="GPUParticles2D" parent="."]
+position = Vector2(11, 0)
+rotation = 1.5707964
+emitting = false
+amount = 5
+lifetime = 0.5
+explosiveness = 0.25
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_qhqgy")
