@@ -148,6 +148,7 @@ position = Vector2(-133, 238)
 position = Vector2(-47, -107)
 
 [node name="Lever" type="Area2D" parent="." groups=["lever"]]
+visible = false
 z_index = 10
 position = Vector2(-109.99999, 164.00002)
 scale = Vector2(0.4, 0.4)

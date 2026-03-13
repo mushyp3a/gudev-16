@@ -21,11 +21,14 @@ func _process(_delta: float) -> void:
 	if replayable.replays[cloneId].positionHistory.size() < 2:
 		return
 
-	# when paused, hold position at end of recording and play idle
-	if cloning and cloning.paused:
+	# when paused or waiting for first input, hold position and play idle
+	if cloning and (cloning.paused or cloning.waitingForInput):
 		var replay = replayable.replays[cloneId]
 		if replay.positionHistory.size() > 0:
-			global_position = replay.positionHistory[-1]
+			if cloning.waitingForInput:
+				global_position = replay.positionHistory[0]
+			else:
+				global_position = replay.positionHistory[-1]
 		play_anim("idle")
 		return
 

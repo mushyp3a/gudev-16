@@ -59,8 +59,9 @@ func _ready():
 	ShaderManager.go_to_plan()
 
 func _physics_process(delta):
-	# freeze player when paused or previewing
-	if cloning and (cloning.paused or cloning.previewing):
+	print("paused=", cloning.paused, " previewing=", cloning.previewing, " waiting=", cloning.waitingForInput)
+	# freeze player when paused, previewing, or waiting for first input
+	if cloning and (cloning.paused or cloning.previewing or cloning.waitingForInput):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		if not is_on_floor():
 			velocity.y += gravity * delta * GRAVITY_MULT

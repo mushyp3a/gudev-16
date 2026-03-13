@@ -74,6 +74,8 @@ func playSelectedClone(id : int) -> void:
 	previewing = true
 	paused = false
 	waitingForInput = false
+	for lever in get_tree().get_nodes_in_group("lever"):
+		lever.preparePlayback()
 
 	for other_id in range(4):
 		if replayable.replays[other_id] == null:
@@ -95,6 +97,8 @@ func _play_all_clones() -> void:
 	previewing = true
 	paused = false
 	waitingForInput = false
+	for lever in get_tree().get_nodes_in_group("lever"):
+		lever.preparePlayback()
 	for id in range(4):
 		if replayable.replays[id] == null:
 			continue
@@ -118,6 +122,8 @@ func timeLoop() -> void:
 	replayable.recording = false
 	waitingForInput = false
 	ShaderManager.go_to_plan()
+	for lever in get_tree().get_nodes_in_group("lever"):
+		lever.resetToDefault()
 	var justRecorded = replayable.currIx
 	if cloneNodes.has(justRecorded) and is_instance_valid(cloneNodes[justRecorded]):
 		cloneNodes[justRecorded].visible = true
@@ -132,44 +138,22 @@ func previewEnd() -> void:
 	paused = true
 	waitingForInput = false
 	ShaderManager.go_to_plan()
+	for lever in get_tree().get_nodes_in_group("lever"):
+		lever.resetToDefault()
 	recording_ended.emit()
 
 # ─────────────────────────────────────────────────────────────────────────────
 func _process(delta: float) -> void:
 	_check_clone_select()
 
-	if paused:
-		if Input.is_action_just_pressed("record_clone") and selectedClone >= 0:
-			createClone(selectedClone)
-			spawnExistingClones()
-			previewing = false
-			paused = false
-			selectedClone = -2
-			_updateVisibility()
-
-		if Input.is_action_just_pressed("play_clone"):
-			if selectedClone == -2:
-				_play_all_clones()
-			elif selectedClone != -1:
-				playSelectedClone(selectedClone)
-	else:
+	if not paused:
 		if waitingForInput:
 			if Input.is_action_just_pressed("move_left") or \
 			   Input.is_action_just_pressed("move_right") or \
 			   Input.is_action_just_pressed("jump") or \
 			   Input.is_action_just_pressed("crouch"):
 				waitingForInput = false
-				timeElapsed = replayable.time
 				ShaderManager.go_to_run()
-			else:
-				# only tick time if existing clones need to play
-				var hasExistingClones = false
-				for id in range(4):
-					if id != replayable.currIx and replayable.replays[id] != null:
-						hasExistingClones = true
-						break
-				if hasExistingClones:
-					replayable.time += delta
 		else:
 			timeElapsed += delta
 			replayable.time = timeElapsed

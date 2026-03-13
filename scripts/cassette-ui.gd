@@ -26,22 +26,14 @@ func _on_slot_pressed(id: int) -> void:
 	_update_slot_highlights()
 	cloning._updateVisibility()
 
-func _update_slot_highlights() -> void:
-	for i in range(4):
-		if cloning.selectedClone == i:
-			slot_buttons[i].modulate = Color(1.0, 0.8, 0.0)
-		else:
-			slot_buttons[i].modulate = Color.WHITE
-
 func _on_record_pressed() -> void:
 	if cloning.selectedClone < 0:
 		return
 	is_recording = true
 	slide_out()
+	# createClone handles: newRecording, time reset, waitingForInput=true, replayable.recording=true
 	cloning.createClone(cloning.selectedClone)
 	cloning.spawnExistingClones()
-	cloning.replayable.time = 0
-	cloning.timeElapsed = 0
 	cloning.previewing = false
 	cloning.paused = false
 	cloning.selectedClone = -2
@@ -64,13 +56,22 @@ func slide_out() -> void:
 func slide_in() -> void:
 	is_open = true
 	is_recording = false
-	cloning.paused = true
-	cloning.previewing = false
-	cloning.waitingForInput = false
-	cloning.replayable.recording = false
-	ShaderManager.go_to_plan()
+	# only reset state if not already paused (avoid fighting with timeLoop/previewEnd)
+	if not cloning.paused:
+		cloning.paused = true
+		cloning.previewing = false
+		cloning.waitingForInput = false
+		cloning.replayable.recording = false
+		ShaderManager.go_to_plan()
 	_animate(0.0)
 	_update_slot_highlights()
+
+func _update_slot_highlights() -> void:
+	for i in range(4):
+		if cloning.selectedClone == i:
+			slot_buttons[i].modulate = Color(1.0, 0.8, 0.0)
+		else:
+			slot_buttons[i].modulate = Color.WHITE
 
 func _update_play_button() -> void:
 	var play_btn = $Panel/SlotButtons/PlayButton
