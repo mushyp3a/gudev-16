@@ -5,7 +5,7 @@ extends Node
 @export var timeLimit : float
 @export var startPosition : Vector2
 var timeElapsed : float = 0
-var paused = false
+var paused = true
 @onready var cloneSpace : Node = get_tree().root
 @onready var cloneSprite = load("res://scenes/replay-clone.tscn")
 
@@ -50,9 +50,11 @@ func _process(delta: float) -> void:
 			selectedClone = 3
 		
 		if Input.is_key_pressed(KEY_P) && selectedClone != -1:
-			pass
+			createClone(selectedClone)
+			selectedClone = -1
+			paused = false
 	else:
 		if timeElapsed >= timeLimit:
 			timeLoop()
-			return
+			paused = true
 		timeElapsed += delta
