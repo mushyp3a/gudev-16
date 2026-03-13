@@ -1,22 +1,16 @@
 class_name Replayable extends Node
 
-var replays: Array[Replay]
+var replays: Array[Replay] = [null, null, null, null]
 
 var time: float
-var recording: bool
+var recording: bool = false
 
 @export var node: Node2D
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	# Start with no replays
-	replays = []
-	# Start "recording"
-	newRecording()
-	recording = true
+var currIx : int = -1
 	
-func newRecording() -> void:
-	replays.push_back(Replay.new(node.global_position, 0))
+func newRecording(id : int) -> void:
+	replays[id] = Replay.new(node.global_position, 0)
 	time = 0
 
 func getPosition(cloneId : int) -> Vector2:
@@ -24,10 +18,12 @@ func getPosition(cloneId : int) -> Vector2:
 	
 func reset() -> void:
 	for replay in replays:
-		replay.reset()
+		if replay != null:
+			replay.reset()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if recording:
-		replays[-1].record(node.global_position, time)
-		time += delta
+		if currIx != -1:
+			replays[currIx].record(node.global_position, time)
+			time += delta

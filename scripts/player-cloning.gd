@@ -9,34 +9,50 @@ var paused = false
 @onready var cloneSpace : Node = get_tree().root
 @onready var cloneSprite = load("res://scenes/replay-clone.tscn")
 
-var cloneCount : int = 0
+var cloneIxs : Array[int] = [0,1,2,3]
+var clones : Array[Node] = [null, null, null, null]
 
 func _ready() -> void:
 	startPosition = posNode.global_position  # grab it automatically on start
 
-func createClone() -> void:
-	replayable.newRecording()  # push new replay FIRST
+func createClone(id : int) -> void:
+	replayable.newRecording(id)  # push new replay FIRST
 	var clone = cloneSprite.instantiate()
 	var script = clone.get_node("ReplayCloneScript")
-	script.cloneId = cloneCount
+	script.cloneId = id
 	script.replayable = replayable
-	cloneCount += 1
+	removeId(id)
 	cloneSpace.add_child(clone)
 	replayable.recording = true
 	
+func removeId(id : int):
+	for i in len(cloneIxs):
+		if cloneIxs[i] == id:
+			cloneIxs.remove_at(i)
+			break
+	
 func timeLoop() -> void:
-	createClone()
 	posNode.global_position = startPosition
 	replayable.reset()
 	timeElapsed = 0
 
+var selectedClone : int = -1
+
 func _process(delta: float) -> void:
-	if not paused:
+	if paused:
+		if Input.is_key_pressed(KEY_1):
+			selectedClone = 0
+		elif Input.is_key_pressed(KEY_2):
+			selectedClone = 1
+		elif Input.is_key_pressed(KEY_3):
+			selectedClone = 2
+		elif Input.is_key_pressed(KEY_4):
+			selectedClone = 3
+		
+		if Input.is_key_pressed(KEY_P) && selectedClone != -1:
+			pass
+	else:
 		if timeElapsed >= timeLimit:
 			timeLoop()
 			return
-		# TODO - remove this
-		if Input.is_action_just_pressed("test_clone"):
-			print("Creating a test clone")
-			createClone()
 		timeElapsed += delta
