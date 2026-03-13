@@ -33,12 +33,13 @@ func lerpPos(t: float) -> Vector2:
 	var deltaP = positionHistory[lastIx + 1] - positionHistory[lastIx]
 	return positionHistory[lastIx] + t*deltaP
 
-func getPos(t: float) -> Vector2:
+func replayPos(t: float) -> Vector2:
 	# Assume that t is in seconds, and is a float (an explicit conversion calculation may be necessary here
 	# Do something silly vvvv
 	for i in range(lastIx, len(positionHistory)):
 		if timeHistory[i] > t:
 			break
+		playerActionHistory[i].actAll()
 		lastIx = i
 	if lastIx == len(positionHistory) - 1:
 		return positionHistory[lastIx]

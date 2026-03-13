@@ -15,7 +15,7 @@ func newRecording(id : int) -> void:
 	time = 0
 
 func getPosition(cloneId : int) -> Vector2:
-	return replays[cloneId].getPos(time)
+	return replays[cloneId].replayPos(time)
 	
 func reset() -> void:
 	for replay in replays:
