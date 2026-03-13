@@ -2,21 +2,24 @@ class_name Replay
 
 var positionHistory: Array[Vector2]
 var timeHistory: Array[float]
+var playerActionHistory: Array[PlayerActions]
 
 var lastIx: int
 
-func _init(pos: Vector2, t: float):
+func _init(pos: Vector2, t: float, actions : PlayerActions):
 	positionHistory = []
 	timeHistory = []
-	record(pos, t)
+	playerActionHistory = []
+	record(pos, t, actions)
 	lastIx = 0
 	
 func reset() -> void:
 	lastIx = 0
 
-func record(pos: Vector2, t: float):
+func record(pos: Vector2, t: float, actions : PlayerActions):
 	positionHistory.push_back(pos)
 	timeHistory.push_back(t)
+	playerActionHistory.push_back(actions)
 
 # Required to ensure that clone position is independent of framerate
 # May result in strange behaviour for vastly different framerates

@@ -10,7 +10,7 @@ var recording: bool = false
 var currIx : int = -1
 	
 func newRecording(id : int) -> void:
-	replays[id] = Replay.new(node.global_position, 0)
+	replays[id] = Replay.new(node.global_position, 0, PlayerActions.new([]))
 	currIx = id
 	time = 0
 
@@ -26,4 +26,5 @@ func reset() -> void:
 func _process(delta: float) -> void:
 	if recording:
 		if currIx != -1:
-			replays[currIx].record(node.global_position, time)
+			# TODO - actually code this part fully
+			replays[currIx].record(node.global_position, time, PlayerActions.new([]))

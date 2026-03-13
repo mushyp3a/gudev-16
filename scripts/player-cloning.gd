@@ -65,8 +65,10 @@ func showAllClones() -> void:
 		clones[i].set_visible(true)
 
 func selectClone(id : int) -> void:
-	if selectedClone == id:
+	if cloneIxs.has(id):
 		showAllClones()
+	else:
+		showClone(id)
 	selectedClone = id
 
 func _process(delta: float) -> void:
