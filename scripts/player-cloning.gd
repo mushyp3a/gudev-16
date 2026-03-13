@@ -74,6 +74,25 @@ func playSelectedClone(id : int) -> void:
 	previewing = true
 	paused = false
 
+func _play_all_clones() -> void:
+	replayable.reset()
+	replayable.time = 0
+	timeElapsed = 0
+	replayable.recording = false
+	previewing = true
+	paused = false
+	for id in range(4):
+		if replayable.replays[id] == null:
+			continue
+		if not (cloneNodes.has(id) and is_instance_valid(cloneNodes[id])):
+			var clone = cloneSprite.instantiate()
+			var script = clone.get_node("ReplayCloneScript")
+			script.cloneId = id
+			script.replayable = replayable
+			cloneSpace.add_child(clone)
+			cloneNodes[id] = clone
+		cloneNodes[id].visible = true
+
 # ── Full reset: only called at end of a real recording run ───────────────────
 func timeLoop() -> void:
 	posNode.global_position = startPosition
@@ -100,7 +119,7 @@ func _process(delta: float) -> void:
 
 	if paused:
 		# P  →  start recording the selected clone
-		if Input.is_action_just_pressed("record_clone") and selectedClone != -1:
+		if Input.is_action_just_pressed("record_clone") and selectedClone >= 0:
 			createClone(selectedClone)
 			spawnExistingClones()
 			replayable.time = 0
@@ -109,8 +128,11 @@ func _process(delta: float) -> void:
 			paused = false
 
 		# O  →  preview selected clone (no player reset)
-		if Input.is_action_just_pressed("play_clone") and selectedClone != -1:
-			playSelectedClone(selectedClone)
+		if Input.is_action_just_pressed("play_clone"):
+			if selectedClone == -2:
+				_play_all_clones()
+			elif selectedClone != -1:
+				playSelectedClone(selectedClone)
 	else:
 		timeElapsed += delta
 		replayable.time = timeElapsed
@@ -130,3 +152,5 @@ func _check_clone_select() -> void:
 		selectedClone = 2
 	elif Input.is_action_just_pressed("select_clone_4"):
 		selectedClone = 3
+	elif Input.is_action_just_pressed("select_all_clones"):  # tilde key
+		selectedClone = -2  # -2 = "all"
