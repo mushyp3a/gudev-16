@@ -27,4 +27,3 @@ func _process(delta: float) -> void:
 	if recording:
 		if currIx != -1:
 			replays[currIx].record(node.global_position, time)
-			time += delta

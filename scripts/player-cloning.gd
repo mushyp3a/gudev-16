@@ -14,6 +14,7 @@ var clones : Array[Node] = [null, null, null, null]
 
 func _ready() -> void:
 	startPosition = posNode.global_position  # grab it automatically on start
+	replayable.reset()
 
 func createClone(id : int) -> void:
 	replayable.newRecording(id)  # push new replay FIRST
@@ -38,6 +39,10 @@ func timeLoop() -> void:
 
 var selectedClone : int = -1
 
+func unpause() -> void:
+	paused = false
+	replayable.reset()
+
 func _process(delta: float) -> void:
 	if paused:
 		if Input.is_key_pressed(KEY_1):
@@ -52,9 +57,10 @@ func _process(delta: float) -> void:
 		if Input.is_key_pressed(KEY_P) && selectedClone != -1:
 			createClone(selectedClone)
 			selectedClone = -1
-			paused = false
+			unpause()
 	else:
+		timeElapsed += delta
+		replayable.time = timeElapsed
 		if timeElapsed >= timeLimit:
 			timeLoop()
 			paused = true
-		timeElapsed += delta
