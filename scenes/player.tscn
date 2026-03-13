@@ -1160,13 +1160,12 @@ scale = Vector2(0.1, 0.1)
 collision_mask = 2
 script = ExtResource("1_g2els")
 
-[node name="Node2" type="Node" parent="." node_paths=PackedStringArray("replayable", "posNode")]
+[node name="PlayerCloning" type="Node" parent="." node_paths=PackedStringArray("posNode")]
 script = ExtResource("2_jej6c")
-replayable = NodePath("../Node3")
 posNode = NodePath("..")
 timeLimit = 5.0
 
-[node name="Node3" type="Node" parent="." node_paths=PackedStringArray("node")]
+[node name="Replayable" type="Node" parent="." node_paths=PackedStringArray("node")]
 script = ExtResource("3_f1ej7")
 node = NodePath("..")
 
@@ -1219,7 +1218,7 @@ texture = ExtResource("5_smehm")
 [node name="front-upper-leg" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(27, -14)
 rotation = -0.78586227
-scale = Vector2(0.9999979, 0.9999979)
+scale = Vector2(0.99999785, 0.99999785)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/front-upper-leg"]
 z_index = 10
@@ -1239,7 +1238,7 @@ texture = ExtResource("7_3v2ag")
 [node name="back-upper-leg" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(27, -14)
 rotation = -0.90326357
-scale = Vector2(0.99999326, 0.99999326)
+scale = Vector2(0.99999315, 0.99999315)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/back-upper-leg"]
 z_index = 9
@@ -1249,7 +1248,7 @@ texture = ExtResource("8_d2wvv")
 [node name="back-lower-leg" type="Bone2D" parent="Skeleton2D/hips/back-upper-leg"]
 position = Vector2(-40.06128, 156.2533)
 rotation = 1.8253295
-scale = Vector2(0.99999946, 0.99999946)
+scale = Vector2(0.9999994, 0.9999994)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/back-upper-leg/back-lower-leg"]
 z_index = 8

@@ -1,33 +1,36 @@
 class_name Replayable extends Node
 
-var replays: Array[Replay]
+var replays: Array = [null, null, null, null]
 
-var time: float
-var recording: bool
+var time: float = 0.0
+var recording: bool = false
 
-@export var node: Node2D
+@export var node :Node2D  # the player CharacterBody2D
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	# Start with no replays
-	replays = []
-	# Start "recording"
-	newRecording()
-	recording = true
-	
-func newRecording() -> void:
-	replays.push_back(Replay.new(node.global_position, 0))
-	time = 0
+var currIx: int = -1
 
-func getPosition(cloneId : int) -> Vector2:
-	return replays[cloneId].getPos(time)
-	
+func newRecording(id: int) -> void:
+	replays[id] = load("res://scripts/replay.gd").new(node.global_position, 0)
+	currIx = id
+	reset()
+
+func sample(cloneId: int) -> Dictionary:
+	return replays[cloneId].sample(time)
+
 func reset() -> void:
 	for replay in replays:
-		replay.reset()
+		if replay != null:
+			replay.reset()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if recording:
-		replays[-1].record(node.global_position, time)
-		time += delta
+func _process(_delta: float) -> void:
+	if not recording or currIx == -1:
+		return
+	replays[currIx].record(
+		node.global_position,
+		time,
+		node.facing,
+		node.is_sliding,
+		node.is_wall_sliding,
+		node.velocity.y,
+		node.has_double_jump
+	)
