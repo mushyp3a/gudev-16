@@ -1,11 +1,15 @@
 extends Node2D
 
-# Assign these from the clone spawner (replay-clone.gd sets cloneId and replayable)
 var replayable
 var cloneId: int
 
 @onready var animator: AnimationPlayer = $Skeleton2D/hips/AnimationPlayer
 @onready var skeleton: Node2D = $Skeleton2D
+
+var cloning = null
+
+func _ready() -> void:
+	cloning = get_tree().root.find_child("PlayerCloning", true, false)
 
 func play_anim(anim_name: String) -> void:
 	if animator.current_animation != anim_name:
@@ -17,12 +21,18 @@ func _process(_delta: float) -> void:
 	if replayable.replays[cloneId].positionHistory.size() < 2:
 		return
 
+	# when paused, hold position at end of recording and play idle
+	if cloning and cloning.paused:
+		var replay = replayable.replays[cloneId]
+		if replay.positionHistory.size() > 0:
+			global_position = replay.positionHistory[-1]
+		play_anim("idle")
+		return
+
 	var prev_x: float = global_position.x
 	var s: Dictionary = replayable.sample(cloneId)
-
 	global_position = s["position"]
 	skeleton.scale.x = s["facing"]
-
 	var vel_y: float = s["velocity_y"]
 	var moving_x: bool = abs(global_position.x - prev_x) > 0.5
 
