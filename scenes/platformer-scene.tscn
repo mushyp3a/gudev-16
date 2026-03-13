@@ -37,7 +37,8 @@ grow_vertical = 2
 texture = ExtResource("1_xw8ud")
 
 [node name="Player" parent="." instance=ExtResource("1_ug2m1")]
-position = Vector2(-41, 70)
+position = Vector2(-82, 312)
+scale = Vector2(0.15, 0.15)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

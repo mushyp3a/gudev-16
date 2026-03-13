@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
+const SPEED = 500.0
 const JUMP_VELOCITY = -800.0
 const DOUBLE_JUMP_VELOCITY = -800.0
-const WALL_JUMP_VELOCITY_X = 300.0
-const WALL_JUMP_VELOCITY_Y = -600.0
+const WALL_JUMP_VELOCITY_X = 500.0
+const WALL_JUMP_VELOCITY_Y = -800.0
 const WALL_SLIDE_GRAVITY = 200.0
 const GRAVITY_MULT = 2
 const SLIDE_SPEED = 900.0
@@ -119,7 +119,7 @@ func _physics_process(delta):
 			velocity.x = last_wall_normal.x * WALL_JUMP_VELOCITY_X
 			velocity.y = WALL_JUMP_VELOCITY_Y
 			has_double_jump = true
-			wall_jump_cooldown = 0.18
+			wall_jump_cooldown = 0
 			jumpFx.play()
 		elif has_double_jump:
 			ShaderManager.trigger_hit()
