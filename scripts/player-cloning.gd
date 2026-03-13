@@ -81,14 +81,16 @@ func _process(delta: float) -> void:
 			selectClone(2)
 		elif Input.is_key_pressed(KEY_4):
 			selectClone(3)
+		elif Input.is_key_pressed(KEY_0):
+			selectClone(3)
 		
 		if Input.is_key_pressed(KEY_P) && selectedClone != -1:
-			if cloneIxs.has(selectedClone):
-				showAllClones()
-				createClone(selectedClone)
-				selectedClone = -1
-				unpause()
-			else:
+			showAllClones()
+			createClone(selectedClone)
+			selectedClone = -1
+			unpause()
+
+		if Input.is_key_pressed(KEY_O):
 				replayClone(selectedClone)
 	else:
 		timeElapsed += delta
