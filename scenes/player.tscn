@@ -695,6 +695,7 @@ tracks/10/keys = {
 resource_name = "run"
 length = 0.4
 loop_mode = 1
+step = 0.0333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1159,13 +1160,13 @@ scale = Vector2(0.1, 0.1)
 collision_mask = 2
 script = ExtResource("1_g2els")
 
-[node name="Node2" type="Node" parent="." node_paths=PackedStringArray("replayable", "posNode")]
+[node name="PlayerCloning" type="Node" parent="." node_paths=PackedStringArray("replayable", "posNode")]
 script = ExtResource("2_jej6c")
-replayable = NodePath("../Node3")
+replayable = NodePath("../Replayable")
 posNode = NodePath("..")
 timeLimit = 5.0
 
-[node name="Node3" type="Node" parent="." node_paths=PackedStringArray("node")]
+[node name="Replayable" type="Node" parent="." node_paths=PackedStringArray("node")]
 script = ExtResource("3_f1ej7")
 node = NodePath("..")
 

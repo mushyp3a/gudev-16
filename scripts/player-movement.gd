@@ -15,15 +15,14 @@ const SLIDE_JUMP_VELOCITY_X = 480.0
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-@onready var animated_sprite = $AnimatedSprite2D
 @onready var floor = $FloorParticles
 @onready var wall = $WallParticles
-
 @onready var jumpFx = $JumpFx
 @onready var slideFx = $SlideFx
-
 @onready var animator = $Skeleton2D/hips/AnimationPlayer
 @onready var skeleton = $Skeleton2D
+
+@onready var cloning = get_tree().root.find_child("PlayerCloning", true, false)
 
 var has_double_jump := true
 var is_wall_sliding := false
@@ -43,8 +42,8 @@ func _ready():
 	ShaderManager.go_to_plan()
 
 func _physics_process(delta):
-	if _get_input_direction() != 0:
-		ShaderManager.go_to_run()
+	# Block all player input while planning or waiting for first move after Record
+	var frozen = cloning and (cloning.paused or cloning.waitingForInput or cloning.previewing)
 
 	if slide_timer > 0:
 		slide_timer -= delta
@@ -81,7 +80,7 @@ func _physics_process(delta):
 		has_double_jump = true
 		wall_jump_cooldown = 0.0
 		wall.emitting = false
-		if not is_sliding and slide_cooldown_timer <= 0:
+		if not frozen and not is_sliding and slide_cooldown_timer <= 0:
 			if Input.is_action_just_pressed("crouch"):
 				var dir = _get_input_direction()
 				slide_direction = dir if dir != 0 else (1.0 if skeleton.scale.x > 0 else -1.0)
@@ -90,44 +89,41 @@ func _physics_process(delta):
 				slide_cooldown_timer = SLIDE_COOLDOWN
 				ShaderManager.trigger_hit()
 
-	var direction = _get_input_direction()
+	if not frozen:
+		if Input.is_action_just_pressed("restart"):
+			ShaderManager.go_to_plan()
 
-	if Input.is_action_just_pressed("restart"):
-		ShaderManager.go_to_plan()
+		if Input.is_action_just_pressed("jump"):
+			ShaderManager.go_to_run()
+			if is_sliding:
+				is_sliding = false
+				slide_timer = 0.0
+				velocity.y = SLIDE_JUMP_VELOCITY_Y
+				velocity.x = slide_direction * SLIDE_JUMP_VELOCITY_X
+			elif is_on_floor():
+				velocity.y = JUMP_VELOCITY
+				jumpFx.play()
+				floor.restart()
+				floor.emitting = true
+			elif is_wall_sliding:
+				if _get_input_direction() > 0 and wall.position.x < 0:
+					wall.position.x *= -1
+				elif _get_input_direction() < 0 and wall.position.x > 0:
+					wall.position.x *= -1
+				velocity.x = last_wall_normal.x * WALL_JUMP_VELOCITY_X
+				velocity.y = WALL_JUMP_VELOCITY_Y
+				has_double_jump = true
+				wall_jump_cooldown = 0.18
+				jumpFx.play()
+			elif has_double_jump:
+				ShaderManager.trigger_hit()
+				velocity.y = DOUBLE_JUMP_VELOCITY
+				has_double_jump = false
+				jumpFx.play()
+				floor.restart()
+				floor.emitting = true
 
-	if Input.is_action_just_pressed("jump"):
-		ShaderManager.go_to_run()
-		if is_sliding:
-			is_sliding = false
-			slide_timer = 0.0
-			velocity.y = SLIDE_JUMP_VELOCITY_Y
-			velocity.x = slide_direction * SLIDE_JUMP_VELOCITY_X
-			# jumpFx.play()
-			# floor.restart()
-			# floor.emitting = true
-			# ShaderManager.trigger_hit()
-		elif is_on_floor():
-			velocity.y = JUMP_VELOCITY
-			jumpFx.play()
-			floor.restart()
-			floor.emitting = true
-		elif is_wall_sliding:
-			if direction > 0 and wall.position.x < 0:
-				wall.position.x *= -1
-			elif direction < 0 and wall.position.x > 0:
-				wall.position.x *= -1
-			velocity.x = last_wall_normal.x * WALL_JUMP_VELOCITY_X
-			velocity.y = WALL_JUMP_VELOCITY_Y
-			has_double_jump = true
-			wall_jump_cooldown = 0.18
-			jumpFx.play()
-		elif has_double_jump:
-			ShaderManager.trigger_hit()
-			velocity.y = DOUBLE_JUMP_VELOCITY
-			has_double_jump = false
-			jumpFx.play()
-			floor.restart()
-			floor.emitting = true
+	var direction = _get_input_direction() if not frozen else 0.0
 
 	if not is_sliding:
 		if direction > 0:
@@ -135,8 +131,14 @@ func _physics_process(delta):
 		elif direction < 0:
 			skeleton.scale.x = -1
 
+	if not frozen:
+		if _get_input_direction() != 0:
+			ShaderManager.go_to_run()
+
 	if is_sliding:
 		pass
+	elif frozen:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
 	elif wall_jump_cooldown > 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 3 * delta)
 	elif direction:
