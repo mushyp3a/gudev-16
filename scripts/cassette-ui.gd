@@ -2,7 +2,8 @@ extends Control
 
 @onready var cloning = get_tree().root.find_child("PlayerCloning", true, false)
 @onready var panel = $Panel
-@onready var slot_buttons = [$Panel/SlotButtons/Slot1, $Panel/SlotButtons/Slot2, $Panel/SlotButtons/Slot3, $Panel/SlotButtons/Slot4]
+@onready var slot_buttons = [$Panel/SlotButtons/Slot1, $Panel/SlotButtons/Slot2, $Panel/SlotButtons/Slot3,
+$Panel/SlotButtons/Slot4]
 
 var is_open: bool = true
 var is_recording: bool = false
@@ -49,7 +50,6 @@ func slide_out() -> void:
 
 func slide_in() -> void:
 	is_open = true
-	is_recording = false
 	if not cloning.paused:
 		cloning.paused = true
 	ShaderManager.go_to_plan()
