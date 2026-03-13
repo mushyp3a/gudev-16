@@ -197,7 +197,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [-0.60400194]
+"values": [-1.9716668]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -332,7 +332,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [1.3911421]
+"values": [0.3933846]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -344,7 +344,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [-0.90764046]
+"values": [-0.33637798]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -604,7 +604,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [-0.60400194]
+"values": [-1.9716668]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -693,8 +693,9 @@ tracks/10/keys = {
 
 [sub_resource type="Animation" id="Animation_f1ej7"]
 resource_name = "run"
-length = 0.4
+length = 0.5
 loop_mode = 1
+step = 0.0333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -702,7 +703,7 @@ tracks/0/path = NodePath("spine/head:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
+"times": PackedFloat32Array(0, 0.26666668),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [-0.1316022, -0.01745329251994329]
@@ -738,7 +739,7 @@ tracks/3/path = NodePath("front-upper-leg:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
+"times": PackedFloat32Array(0, 0.1, 0.26666668),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [-1.2070906, 0.0, 0.48638692]
@@ -750,7 +751,7 @@ tracks/4/path = NodePath("front-upper-leg/front-lower-leg:rotation")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
+"times": PackedFloat32Array(0, 0.1, 0.26666668),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [1.3951013, 0.0, 1.6650441]
@@ -762,7 +763,7 @@ tracks/5/path = NodePath("back-upper-leg:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"times": PackedFloat32Array(0, 0.1, 0.26666668, 0.36666667),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [0.090375185, -0.90326357, -1.3000591, 0.0]
@@ -774,7 +775,7 @@ tracks/6/path = NodePath("back-upper-leg/back-lower-leg:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"times": PackedFloat32Array(0, 0.1, 0.26666668, 0.36666667),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [1.6407962, 1.8253295, 0.962387, 0.0]
@@ -786,7 +787,7 @@ tracks/7/path = NodePath("spine/upper-arm:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(0, 0.2),
+"times": PackedFloat32Array(0, 0.26666668),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.77417713, -1.3351768]
@@ -798,7 +799,7 @@ tracks/8/path = NodePath("spine/upper-arm/lower-arm:rotation")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"times": PackedFloat32Array(0, 0.2),
+"times": PackedFloat32Array(0, 0.26666668),
 "transitions": PackedFloat32Array(1.0717735, 1),
 "update": 0,
 "values": [-0.6789331, -0.37524578]
@@ -810,7 +811,7 @@ tracks/9/path = NodePath("spine:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.2),
+"times": PackedFloat32Array(0, 0.26666668),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(21, -27.05968), Vector2(14.000002, 49.999996)]
@@ -1159,13 +1160,12 @@ scale = Vector2(0.1, 0.1)
 collision_mask = 2
 script = ExtResource("1_g2els")
 
-[node name="Node2" type="Node" parent="." node_paths=PackedStringArray("replayable", "posNode")]
+[node name="PlayerCloning" type="Node" parent="." node_paths=PackedStringArray("posNode")]
 script = ExtResource("2_jej6c")
-replayable = NodePath("../Node3")
 posNode = NodePath("..")
 timeLimit = 5.0
 
-[node name="Node3" type="Node" parent="." node_paths=PackedStringArray("node")]
+[node name="Replayable" type="Node" parent="." node_paths=PackedStringArray("node")]
 script = ExtResource("3_f1ej7")
 node = NodePath("..")
 
@@ -1189,7 +1189,7 @@ texture = ExtResource("2_tuyoq")
 
 [node name="head" type="Bone2D" parent="Skeleton2D/hips/spine"]
 position = Vector2(-29, -418)
-scale = Vector2(0.9999975, 0.9999975)
+scale = Vector2(0.9999973, 0.9999973)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/spine/head"]
 z_index = 10
@@ -1199,7 +1199,7 @@ texture = ExtResource("3_fjrip")
 [node name="upper-arm" type="Bone2D" parent="Skeleton2D/hips/spine"]
 position = Vector2(-32, -331)
 rotation = 0.056764655
-scale = Vector2(0.9999983, 0.9999983)
+scale = Vector2(0.9999982, 0.9999982)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/spine/upper-arm"]
 z_index = 13
@@ -1208,7 +1208,7 @@ texture = ExtResource("4_fjrip")
 
 [node name="lower-arm" type="Bone2D" parent="Skeleton2D/hips/spine/upper-arm"]
 position = Vector2(-53.898087, 179.58711)
-scale = Vector2(0.9999978, 0.9999978)
+scale = Vector2(0.9999974, 0.9999974)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/spine/upper-arm/lower-arm"]
 z_index = 14
@@ -1218,7 +1218,7 @@ texture = ExtResource("5_smehm")
 [node name="front-upper-leg" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(27, -14)
 rotation = -0.78586227
-scale = Vector2(0.99999803, 0.99999803)
+scale = Vector2(0.99999785, 0.99999785)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/front-upper-leg"]
 z_index = 10
@@ -1228,7 +1228,7 @@ texture = ExtResource("6_ur7pv")
 [node name="front-lower-leg" type="Bone2D" parent="Skeleton2D/hips/front-upper-leg"]
 position = Vector2(0, 273)
 rotation = 0.6813351
-scale = Vector2(0.99999905, 0.99999905)
+scale = Vector2(0.999999, 0.999999)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/front-upper-leg/front-lower-leg"]
 z_index = 10
@@ -1238,7 +1238,7 @@ texture = ExtResource("7_3v2ag")
 [node name="back-upper-leg" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(27, -14)
 rotation = -0.90326357
-scale = Vector2(0.9999933, 0.9999933)
+scale = Vector2(0.99999315, 0.99999315)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/back-upper-leg"]
 z_index = 9
@@ -1248,7 +1248,7 @@ texture = ExtResource("8_d2wvv")
 [node name="back-lower-leg" type="Bone2D" parent="Skeleton2D/hips/back-upper-leg"]
 position = Vector2(-40.06128, 156.2533)
 rotation = 1.8253295
-scale = Vector2(0.9999996, 0.9999996)
+scale = Vector2(0.9999994, 0.9999994)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/back-upper-leg/back-lower-leg"]
 z_index = 8

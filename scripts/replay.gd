@@ -12,7 +12,8 @@ func _init(pos: Vector2, t: float, actions : PlayerActions):
 	playerActionHistory = []
 	record(pos, t, actions)
 	lastIx = 0
-	
+	record(pos, t, 1.0, false, false, 0.0, true)
+
 func reset() -> void:
 	lastIx = 0
 
@@ -41,6 +42,26 @@ func replayPos(t: float) -> Vector2:
 			break
 		playerActionHistory[i].actAll()
 		lastIx = i
+
+func lerpPos(t: float) -> Vector2:
+	var local_t = t - timeHistory[lastIx]
+	var deltaT = timeHistory[lastIx + 1] - timeHistory[lastIx]
+	var deltaP = positionHistory[lastIx + 1] - positionHistory[lastIx]
+	return positionHistory[lastIx] + (local_t / deltaT) * deltaP
+
+# Single call that returns both position and full state — advances lastIx once
+func sample(t: float) -> Dictionary:
+	_advance(t)
+	var pos: Vector2
 	if lastIx == len(positionHistory) - 1:
-		return positionHistory[lastIx]
-	return lerpPos(t)
+		pos = positionHistory[lastIx]
+	else:
+		pos = lerpPos(t)
+	return {
+		"position": pos,
+		"facing": facingHistory[lastIx],
+		"is_sliding": slidingHistory[lastIx],
+		"is_wall_sliding": wallSlidingHistory[lastIx],
+		"velocity_y": velocityYHistory[lastIx],
+		"has_double_jump": hasDoubleJumpHistory[lastIx],
+	}

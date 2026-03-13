@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://i4yqwb7kdpan"]
+[gd_scene load_steps=10 format=3 uid="uid://i4yqwb7kdpan"]
 
 [ext_resource type="AudioStream" uid="uid://b1bv57rnbsssg" path="res://sounds/cyberpunk.wav" id="1_atnvu"]
+[ext_resource type="PackedScene" uid="uid://cpkuxmseubkqx" path="res://scenes/cassette.tscn" id="1_prhh6"]
 [ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="1_ug2m1"]
 [ext_resource type="Texture2D" uid="uid://bju52kjgk1unh" path="res://art/bg/Interior.png" id="1_xw8ud"]
 [ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="2_atnvu"]
 [ext_resource type="Texture2D" uid="uid://c40ywp28saast" path="res://art/Cyberpunk_block.png" id="5_k2ydu"]
+[ext_resource type="PackedScene" uid="uid://dt747210ypwwp" path="res://scenes/level-elements/wide_block.tscn" id="7_jcras"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
 
@@ -12,6 +14,9 @@
 size = Vector2(20, 2000)
 
 [node name="Game" type="Node2D"]
+
+[node name="Cassette" parent="." instance=ExtResource("1_prhh6")]
+layer = 1000
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("1_atnvu")
@@ -32,12 +37,17 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_xw8ud")
 
-[node name="Player" parent="." instance=ExtResource("1_ug2m1")]
-position = Vector2(-41, 70)
+[node name="Player" parent="." groups=["player"] instance=ExtResource("1_ug2m1")]
+position = Vector2(-82, 312)
+scale = Vector2(0.075, 0.075)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -64,4 +74,14 @@ rotation = -1.5707964
 scale = Vector2(4, 4)
 texture = ExtResource("5_k2ydu")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="WideBlock" parent="." instance=ExtResource("7_jcras")]
+position = Vector2(538, 255)
+
+[node name="WideBlock2" parent="." instance=ExtResource("7_jcras")]
+position = Vector2(259, 178.00002)
+
+[node name="WideBlock3" parent="." instance=ExtResource("7_jcras")]
+position = Vector2(-133, 238)
+
+[node name="WideBlock4" parent="." instance=ExtResource("7_jcras")]
+position = Vector2(-47, -107)
