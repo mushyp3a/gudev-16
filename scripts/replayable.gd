@@ -11,6 +11,7 @@ var currIx : int = -1
 	
 func newRecording(id : int) -> void:
 	replays[id] = Replay.new(node.global_position, 0)
+	currIx = id
 	time = 0
 
 func getPosition(cloneId : int) -> Vector2:
