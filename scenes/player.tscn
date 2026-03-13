@@ -1160,7 +1160,7 @@ scale = Vector2(0.1, 0.1)
 collision_mask = 2
 script = ExtResource("1_g2els")
 
-[node name="Node2" type="Node" parent="." node_paths=PackedStringArray("posNode")]
+[node name="PlayerCloning" type="Node" parent="." node_paths=PackedStringArray("posNode")]
 script = ExtResource("2_jej6c")
 posNode = NodePath("..")
 timeLimit = 5.0
@@ -1238,7 +1238,7 @@ texture = ExtResource("7_3v2ag")
 [node name="back-upper-leg" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(27, -14)
 rotation = -0.90326357
-scale = Vector2(0.9999932, 0.9999932)
+scale = Vector2(0.99999315, 0.99999315)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/back-upper-leg"]
 z_index = 9

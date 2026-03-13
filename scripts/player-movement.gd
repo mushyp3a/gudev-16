@@ -21,6 +21,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var slideFx = $SlideFx
 @onready var animator = $Skeleton2D/hips/AnimationPlayer
 @onready var skeleton = $Skeleton2D
+@onready var cloning = get_tree().root.find_child("PlayerCloning", true, false)
 
 var has_double_jump := true
 var wall_jump_cooldown := 0.0
@@ -29,16 +30,14 @@ var slide_timer := 0.0
 var slide_cooldown_timer := 0.0
 var slide_direction := 1.0
 
-# These are now plain state vars — set by physics, not by input checks
 var is_sliding := false
 var is_wall_sliding := false
-var facing := 1.0  # 1 = right, -1 = left
+var facing := 1.0
 
 func play_anim(anim_name: String):
 	if animator.current_animation != anim_name:
 		animator.play(anim_name, 0.15)
 
-# Called by both the player and clone nodes to pick the right animation
 func update_animation() -> void:
 	if is_sliding:
 		play_anim("slide")
@@ -60,6 +59,21 @@ func _ready():
 	ShaderManager.go_to_plan()
 
 func _physics_process(delta):
+	# freeze player when paused or previewing
+	if cloning and (cloning.paused or cloning.previewing):
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+		if not is_on_floor():
+			velocity.y += gravity * delta * GRAVITY_MULT
+		# reset all active states so we don't get stuck in slide/wall-slide
+		is_sliding = false
+		is_wall_sliding = false
+		slide_timer = 0.0
+		wall.emitting = false
+		slideFx.stop()
+		play_anim("idle")
+		move_and_slide()
+		return
+
 	if slide_timer > 0:
 		slide_timer -= delta
 	if slide_cooldown_timer > 0:
@@ -67,7 +81,6 @@ func _physics_process(delta):
 	if wall_jump_cooldown > 0:
 		wall_jump_cooldown -= delta
 
-	# ── Sliding ───────────────────────────────────────────────────────────────
 	if is_sliding:
 		if slide_timer <= 0:
 			is_sliding = false
@@ -75,7 +88,6 @@ func _physics_process(delta):
 			var slide_progress = 1.0 - (slide_timer / SLIDE_DURATION)
 			velocity.x = slide_direction * lerp(SLIDE_SPEED, SPEED, slide_progress)
 
-	# ── Wall sliding — set purely from physics ────────────────────────────────
 	is_wall_sliding = false
 	if not is_on_floor():
 		if is_on_wall() and velocity.y > 0 and _get_input_direction() != 0:
@@ -89,7 +101,6 @@ func _physics_process(delta):
 			wall.emitting = false
 			slideFx.stop()
 
-	# ── Floor ─────────────────────────────────────────────────────────────────
 	if is_on_floor():
 		if is_sliding:
 			slideFx.play()
@@ -99,7 +110,6 @@ func _physics_process(delta):
 		wall_jump_cooldown = 0.0
 		wall.emitting = false
 
-		# Slide input — only place input touches is_sliding
 		if not is_sliding and slide_cooldown_timer <= 0:
 			if Input.is_action_just_pressed("crouch"):
 				var dir = _get_input_direction()
@@ -109,7 +119,6 @@ func _physics_process(delta):
 				slide_cooldown_timer = SLIDE_COOLDOWN
 				ShaderManager.trigger_hit()
 
-	# ── Jump ──────────────────────────────────────────────────────────────────
 	var direction = _get_input_direction()
 
 	if Input.is_action_just_pressed("restart"):
@@ -145,7 +154,6 @@ func _physics_process(delta):
 			floor_particles.restart()
 			floor_particles.emitting = true
 
-	# ── Facing & horizontal movement ─────────────────────────────────────────
 	if not is_sliding:
 		if direction > 0:
 			facing = 1.0

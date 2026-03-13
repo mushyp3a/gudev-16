@@ -1112,7 +1112,7 @@ _data = {
 
 [node name="ReplayClone" type="CharacterBody2D"]
 modulate = Color(1, 1, 1, 0.39215687)
-scale = Vector2(0.15, 0.15)
+scale = Vector2(0.075, 0.075)
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_fno5f")
