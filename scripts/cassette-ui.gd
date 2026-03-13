@@ -38,11 +38,16 @@ func _on_record_pressed() -> void:
 	cloning.unpause()
 
 func _on_play_pressed() -> void:
-	if cloning.selectedClone == -1:
-		return
 	is_recording = false
 	slide_out()
-	cloning.replayClone(cloning.selectedClone)
+
+	_was_paused = false
+
+	if cloning.selectedClone == -1:
+		if _has_at_least_one_clone():
+			replay_all_clones()
+	else:
+		cloning.replayClone(cloning.selectedClone)
 
 func slide_out() -> void:
 	is_open = false
@@ -50,11 +55,30 @@ func slide_out() -> void:
 
 func slide_in() -> void:
 	is_open = true
+	is_recording = false
+	cloning.timeElapsed = 0
 	if not cloning.paused:
 		cloning.paused = true
+	cloning.showAllClones()
 	ShaderManager.go_to_plan()
 	_animate(0.0)
 	_update_slot_highlights()
+
+func _has_at_least_one_clone() -> bool:
+	for i in range(4):
+		if cloning.replayable.replays[i] != null:
+			return true
+	return false
+
+func replay_all_clones() -> void:
+	cloning.showAllClones()
+	cloning.paused = false
+	cloning.waitingForInput = false
+	cloning.recording = false
+	cloning.previewing = true
+	cloning.replayable.reset()
+	cloning.replayable.time = 0
+	cloning.timeElapsed = 0
 
 func _update_slot_highlights() -> void:
 	for i in range(4):
@@ -66,7 +90,7 @@ func _update_slot_highlights() -> void:
 func _update_play_button() -> void:
 	var play_btn = $Panel/SlotButtons/PlayButton
 	if cloning.selectedClone < 0:
-		play_btn.disabled = true
+		play_btn.disabled = not _has_at_least_one_clone()
 		return
 	play_btn.disabled = cloning.replayable.replays[cloning.selectedClone] == null
 
@@ -81,24 +105,17 @@ func _animate(offset: float) -> void:
 	tween.tween_property(panel, "position:x", get_viewport_rect().size.x - panel_width + offset, 0.35)
 
 func _process(_delta: float) -> void:
-	# Auto slide in when timeLoop fires or recording ends
 	if not _was_paused and cloning.paused and not is_open:
 		slide_in()
 	_was_paused = cloning.paused
 
 	if Input.is_action_just_pressed("toggle_cassette"):
 		if not is_open:
-			# Tab to open: only allowed while previewing (not recording)
 			if cloning.previewing:
+				cloning.previewing = false
+				cloning.paused = true
+				cloning.snapClonesToFinalPositions()
 				slide_in()
-		# Tab while UI is open has no extra effect here
-
-	# Snap clones on tab press depending on current run state
-	if Input.is_action_just_pressed("toggle_cassette") and not is_open:
-		if cloning.recording or cloning.waitingForInput:
-			# Player is recording — jump all clones to their final position
-			cloning.snapClonesLast()
-		# (previewing case already handled above — slide_in)
 
 	_update_slot_highlights()
 	_update_play_button()

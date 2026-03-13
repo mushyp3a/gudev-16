@@ -7,9 +7,7 @@ extends Node
 var timeElapsed : float = 0
 var paused = true
 var waitingForInput: bool = false
-# True while player is actively recording (clones running alongside)
 var recording: bool = false
-# True while clones are replaying without the player recording
 var previewing: bool = false
 
 @onready var cloneSpace : Node = get_tree().root
@@ -25,10 +23,8 @@ func _ready() -> void:
 func createClone(id : int) -> void:
 	replayable.newRecording(id)
 	var clone = cloneSprite.instantiate()
-	# Set on the animator (root Node2D) directly
 	clone.cloneId    = id
 	clone.replayable = replayable
-	# Also set on the ReplayCloneScript child so it stays in sync
 	var script = clone.get_node("ReplayCloneScript")
 	script.cloneId    = id
 	script.replayable = replayable
@@ -56,6 +52,7 @@ func unpause() -> void:
 	recording = true
 	previewing = false
 	replayable.reset()
+	replayable.time = 0
 
 func replayClone(id : int) -> void:
 	showClone(id)
@@ -65,6 +62,7 @@ func replayClone(id : int) -> void:
 	previewing = true
 	replayable.reset()
 	replayable.time = 0
+	timeElapsed = 0
 
 func showClone(id : int) -> void:
 	for i in len(clones):
@@ -85,7 +83,6 @@ func selectClone(id : int) -> void:
 		showClone(id)
 	selectedClone = id
 
-# Snap all existing clones to their first recorded position
 func snapClonesFirst() -> void:
 	for i in range(4):
 		if clones[i] == null or replayable.replays[i] == null:
@@ -94,14 +91,23 @@ func snapClonesFirst() -> void:
 		if history.size() > 0:
 			clones[i].global_position = history[0]
 
-# Snap all existing clones to their last recorded position
-func snapClonesLast() -> void:
-	for i in range(4):
-		if clones[i] == null or replayable.replays[i] == null:
+func snapClonesToFinalPositions() -> void:
+	var count = min(clones.size(), replayable.replays.size())
+	for i in range(count):
+		var clone = clones[i]
+		var replay = replayable.replays[i]
+		if clone == null or replay == null:
 			continue
-		var history = replayable.replays[i].positionHistory
-		if history.size() > 0:
-			clones[i].global_position = history[-1]
+
+		# Snap position
+		if replay.positionHistory.size() > 0:
+			clone.global_position = replay.positionHistory[-1]
+
+		# Snap facing / skeleton scale
+		if replay.facingHistory.size() > 0:
+			if clone.has_node("Skeleton2D"):
+				var skeleton = clone.get_node("Skeleton2D") as Node2D
+				skeleton.scale.x = abs(skeleton.scale.x) * replay.facingHistory[-1]
 
 func _process(delta: float) -> void:
 	if paused:
@@ -135,7 +141,13 @@ func _process(delta: float) -> void:
 		timeElapsed += delta
 		replayable.time = timeElapsed
 		if timeElapsed >= timeLimit:
-			timeLoop()
-			paused = true
-			recording = false
-			previewing = false
+			if previewing:
+				snapClonesToFinalPositions()
+				paused = true
+				recording = false
+				previewing = false
+			else:
+				timeLoop()
+				paused = true
+				recording = false
+				previewing = false

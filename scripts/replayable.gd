@@ -38,7 +38,6 @@ func _process(_delta: float) -> void:
 	if currIx == -1:
 		return
 
-	# Read animation state directly from the player node
 	var skeleton: Node2D = node.get_node("Skeleton2D")
 	var facing:   float  = skeleton.scale.x if skeleton else 1.0
 

@@ -25,13 +25,21 @@ func _process(_delta: float) -> void:
 	if cloning == null:
 		return
 
-	# Hide this clone while it's the one being recorded — the player is the visual stand-in
-	visible = not (cloning.recording and replayable.currIx == cloneId)
-
+	# Clones should be visible in plan mode (paused) showing their final positions
 	if cloning.paused:
-		global_position = replay.positionHistory[-1]
 		play_anim("idle")
+		# Set facing direction from final recorded state
+		if replay.facingHistory.size() > 0:
+			skeleton.scale.x = replay.facingHistory[-1]
 		return
+	
+	# Hide the clone being recorded — the player is the visual stand-in
+	if cloning.recording and replayable.currIx == cloneId:
+		visible = false
+		return
+	
+	# During recording or previewing, visibility is controlled by showClone/showAllClones
+	# Don't override visibility here - let showClone/showAllClones control it
 
 	if cloning.waitingForInput:
 		global_position = replay.positionHistory[0]

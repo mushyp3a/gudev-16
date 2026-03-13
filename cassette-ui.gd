@@ -86,17 +86,9 @@ func _animate(offset: float) -> void:
 	tween.tween_property(panel, "position:x", get_viewport_rect().size.x - panel_width + offset, 0.35)
 
 func _process(_delta: float) -> void:
-	# Auto slide in when timeLoop fires or recording ends
 	if not _was_paused and cloning.paused and not is_open:
 		slide_in()
 	_was_paused = cloning.paused
-
-	# Snap clones on tab press depending on current run state
-	if Input.is_action_just_pressed("toggle_cassette") and not is_open:
-		if cloning.recording or cloning.waitingForInput:
-			# Player is recording — jump all clones to their final position
-			cloning.snapClonesLast()
-		# (previewing case already handled above — slide_in)
 
 	_update_slot_highlights()
 	_update_play_button()
