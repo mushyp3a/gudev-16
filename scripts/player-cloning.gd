@@ -1,6 +1,6 @@
 extends Node
 
-@export var replayable: Replayable
+var replayable
 @export var posNode : Node2D
 @export var timeLimit : float
 @export var startPosition : Vector2
@@ -16,6 +16,7 @@ var selectedClone : int = -1
 var cloneNodes : Dictionary = {}
 
 func _ready() -> void:
+	replayable = get_parent().get_node("Replayable")
 	startPosition = posNode.global_position
 
 # ── Spawn a new ghost and start recording into slot [id] ──────────────────────
@@ -30,6 +31,7 @@ func createClone(id : int) -> void:
 	var script = clone.get_node("ReplayCloneScript")
 	script.cloneId = id
 	script.replayable = replayable
+	clone.visible = false   # hide while recording; shown when playback starts
 	cloneSpace.add_child(clone)
 	cloneNodes[id] = clone
 
@@ -80,6 +82,10 @@ func timeLoop() -> void:
 	paused = true
 	previewing = false
 	replayable.recording = false
+	# Reveal the clone we just finished recording
+	var justRecorded = replayable.currIx
+	if cloneNodes.has(justRecorded) and is_instance_valid(cloneNodes[justRecorded]):
+		cloneNodes[justRecorded].visible = true
 
 # ── Preview finished: just stop the clock, leave everything in place ─────────
 func previewEnd() -> void:
