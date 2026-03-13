@@ -24,6 +24,7 @@ func createClone(id : int) -> void:
 	script.replayable = replayable
 	removeId(id)
 	cloneSpace.add_child(clone)
+	clones[id] = clone
 	replayable.recording = true
 	
 func removeId(id : int):
@@ -42,22 +43,51 @@ var selectedClone : int = -1
 func unpause() -> void:
 	paused = false
 	replayable.reset()
+	
+func replayClone(id : int) -> void:
+	showClone(id)
+	unpause()
+	replayable.time = 0
+	
+func showClone(id : int) -> void:
+	for i in len(clones):
+		if clones[i] == null:
+			continue
+		if i == id:
+			clones[i].set_visible(true)
+		else:
+			clones[i].set_visible(false)
+	
+func showAllClones() -> void:
+	for i in len(clones):
+		if clones[i] == null:
+			continue
+		clones[i].set_visible(true)
+
+func selectClone(id : int) -> void:
+	if selectedClone == id:
+		showAllClones()
+	selectedClone = id
 
 func _process(delta: float) -> void:
 	if paused:
 		if Input.is_key_pressed(KEY_1):
-			selectedClone = 0
+			selectClone(0)
 		elif Input.is_key_pressed(KEY_2):
-			selectedClone = 1
+			selectClone(1)
 		elif Input.is_key_pressed(KEY_3):
-			selectedClone = 2
+			selectClone(2)
 		elif Input.is_key_pressed(KEY_4):
-			selectedClone = 3
+			selectClone(3)
 		
 		if Input.is_key_pressed(KEY_P) && selectedClone != -1:
-			createClone(selectedClone)
-			selectedClone = -1
-			unpause()
+			if cloneIxs.has(selectedClone):
+				showAllClones()
+				createClone(selectedClone)
+				selectedClone = -1
+				unpause()
+			else:
+				replayClone(selectedClone)
 	else:
 		timeElapsed += delta
 		replayable.time = timeElapsed

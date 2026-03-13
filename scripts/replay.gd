@@ -21,6 +21,7 @@ func record(pos: Vector2, t: float):
 # Required to ensure that clone position is independent of framerate
 # May result in strange behaviour for vastly different framerates
 # Should maybe consider using fixed update (assuming Godot has an equivalent)
+var timesCalled : int = 0
 func lerpPos(t: float) -> Vector2:
 	# Oddball mathematics
 	t -= timeHistory[lastIx]
