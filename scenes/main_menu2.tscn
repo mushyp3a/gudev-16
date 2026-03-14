@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7clm10k3xbqo"]
+[gd_scene load_steps=7 format=3 uid="uid://c7clm10k3xbqo"]
 
 [ext_resource type="Theme" uid="uid://8sv5ae01o7bn" path="res://ui designs/button theme (2).theme" id="1_tqay6"]
 [ext_resource type="Script" uid="uid://ccfnv86rqhprp" path="res://scenes/main_menu_2.gd" id="1_tvg03"]
+[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="2_5dk12"]
 [ext_resource type="Texture2D" uid="uid://cxmxd46umnnf0" path="res://ui designs/Cyberpunk_background_intro.png" id="2_faqpa"]
+[ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="3_vvfmj"]
+[ext_resource type="AudioStream" uid="uid://b1bv57rnbsssg" path="res://sounds/cyberpunk.wav" id="6_11ndu"]
 
-[node name="Main Menu" type="Control"]
+[node name="Game" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +15,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tvg03")
+
+[node name="Diamond" parent="." instance=ExtResource("2_5dk12")]
+
+[node name="cyberpunk-shader" parent="." instance=ExtResource("3_vvfmj")]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_11ndu")
 
 [node name="background" type="TextureRect" parent="."]
 layout_mode = 1

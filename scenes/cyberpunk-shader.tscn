@@ -20,7 +20,7 @@ shader_parameter/saturation = 1.4
 shader_parameter/glitch_intensity = 0.18
 shader_parameter/glitch_speed = 7.0
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="cyberpunk-shader" type="CanvasLayer"]
 layer = 127
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -30,3 +30,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2

@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2p5b3tfusw8g"]
+[gd_scene load_steps=7 format=3 uid="uid://d2p5b3tfusw8g"]
 
 [ext_resource type="Script" uid="uid://coauexgsm4e4m" path="res://scenes/lore.gd" id="1_qel7j"]
+[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="2_5iqog"]
 [ext_resource type="Texture2D" uid="uid://cxmxd46umnnf0" path="res://ui designs/Cyberpunk_background_intro.png" id="2_fiw8w"]
 [ext_resource type="Theme" uid="uid://8sv5ae01o7bn" path="res://ui designs/button theme (2).theme" id="2_oo4qk"]
+[ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="3_5iqog"]
 [ext_resource type="FontFile" uid="uid://dn11vsaywwk4x" path="res://ui designs/sd-glitch-robot-font/Sdglitchrobotdemo-GOPdO.ttf" id="3_fiw8w"]
 
 [node name="Lore" type="Control"]
@@ -13,6 +15,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_qel7j")
+
+[node name="Diamond" parent="." instance=ExtResource("2_5iqog")]
+
+[node name="cyberpunk-shader" parent="." instance=ExtResource("3_5iqog")]
 
 [node name="background" type="TextureRect" parent="."]
 layout_mode = 1

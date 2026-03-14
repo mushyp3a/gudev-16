@@ -17,7 +17,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Diamond="res://scenes/diamond.tscn"
 global="*res://global.gd"
 levels_completed="*res://levels_completed.gd"
 ShaderManager="*res://scripts/shader-manager.gd"
@@ -97,3 +96,7 @@ interact={
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Level"
 2d_physics/layer_3="Clones"
+
+[rendering]
+
+environment/defaults/default_clear_color=Color(0.99607843, 0.6156863, 0.3882353, 1)

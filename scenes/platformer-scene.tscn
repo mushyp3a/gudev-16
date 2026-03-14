@@ -26,6 +26,7 @@ metadata/_custom_type_script = "uid://bvp0ygp2c6wg2"
 [node name="Game" type="Node2D"]
 
 [node name="Diamond" parent="." instance=ExtResource("1_ic0r7")]
+visible = false
 
 [node name="CanvasLayer" parent="." instance=ExtResource("1_prhh6")]
 layer = 1000

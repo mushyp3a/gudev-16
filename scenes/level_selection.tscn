@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://b18ejcu6pa32i"]
+[gd_scene load_steps=5 format=3 uid="uid://b18ejcu6pa32i"]
 
 [ext_resource type="Script" uid="uid://dtt5s54wk1e4y" path="res://scenes/level_selection.gd" id="1_fyp2k"]
 [ext_resource type="Theme" uid="uid://8sv5ae01o7bn" path="res://ui designs/button theme (2).theme" id="1_jgwpm"]
 [ext_resource type="Texture2D" uid="uid://d3xnxmpqbhncl" path="res://ui designs/Cyberpunk_background_1.png" id="2_7dgy3"]
+[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="2_tuscg"]
 
 [node name="LevelSelection" type="Control"]
 layout_mode = 3
@@ -12,6 +13,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fyp2k")
+
+[node name="Diamond" parent="." instance=ExtResource("2_tuscg")]
 
 [node name="background" type="TextureRect" parent="."]
 layout_mode = 1

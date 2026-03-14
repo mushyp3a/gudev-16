@@ -5,21 +5,15 @@ signal diamond_finished
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 
 func _ready():
-	#await animation_player.animation_finished
 	animation_player.play("out")
-	# get_tree().change_scene_to_file(target_scene)
-	# animation_player.play("out")
 
 func change_scene(target_scene : String) -> void:
-	print("Transition started")
-	await animation_player.animation_finished
-	print("Changing scene")
 	animation_player.play("in")
+	await get_tree().create_timer(0.75).timeout
 	get_tree().change_scene_to_file(target_scene)
-	animation_player.play("out")
 
-	if get_tree().paused:
-		get_tree().paused = false
+# 	if get_tree().paused:
+# 		get_tree().paused = false
 
 # func change_scene(target_scene: String) -> void:
 # 	print("Transition started")
