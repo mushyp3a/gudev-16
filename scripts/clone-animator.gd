@@ -1,4 +1,4 @@
-extends Node2D
+extends CharacterBody2D
 
 ## Handles animation playback for clone instances
 ## Samples replay data and applies it to the clone's visual representation
@@ -159,6 +159,7 @@ func _handle_playback_state(replay: Replay) -> void:
 		return
 
 	# Apply position and facing
+	# Direct teleport - we're replaying recorded positions, not simulating physics
 	global_position = state_data["position"]
 	skeleton.scale.x = state_data["facing"]
 

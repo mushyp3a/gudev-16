@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 	pass 
 
 func _on_start_button_pressed() -> void: 
-	transition.change_scene("res://scenes/level_selection.tscn")
+	transition.change_scene("res://scenes/intro.tscn")
 	#idk whats going on
 	#the below line is a function in diamond.gd (for some reason it half works)
 	#Diamond.change_scene("res://scenes/level selection.tscn") 

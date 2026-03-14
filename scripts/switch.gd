@@ -91,12 +91,13 @@ func _process(_delta: float) -> void:
 func toggle() -> void:
 	_apply_state(!is_on, true)
 	if recording_system and recording_system.current_recording_id >= 0:
-		slotHistory[recording_system.current_recording_id].push_back({"time": clone_manager.time_elapsed, "is_on": is_on})
+		# Record the toggle ACTION (just the time), not the result state
+		slotHistory[recording_system.current_recording_id].push_back({"time": clone_manager.time_elapsed})
 	lastAppliedState = is_on
 
 func startRecording(slot: int) -> void:
 	_apply_state(default_state, false)
-	slotHistory[slot] = [{"time": 0.0, "is_on": default_state}]
+	slotHistory[slot] = []  # Start empty - only record toggle actions
 	lastAppliedState = default_state
 	_rebuildMerged(slot)
 
@@ -112,11 +113,9 @@ func _rebuildMerged(recordingSlot: int) -> void:
 		if slot == recordingSlot:
 			continue
 		for entry in slotHistory[slot]:
-			mergedHistory.push_back({"time": entry["time"], "is_on": entry["is_on"]})
+			mergedHistory.push_back({"time": entry["time"]})
 	# sort by time
 	mergedHistory.sort_custom(func(a, b): return a["time"] < b["time"])
-	# remove the t=0 default entries to avoid noise — only keep actual toggles
-	mergedHistory = mergedHistory.filter(func(e): return e["time"] > 0.0 or e["is_on"] != default_state)
 
 # sample the merged timeline at time t, including current recording's toggles
 func _sampleMerged(t: float) -> bool:
@@ -133,12 +132,20 @@ func _sampleMerged(t: float) -> bool:
 	if complete_timeline.size() == 0:
 		return default_state
 
-	var result = default_state
+	# Count how many toggles have occurred up to time t
+	var toggle_count = 0
 	for entry in complete_timeline:
 		if entry["time"] <= t:
-			result = entry["is_on"]
+			toggle_count += 1
 		else:
 			break
+
+	# Apply toggles: each toggle flips the state
+	# Odd number of toggles = flipped from default
+	var result = default_state
+	if toggle_count % 2 == 1:
+		result = !default_state
+
 	return result
 
 func _apply_state(state: bool, animate: bool) -> void:
@@ -161,10 +168,8 @@ func preparePlayback() -> void:
 	mergedHistory = []
 	for slot in range(4):
 		for entry in slotHistory[slot]:
-			mergedHistory.push_back({"time": entry["time"], "is_on": entry["is_on"]})
+			mergedHistory.push_back({"time": entry["time"]})
 	mergedHistory.sort_custom(func(a, b): return a["time"] < b["time"])
-	# remove the t=0 default entries to avoid noise — only keep actual toggles
-	mergedHistory = mergedHistory.filter(func(e): return e["time"] > 0.0 or e["is_on"] != default_state)
 
 ## Called when CloneManager starts recording for a slot
 func _on_recording_started(slot_id: int) -> void:

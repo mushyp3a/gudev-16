@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://ccfnv86rqhprp" path="res://scenes/main_menu_2.gd" id="1_tvg03"]
 [ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="2_5dk12"]
 [ext_resource type="Texture2D" uid="uid://cxmxd46umnnf0" path="res://ui designs/Cyberpunk_background_intro.png" id="2_faqpa"]
-[ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="3_vvfmj"]
+[ext_resource type="PackedScene" path="res://scenes/cyberpunk-shader.tscn" id="3_vvfmj"]
 [ext_resource type="AudioStream" uid="uid://b1bv57rnbsssg" path="res://sounds/cyberpunk.wav" id="6_11ndu"]
 
 [node name="Game" type="Control"]

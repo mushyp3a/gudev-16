@@ -1,7 +1,7 @@
 extends StaticBody2D
 
-## Simple door that opens/closes in response to lever/switch signals
-## Connect a lever's "switched" signal to the on_switch_toggled() method
+## Simple door that opens/closes in response to lever/switch/pressure plate signals
+## Connect a lever's "switched" signal or pressure plate's "activated" signal to on_switch_toggled()
 
 @export var open_sprite: Texture2D  ## Sprite to show when door is open
 @export var closed_sprite: Texture2D  ## Sprite to show when door is closed
@@ -50,11 +50,6 @@ func close() -> void:
 
 ## Enable/disable collision
 func _set_collision(enabled: bool) -> void:
-	# Disable all collision shapes
 	for child in get_children():
 		if child is CollisionShape2D:
 			child.disabled = not enabled
-
-
-func _on_lever_switched(is_on: bool) -> void:
-	on_switch_toggled(is_on)

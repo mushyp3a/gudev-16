@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://du5oy00tr107l"]
+
+[ext_resource type="Script" uid="uid://cvxxran4n7uln" path="res://scripts/intro-scene.gd" id="1_intro"]
+[ext_resource type="Shader" uid="uid://dywyx8dcdvfpw" path="res://shaders/intro_blur.gdshader" id="2_shader"]
+[ext_resource type="FontFile" uid="uid://vm3adp50g3p0" path="res://fonts/Quadaptor.otf" id="3_font"]
+[ext_resource type="PackedScene" path="res://scenes/cyberpunk-shader.tscn" id="4_i2l1n"]
+[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="5_wfs7u"]
+[ext_resource type="AudioStream" uid="uid://qlfx5kd72t7n" path="res://sounds/ambience-cyberpunk.wav" id="6_es01l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_intro"]
+shader = ExtResource("2_shader")
+shader_parameter/color1 = Color(0, 0.8, 1, 1)
+shader_parameter/color2 = Color(1, 0, 0.5, 1)
+shader_parameter/color3 = Color(1, 0.5, 0, 1)
+shader_parameter/time_scale = 0.3
+shader_parameter/blur_amount = 0.85
+shader_parameter/noise_scale = 2.0
+
+[node name="Game2" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_intro")
+
+[node name="cyberpunk-shader" parent="." instance=ExtResource("4_i2l1n")]
+
+[node name="Diamond" parent="." instance=ExtResource("5_wfs7u")]
+
+[node name="BackgroundShader" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_intro")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -50.0
+offset_right = 600.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 48
+text = "Intro text goes here..."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="TextLabel2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = 427.0
+offset_right = 600.0
+offset_bottom = 527.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 20
+text = "Press SPACE to skip"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="IntroMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_es01l")
+volume_db = -80.0
+autoplay = true

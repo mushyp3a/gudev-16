@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccs5fa5atn8b7"]
+
+[ext_resource type="AudioStream" uid="uid://b1bv57rnbsssg" path="res://sounds/cyberpunk.wav" id="1_e62xx"]
+[ext_resource type="Script" path="res://scenes/sounds/music.gd" id="2_music_script"]
+
+[node name="Music" type="AudioStreamPlayer"]
+script = ExtResource("2_music_script")
+stream = ExtResource("1_e62xx")
+volume_db = -10.0
+autoplay = true

@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 global="*res://global.gd"
 levels_completed="*res://levels_completed.gd"
 ShaderManager="*res://scripts/shader-manager.gd"
+Music="*res://scenes/sounds/music.tscn"
 
 [display]
 

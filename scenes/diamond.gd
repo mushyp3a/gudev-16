@@ -7,10 +7,20 @@ signal diamond_finished
 func _ready():
 	animation_player.play("out")
 
-func change_scene(target_scene : String) -> void:
+func change_scene(target_scene: String) -> void:
+	# Wait for any existing animation to finish
+	if animation_player.is_playing():
+		await animation_player.animation_finished
+
+	# Play transition in animation
 	animation_player.play("in")
-	await get_tree().create_timer(0.75).timeout
+	await animation_player.animation_finished
+
+	# Change scene (accept full path as-is)
 	get_tree().change_scene_to_file(target_scene)
+
+	# Play transition out animation
+	animation_player.play("out")
 
 # 	if get_tree().paused:
 # 		get_tree().paused = false
