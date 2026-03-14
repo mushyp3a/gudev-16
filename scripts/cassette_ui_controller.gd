@@ -32,6 +32,8 @@ var clone_manager: CloneManager = null
 @onready var record_button = $Panel/SlotButtons/RecordButton
 @onready var play_button = $Panel/SlotButtons/PlayButton
 
+@onready var clickFx = get_node("../ClickFx")
+
 # ========== STATE ==========
 
 ## Whether the cassette panel is currently open (visible)
@@ -91,6 +93,7 @@ func _find_clone_manager() -> void:
 
 ## Called when a slot button is pressed
 func _on_slot_pressed(slot_id: int) -> void:
+	clickFx.play()
 	if clone_manager.selected_clone_id == slot_id:
 		# Toggle off if already selected
 		clone_manager.deselect_clone()
@@ -100,6 +103,7 @@ func _on_slot_pressed(slot_id: int) -> void:
 
 ## Called when record button is pressed
 func _on_record_pressed() -> void:
+	clickFx.play()
 	if clone_manager.selected_clone_id < 0:
 		return  # No slot selected, can't record
 
@@ -109,6 +113,7 @@ func _on_record_pressed() -> void:
 
 ## Called when play button is pressed
 func _on_play_pressed() -> void:
+	clickFx.play()
 	slide_out()
 
 	var clone_ids: Array[int] = []

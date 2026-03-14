@@ -1197,7 +1197,7 @@ texture = ExtResource("4_fjrip")
 
 [node name="lower-arm" type="Bone2D" parent="Skeleton2D/hips/spine/upper-arm"]
 position = Vector2(-53.898087, 179.58711)
-scale = Vector2(0.9999978, 0.9999978)
+scale = Vector2(0.99999774, 0.99999774)
 
 [node name="Sprite2D" type="Sprite2D" parent="Skeleton2D/hips/spine/upper-arm/lower-arm"]
 z_index = 14
