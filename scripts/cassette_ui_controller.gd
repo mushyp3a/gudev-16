@@ -32,7 +32,8 @@ var clone_manager: CloneManager = null
 @onready var record_button = $Panel/SlotButtons/RecordButton
 @onready var play_button = $Panel/SlotButtons/PlayButton
 
-@onready var clickFx = get_node("../ClickFx")
+# @onready var clickFx = get_node("../ClickFx")
+@onready var clickFx
 
 # ========== STATE ==========
 

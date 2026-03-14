@@ -1,7 +1,58 @@
-[gd_scene load_steps=7 format=3 uid="uid://vm3sl464qx7s"]
+[gd_scene load_steps=8 format=3 uid="uid://dvtyjpruwn8ld"]
 
 [ext_resource type="Script" uid="uid://bdce1vi3kqe0p" path="res://scenes/diamond.gd" id="1_okr8r"]
-[ext_resource type="Shader" uid="uid://baqpll4wk7dny" path="res://scenes/diamond.gdshader" id="2_bd64o"]
+[ext_resource type="Shader" path="res://scenes/diamond.gdshader" id="2_bd64o"]
+
+[sub_resource type="Animation" id="Animation_0fuo3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("diamond:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("diamond:material:shader_parameter/fill")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("diamond:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("diamond:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_p5v7i"]
 resource_name = "in"
@@ -30,9 +81,34 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("diamond:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("diamond:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
-[sub_resource type="Animation" id="Animation_0fuo3"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_okr8r"]
+resource_name = "out"
+length = 1.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -40,10 +116,10 @@ tracks/0/path = NodePath("diamond:material:shader_parameter/progress")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1.4),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [0.0]
+"values": [1.0, 0.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -57,11 +133,36 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("diamond:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1, -1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("diamond:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1920, 1080)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mwpm2"]
 _data = {
 &"RESET": SubResource("Animation_0fuo3"),
-&"in": SubResource("Animation_p5v7i")
+&"in": SubResource("Animation_p5v7i"),
+&"out": SubResource("Animation_okr8r")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_up2nb"]
@@ -71,6 +172,7 @@ shader_parameter/size = 40.0
 shader_parameter/fill = true
 
 [node name="Diamond" type="CanvasLayer"]
+layer = 2000
 script = ExtResource("1_okr8r")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

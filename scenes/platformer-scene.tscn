@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://i4yqwb7kdpan"]
+[gd_scene load_steps=16 format=3 uid="uid://i4yqwb7kdpan"]
 
 [ext_resource type="AudioStream" uid="uid://b1bv57rnbsssg" path="res://sounds/cyberpunk.wav" id="1_atnvu"]
+[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="1_ic0r7"]
 [ext_resource type="PackedScene" uid="uid://dwywrs4icqj4t" path="res://scenes/cassette.tscn" id="1_prhh6"]
 [ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="1_ug2m1"]
 [ext_resource type="Texture2D" uid="uid://bju52kjgk1unh" path="res://art/bg/Interior.png" id="1_xw8ud"]
@@ -23,7 +24,8 @@ time_limit = 5.0
 metadata/_custom_type_script = "uid://bvp0ygp2c6wg2"
 
 [node name="Game" type="Node2D"]
-script = ExtResource("1_xw8ud")
+
+[node name="Diamond" parent="." instance=ExtResource("1_ic0r7")]
 
 [node name="CanvasLayer" parent="." instance=ExtResource("1_prhh6")]
 layer = 1000
@@ -112,5 +114,5 @@ position = Vector2(328, 515)
 [node name="Door" parent="." instance=ExtResource("11_ofjn1")]
 position = Vector2(-125, 470)
 
-[connection signal="switched" from="Lever" to="Door" method="_on_lever_switched"]
 [connection signal="switched" from="Lever" to="Door" method="on_switch_toggled"]
+[connection signal="switched" from="Lever" to="Door" method="_on_lever_switched"]
