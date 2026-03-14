@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://cjmsj0xt4extm"]
+
+[ext_resource type="Shader" uid="uid://dn75bketxr4li" path="res://shaders/cyberpunk_screen.gdshader" id="1_sfv6c"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_atnvu"]
+shader = ExtResource("1_sfv6c")
+shader_parameter/chroma_strength = 3.0
+shader_parameter/chroma_pulse_speed = 4.0
+shader_parameter/scanline_intensity = 0.18
+shader_parameter/scanline_count = 280.0
+shader_parameter/vignette_strength = 0.55
+shader_parameter/vignette_pulse_speed = 1.8
+shader_parameter/warp_strength = 0.012
+shader_parameter/flicker_speed = 18.0
+shader_parameter/flicker_intensity = 0.04
+shader_parameter/cyan_boost = 0.08
+shader_parameter/magenta_boost = 0.05
+shader_parameter/contrast = 1.15
+shader_parameter/saturation = 1.4
+shader_parameter/glitch_intensity = 0.18
+shader_parameter/glitch_speed = 7.0
+
+[node name="CanvasLayer" type="CanvasLayer"]
+layer = 127
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_atnvu")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dymrpplqy15tv"]
+
+[ext_resource type="PhysicsMaterial" uid="uid://d04dow0ue1tag" path="res://scenes/level/std-phy-mat.tres" id="1_pj0dk"]
+[ext_resource type="Texture2D" uid="uid://csar0knqm284w" path="res://icon.svg" id="2_vy2j5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
+size = Vector2(46, 6)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g2els"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_vy2j5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="LeftConveyorBelt" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 5
+physics_material_override = ExtResource("1_pj0dk")
+constant_linear_velocity = Vector2(-64, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_g2els")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.366094, 0.0466406)
+sprite_frames = SubResource("SpriteFrames_g2els")

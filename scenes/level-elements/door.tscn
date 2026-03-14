@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://ckt4dajo0wct4"]
+
+[ext_resource type="Script" uid="uid://6ncrlfoh2kto" path="res://scripts/door.gd" id="1_door"]
+[ext_resource type="Texture2D" uid="uid://begh7i2rf8fc1" path="res://art/Cyberpunk_door_closed.png" id="2_closed"]
+[ext_resource type="Texture2D" uid="uid://bea51rh5s5clw" path="res://art/Cyberpunk_door.png" id="3_open"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door"]
+size = Vector2(14, 158)
+
+[node name="Door" type="StaticBody2D" groups=["door"]]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_door")
+open_sprite = ExtResource("3_open")
+closed_sprite = ExtResource("2_closed")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_closed")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_door")

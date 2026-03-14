@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3 uid="uid://dnyhwjikbldwd"]
+
+[ext_resource type="PackedScene" uid="uid://cvt63ig62reiu" path="res://scenes/replayable-player.tscn" id="1_arvqo"]
+[ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="1_pr7vd"]
+[ext_resource type="PackedScene" uid="uid://daulrrci12efy" path="res://scenes/level/pressure-button.tscn" id="2_0vhbu"]
+[ext_resource type="PackedScene" uid="uid://bt6uk4j22n6l1" path="res://scenes/level/right-conveyor-belt.tscn" id="3_lgngl"]
+[ext_resource type="Script" path="res://scripts/level/print-action-group.gd" id="4_x50ur"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_o1bgt"]
+resource_local_to_scene = true
+friction = 0.0
+bounce = 0.9
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_pr7vd")]
+
+[node name="ReplayablePlayer" parent="." instance=ExtResource("1_arvqo")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(-43, 110)
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape2D_ug2m1")
+
+[node name="PressureButton" parent="." instance=ExtResource("2_0vhbu")]
+position = Vector2(-69, 104)
+
+[node name="PressureButton2" parent="." instance=ExtResource("2_0vhbu")]
+position = Vector2(-138, 208)
+
+[node name="PressureButton3" parent="." instance=ExtResource("2_0vhbu")]
+position = Vector2(-276, 416)
+
+[node name="RightConveyorBelt" parent="." instance=ExtResource("3_lgngl")]
+position = Vector2(109, 104)
+physics_material_override = SubResource("PhysicsMaterial_o1bgt")
+
+[node name="PrintActionGroup" type="Node" parent="." node_paths=PackedStringArray("actionNodes")]
+script = ExtResource("4_x50ur")
+msg = ">=)"
+actionNodes = [NodePath("../PressureButton"), NodePath("../PressureButton2"), NodePath("../PressureButton3")]

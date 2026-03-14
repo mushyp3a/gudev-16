@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://spawn_indicator_123"]
+
+[node name="SpawnIndicator" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+z_index = 100
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0, 1, 0.5, 1)
+theme_override_font_sizes/font_size = 60
+text = "⬤"
+horizontal_alignment = 1
+vertical_alignment = 1
