@@ -1,0 +1,87 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7clm10k3xbqo"]
+
+[ext_resource type="Theme" uid="uid://8sv5ae01o7bn" path="res://ui designs/button theme (2).theme" id="1_tqay6"]
+[ext_resource type="Script" uid="uid://ccfnv86rqhprp" path="res://scenes/main_menu_2.gd" id="1_tvg03"]
+[ext_resource type="Texture2D" uid="uid://cxmxd46umnnf0" path="res://ui designs/Cyberpunk_background_intro.png" id="2_faqpa"]
+
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tvg03")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.666687
+offset_top = -1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_faqpa")
+expand_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.44400004
+anchor_bottom = 0.95100003
+offset_left = -2.0
+offset_top = 119.0
+offset_right = -3.488037
+offset_bottom = 118.75195
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 150
+theme_override_constants/margin_right = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(450, 400)
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Start Button" type="Button" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 150)
+layout_mode = 2
+theme = ExtResource("1_tqay6")
+text = "START"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(270, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Lore" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_tqay6")
+theme_override_font_sizes/font_size = 25
+text = "LORE"
+
+[node name="Credits" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_tqay6")
+theme_override_font_sizes/font_size = 25
+text = "CREDITS"
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+theme = ExtResource("1_tqay6")
+theme_override_font_sizes/font_size = 25
+text = "QUIT"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Start Button" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Lore" to="." method="_on_lore_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

@@ -15,6 +15,12 @@ run/main_scene="uid://i4yqwb7kdpan"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Diamond="*res://scenes/diamond.tscn"
+global="*res://global.gd"
+levels_completed="*res://levels_completed.gd"
+
 [display]
 
 display_server/driver.linuxbsd="wayland"

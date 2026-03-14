@@ -1,0 +1,97 @@
+[gd_scene load_steps=5 format=3 uid="uid://d2p5b3tfusw8g"]
+
+[ext_resource type="Script" uid="uid://coauexgsm4e4m" path="res://scenes/lore.gd" id="1_qel7j"]
+[ext_resource type="Texture2D" uid="uid://cxmxd46umnnf0" path="res://ui designs/Cyberpunk_background_intro.png" id="2_fiw8w"]
+[ext_resource type="Theme" uid="uid://8sv5ae01o7bn" path="res://ui designs/button theme (2).theme" id="2_oo4qk"]
+[ext_resource type="FontFile" uid="uid://dn11vsaywwk4x" path="res://ui designs/sd-glitch-robot-font/Sdglitchrobotdemo-GOPdO.ttf" id="3_fiw8w"]
+
+[node name="Lore" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qel7j")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_fiw8w")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.164
+offset_bottom = -0.27200317
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="Button" type="Button" parent="MarginContainer"]
+custom_minimum_size = Vector2(60, 35)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("2_oo4qk")
+theme_override_font_sizes/font_size = 20
+text = "BACK"
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.26500002
+anchor_right = 0.73300004
+anchor_bottom = 0.998
+offset_left = -0.2800293
+offset_top = 1.0
+offset_right = -0.41601563
+offset_bottom = 0.29595947
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 15
+
+[node name="solid colour" type="ColorRect" parent="MarginContainer2"]
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 2
+theme = ExtResource("2_oo4qk")
+color = Color(0.99607843, 0.6156863, 0.3882353, 1)
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/MarginContainer2"]
+custom_minimum_size = Vector2(500, 400)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="heading" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(200, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/normal_font = ExtResource("3_fiw8w")
+theme_override_font_sizes/normal_font_size = 80
+text = "
+LORE"
+
+[node name="lore" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(100, 300)
+layout_mode = 2
+theme_override_constants/line_separation = 5
+theme_override_constants/table_h_separation = 3
+theme_override_fonts/normal_font = ExtResource("3_fiw8w")
+theme_override_font_sizes/normal_font_size = 25
+text = "LORE LORE LORE GUYS THE LORE THE LORE IS SO CRAZY GUYS"
+
+[connection signal="pressed" from="MarginContainer/Button" to="." method="_on_button_pressed"]
