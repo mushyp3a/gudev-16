@@ -1,0 +1,91 @@
+[gd_scene load_steps=7 format=3 uid="uid://vm3sl464qx7s"]
+
+[ext_resource type="Script" uid="uid://bdce1vi3kqe0p" path="res://scenes/diamond.gd" id="1_okr8r"]
+[ext_resource type="Shader" uid="uid://baqpll4wk7dny" path="res://scenes/diamond.gdshader" id="2_bd64o"]
+
+[sub_resource type="Animation" id="Animation_p5v7i"]
+resource_name = "in"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("diamond:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("diamond:material:shader_parameter/fill")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_0fuo3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("diamond:material:shader_parameter/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("diamond:material:shader_parameter/fill")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mwpm2"]
+_data = {
+&"RESET": SubResource("Animation_0fuo3"),
+&"in": SubResource("Animation_p5v7i")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_up2nb"]
+shader = ExtResource("2_bd64o")
+shader_parameter/progress = 0.0
+shader_parameter/size = 40.0
+shader_parameter/fill = true
+
+[node name="Diamond" type="CanvasLayer"]
+script = ExtResource("1_okr8r")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_mwpm2")
+}
+
+[node name="diamond" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_up2nb")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.99607843, 0.6156863, 0.3882353, 1)

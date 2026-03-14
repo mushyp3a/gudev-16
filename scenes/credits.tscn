@@ -1,0 +1,103 @@
+[gd_scene load_steps=5 format=3 uid="uid://8g0d4qsf5v1g"]
+
+[ext_resource type="Script" uid="uid://ciw8pxwv1kcbl" path="res://scenes/credits.gd" id="1_0ctdu"]
+[ext_resource type="Theme" uid="uid://8sv5ae01o7bn" path="res://ui designs/button theme (2).theme" id="1_2ckv8"]
+[ext_resource type="FontFile" uid="uid://dn11vsaywwk4x" path="res://ui designs/sd-glitch-robot-font/Sdglitchrobotdemo-GOPdO.ttf" id="2_0ctdu"]
+[ext_resource type="Texture2D" uid="uid://cxmxd46umnnf0" path="res://ui designs/Cyberpunk_background_intro.png" id="2_2fbfq"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0ctdu")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_2fbfq")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.164
+offset_bottom = -0.27200317
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="Button" type="Button" parent="MarginContainer"]
+custom_minimum_size = Vector2(60, 35)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("1_2ckv8")
+theme_override_font_sizes/font_size = 20
+text = "BACK"
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.26500002
+anchor_top = 0.085
+anchor_right = 0.734
+anchor_bottom = 0.915
+offset_left = -0.2800293
+offset_top = -0.08000183
+offset_right = -0.5680542
+offset_bottom = 0.079956055
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 15
+
+[node name="solid colour" type="ColorRect" parent="MarginContainer2"]
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 2
+color = Color(0.99607843, 0.6156863, 0.3882353, 1)
+
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/MarginContainer2"]
+custom_minimum_size = Vector2(500, 400)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="heading" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(350, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/normal_font = ExtResource("2_0ctdu")
+theme_override_font_sizes/normal_font_size = 80
+text = "Credits"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="credits" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(100, 300)
+layout_mode = 2
+theme_override_constants/line_separation = 5
+theme_override_constants/table_h_separation = 3
+theme_override_fonts/normal_font = ExtResource("2_0ctdu")
+theme_override_font_sizes/normal_font_size = 28
+text = "Programming - Mackenzie + Oliver
+Music - Mackenzie
+Art - Reuben
+Ui - Leia"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="MarginContainer/Button" to="." method="_on_button_pressed"]
