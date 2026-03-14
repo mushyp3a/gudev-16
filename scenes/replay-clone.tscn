@@ -1165,6 +1165,18 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetector"]
 shape = SubResource("RectangleShape2D_collision_detector")
 
+[node name="SelectionIndicator" type="Label" parent="."]
+z_index = 100
+offset_left = -400.0
+offset_top = -800.0
+offset_right = 400.0
+offset_bottom = -600.0
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_font_sizes/font_size = 200
+text = "▼"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
 modulate = Color(1, 1, 1, 0.39215687)
 

@@ -158,13 +158,13 @@ func select_clone(slot_id: int) -> void:
 
 	selected_clone_id = slot_id
 	clone_selected.emit(slot_id)
-	_update_clone_visibility()
+	# Don't change visibility - clones stay visible
 
 ## Deselect the currently selected clone
 func deselect_clone() -> void:
 	selected_clone_id = -1
 	clone_deselected.emit()
-	_update_clone_visibility()
+	# Don't change visibility - clones stay visible
 
 # ========== RECORDING ==========
 

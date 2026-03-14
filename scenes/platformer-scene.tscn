@@ -33,7 +33,6 @@ stream = ExtResource("1_atnvu")
 [node name="cyberpunk-shader" parent="." instance=ExtResource("2_atnvu")]
 
 [node name="bg" type="ColorRect" parent="."]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -51,8 +50,24 @@ grow_vertical = 2
 texture = ExtResource("1_xw8ud")
 
 [node name="Player" parent="." instance=ExtResource("1_ug2m1")]
+visible = false
 position = Vector2(-50, 485)
 scale = Vector2(0.075, 0.075)
+
+[node name="SpawnIndicator" type="Node2D" parent="."]
+position = Vector2(-50, 485)
+
+[node name="Label" type="Label" parent="SpawnIndicator"]
+z_index = 100
+offset_left = -100.0
+offset_top = -50.0
+offset_right = 100.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0, 1, 0.5, 1)
+theme_override_font_sizes/font_size = 60
+text = "⬤"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

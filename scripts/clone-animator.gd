@@ -17,6 +17,7 @@ var clone_id: int = -1
 @onready var animator: AnimationPlayer = $Skeleton2D/hips/AnimationPlayer
 @onready var skeleton: Node2D = $Skeleton2D
 @onready var collision_detector: Area2D = $CollisionDetector
+@onready var selection_indicator: Label = $SelectionIndicator
 
 # Particle effect scene to instantiate on death
 const DEATH_PARTICLES_SCENE = preload("res://scenes/effects/clone-death-particles.tscn")
@@ -53,6 +54,12 @@ func _ready() -> void:
 	if clone_manager:
 		clone_manager.recording_started.connect(_on_run_started)
 		clone_manager.playback_started.connect(_on_run_started)
+		clone_manager.clone_selected.connect(_on_clone_selected)
+		clone_manager.clone_deselected.connect(_on_clone_deselected)
+
+	# Initially hide the selection indicator
+	if selection_indicator:
+		selection_indicator.visible = false
 
 # ========== ANIMATION ==========
 
@@ -92,6 +99,13 @@ func _process(_delta: float) -> void:
 
 ## Handle idle/paused state - show clone at final position
 func _handle_idle_state(replay: Replay) -> void:
+	# Make clone visible in IDLE state
+	visible = true
+
+	# Set position to final recorded position
+	if replay.positionHistory.size() > 0:
+		global_position = replay.positionHistory[-1]
+
 	# Determine the animation from the final recorded frame
 	var final_anim = _get_animation_from_final_state(replay)
 	play_anim(final_anim)
@@ -186,23 +200,16 @@ func _update_animation(state: Dictionary, moving_x: bool) -> void:
 
 ## Called when clone collides with a wall, door, or obstacle
 func _on_collision_detected(body: Node) -> void:
-	print("Clone %d collision detected with: %s" % [clone_id, body.name])
-
 	# Don't trigger multiple times
 	if is_dead:
-		print("Clone %d already dead, ignoring" % clone_id)
 		return
 
 	# Check if it's actually a wall/door (layer 2)
 	if body is StaticBody2D:
-		print("Clone %d hit StaticBody2D, killing" % clone_id)
 		_kill_clone()
-	else:
-		print("Clone %d hit non-StaticBody2D: %s" % [clone_id, body.get_class()])
 
 ## Kill this clone for this run (temporary, will respawn on next run)
 func _kill_clone() -> void:
-	print("Clone %d _kill_clone() called" % clone_id)
 	is_dead = true
 
 	# Spawn death particles at clone's current position
@@ -211,7 +218,6 @@ func _kill_clone() -> void:
 
 	# Add to scene root so they persist independently
 	get_tree().root.add_child(particles)
-	print("Clone %d: spawned death particles at %s" % [clone_id, global_position])
 
 	# Shrink skeleton rapidly before hiding
 	var original_scale = skeleton.scale
@@ -232,6 +238,16 @@ func _on_run_started(_param = null) -> void:
 	# Ensure skeleton scale is restored (in case clone died mid-animation)
 	if skeleton.scale == Vector2.ZERO:
 		skeleton.scale = Vector2(1.0, 1.0)  # Default skeleton scale
+
+## Called when a clone is selected in the cassette
+func _on_clone_selected(selected_id: int) -> void:
+	if selection_indicator:
+		selection_indicator.visible = (selected_id == clone_id)
+
+## Called when clone selection is cleared
+func _on_clone_deselected() -> void:
+	if selection_indicator:
+		selection_indicator.visible = false
 
 ## Determine animation name from the final frame of a replay
 func _get_animation_from_final_state(replay: Replay) -> String:

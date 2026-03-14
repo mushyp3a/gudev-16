@@ -43,6 +43,10 @@ func _ready():
 	_find_clone_manager()
 	ShaderManager.go_to_plan()
 
+	# Connect to CloneManager state changes to control visibility
+	if clone_manager:
+		clone_manager.state_changed.connect(_on_state_changed)
+
 ## Reset all movement state (called when returning to spawn)
 func reset_movement_state() -> void:
 	velocity = Vector2.ZERO
@@ -63,6 +67,18 @@ func _find_clone_manager() -> void:
 
 	if clone_manager == null:
 		push_warning("PlayerMovement: Could not find CloneManager node")
+
+## Handle CloneManager state changes to control player visibility
+func _on_state_changed(new_state: CloneState.State) -> void:
+	match new_state:
+		CloneState.State.IDLE:
+			visible = false
+		CloneState.State.WAITING_INPUT:
+			visible = true
+		CloneState.State.RECORDING:
+			visible = true
+		CloneState.State.PLAYING:
+			visible = false
 
 func _physics_process(delta):
 	# Block all player input while planning or waiting for first move after Record

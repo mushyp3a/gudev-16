@@ -19,7 +19,6 @@ var slotHistory: Array = [[], [], [], []]
 # merged timeline of all slots, sorted by time — rebuilt on each startRecording
 var mergedHistory: Array = []
 var lastAppliedState: bool = false
-var playerTouchedAt: float = -1.0  # time of last player interaction this run, -1 = never
 
 signal switched(is_on: bool)
 
@@ -81,13 +80,8 @@ func _process(_delta: float) -> void:
 		if recording_system.is_recording:
 			toggle()
 
-	# replay merged timeline
-	# Stop replaying once player has touched the lever during recording
-	var should_replay = mergedHistory.size() > 0
-	if recording_system.is_recording and playerTouchedAt >= 0.0:
-		should_replay = false  # Player has taken control, stop replaying
-
-	if should_replay:
+	# replay merged timeline (clones continue toggling even during recording)
+	if mergedHistory.size() > 0:
 		var sampleTime = clone_manager.time_elapsed
 		var replayed = _sampleMerged(sampleTime)
 		if replayed != lastAppliedState:
@@ -99,19 +93,16 @@ func toggle() -> void:
 	if recording_system and recording_system.current_recording_id >= 0:
 		slotHistory[recording_system.current_recording_id].push_back({"time": clone_manager.time_elapsed, "is_on": is_on})
 	lastAppliedState = is_on
-	playerTouchedAt = clone_manager.time_elapsed if clone_manager else -1.0
 
 func startRecording(slot: int) -> void:
 	_apply_state(default_state, false)
 	slotHistory[slot] = [{"time": 0.0, "is_on": default_state}]
 	lastAppliedState = default_state
-	playerTouchedAt = -1.0
 	_rebuildMerged(slot)
 
 func resetToDefault() -> void:
 	_apply_state(default_state, true)
 	lastAppliedState = default_state
-	playerTouchedAt = -1.0
 	mergedHistory = []
 
 # rebuild merged timeline from all slots except the one being recorded
@@ -124,13 +115,26 @@ func _rebuildMerged(recordingSlot: int) -> void:
 			mergedHistory.push_back({"time": entry["time"], "is_on": entry["is_on"]})
 	# sort by time
 	mergedHistory.sort_custom(func(a, b): return a["time"] < b["time"])
+	# remove the t=0 default entries to avoid noise — only keep actual toggles
+	mergedHistory = mergedHistory.filter(func(e): return e["time"] > 0.0 or e["is_on"] != default_state)
 
-# sample the merged timeline at time t
+# sample the merged timeline at time t, including current recording's toggles
 func _sampleMerged(t: float) -> bool:
-	if mergedHistory.size() == 0:
+	# Build a complete timeline including current recording
+	var complete_timeline = mergedHistory.duplicate()
+
+	# Add current recording's toggles if we're recording
+	if recording_system and recording_system.is_recording and recording_system.current_recording_id >= 0:
+		var current_slot = recording_system.current_recording_id
+		for entry in slotHistory[current_slot]:
+			complete_timeline.push_back(entry)
+		complete_timeline.sort_custom(func(a, b): return a["time"] < b["time"])
+
+	if complete_timeline.size() == 0:
 		return default_state
+
 	var result = default_state
-	for entry in mergedHistory:
+	for entry in complete_timeline:
 		if entry["time"] <= t:
 			result = entry["is_on"]
 		else:
@@ -153,7 +157,6 @@ func _animate_prompt_in() -> void:
 func preparePlayback() -> void:
 	_apply_state(default_state, false)
 	lastAppliedState = default_state
-	playerTouchedAt = -1.0
 	# merge all slots for playback
 	mergedHistory = []
 	for slot in range(4):

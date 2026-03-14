@@ -104,7 +104,6 @@ func _on_record_pressed() -> void:
 		return  # No slot selected, can't record
 
 	slide_out()
-	clone_manager.show_all_clones()
 	clone_manager.start_recording(clone_manager.selected_clone_id)
 	clone_manager.deselect_clone()
 
@@ -114,14 +113,13 @@ func _on_play_pressed() -> void:
 
 	var clone_ids: Array[int] = []
 
-	if clone_manager.selected_clone_id == -1:
-		# No selection: play all clones that have recordings
-		for i in range(clone_manager.config.max_clones):
-			if clone_manager.recording_system.has_recording(i):
-				clone_ids.append(i)
-	else:
-		# Play selected clone
-		clone_ids.append(clone_manager.selected_clone_id)
+	# Always play all clones that have recordings
+	for i in range(clone_manager.config.max_clones):
+		if clone_manager.recording_system.has_recording(i):
+			clone_ids.append(i)
+
+	# Keep the selection active during playback (indicator will show)
+	# Don't deselect - the indicator will stay visible on the selected clone
 
 	if clone_ids.size() > 0:
 		clone_manager.start_playback(clone_ids)
@@ -167,7 +165,6 @@ func slide_in() -> void:
 	clone_manager.time_elapsed = 0.0
 	clone_manager.recording_system.set_time(0.0)
 
-	clone_manager.show_all_clones()
 	ShaderManager.go_to_plan()
 	_animate_panel(0.0)
 	_enable_all_buttons()
