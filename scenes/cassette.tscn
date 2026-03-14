@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dwywrs4icqj4t"]
 
 [ext_resource type="Script" uid="uid://di208arwp05he" path="res://scripts/timer-updater.gd" id="1_i7tjp"]
-[ext_resource type="Script" uid="uid://cqk5kuh76vqe3" path="res://scripts/cassette-ui.gd" id="2_dgkdk"]
+[ext_resource type="Script" uid="uid://ci3yamotonwmj" path="res://scripts/cassette_ui_controller.gd" id="2_i7tjp"]
 [ext_resource type="FontFile" uid="uid://vm3adp50g3p0" path="res://fonts/Quadaptor.otf" id="3_0j804"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
@@ -15,7 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("2_dgkdk")
+script = ExtResource("2_i7tjp")
 
 [node name="Panel" type="PanelContainer" parent="CassetteUI"]
 layout_mode = 1

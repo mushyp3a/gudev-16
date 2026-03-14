@@ -8,8 +8,10 @@ extends Area2D
 
 var is_on: bool = false
 var player_nearby: bool = false
-var replayable = null
-var cloning = null
+
+## Reference to systems (found dynamically)
+var recording_system: RecordingSystem = null
+var clone_manager: CloneManager = null
 
 # per-slot history: Array of 4 Arrays, each {time, is_on}
 var slotHistory: Array = [[], [], [], []]
@@ -25,9 +27,35 @@ func _ready() -> void:
 	key_prompt.visible = false
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
-	replayable = get_tree().root.find_child("Replayable", true, false)
-	cloning = get_tree().root.find_child("PlayerCloning", true, false)
+	_find_systems()
+	_connect_signals()
 	_apply_state(default_state, false)
+
+## Find the required systems in the scene tree
+func _find_systems() -> void:
+	var root = get_tree().root
+
+	recording_system = root.get_node_or_null("RecordingSystem")
+	if recording_system == null:
+		recording_system = root.find_child("RecordingSystem", true, false)
+
+	clone_manager = root.get_node_or_null("CloneManager")
+	if clone_manager == null:
+		clone_manager = root.find_child("CloneManager", true, false)
+
+	if recording_system == null:
+		push_warning("Switch: Could not find RecordingSystem node")
+	if clone_manager == null:
+		push_warning("Switch: Could not find CloneManager node")
+
+## Connect to CloneManager signals for lifecycle events
+func _connect_signals() -> void:
+	if clone_manager == null:
+		return
+
+	clone_manager.recording_started.connect(_on_recording_started)
+	clone_manager.playback_started.connect(_on_playback_started)
+	clone_manager.state_changed.connect(_on_state_changed)
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
@@ -41,20 +69,26 @@ func _on_body_exited(body: Node) -> void:
 		key_prompt.visible = false
 
 func _process(_delta: float) -> void:
-	if not replayable or not cloning or cloning.paused or cloning.waitingForInput:
+	if not recording_system or not clone_manager:
+		return
+
+	# Don't process during IDLE or WAITING_INPUT states
+	if clone_manager.current_state == CloneState.State.IDLE or clone_manager.current_state == CloneState.State.WAITING_INPUT:
 		return
 
 	# player input during recording
 	if player_nearby and Input.is_action_just_pressed(action_key):
-		if replayable.recording:
+		if recording_system.is_recording:
 			toggle()
 
 	# replay merged timeline
-	if mergedHistory.size() > 0:
-		# during recording, stop replaying once player has touched the lever
-		var sampleTime = replayable.time
-		if replayable.recording and playerTouchedAt >= 0.0:
-			sampleTime = playerTouchedAt  # freeze replay at moment player took over
+	# Stop replaying once player has touched the lever during recording
+	var should_replay = mergedHistory.size() > 0
+	if recording_system.is_recording and playerTouchedAt >= 0.0:
+		should_replay = false  # Player has taken control, stop replaying
+
+	if should_replay:
+		var sampleTime = clone_manager.time_elapsed
 		var replayed = _sampleMerged(sampleTime)
 		if replayed != lastAppliedState:
 			lastAppliedState = replayed
@@ -62,10 +96,10 @@ func _process(_delta: float) -> void:
 
 func toggle() -> void:
 	_apply_state(!is_on, true)
-	if replayable and replayable.currIx >= 0:
-		slotHistory[replayable.currIx].push_back({"time": replayable.time, "is_on": is_on})
+	if recording_system and recording_system.current_recording_id >= 0:
+		slotHistory[recording_system.current_recording_id].push_back({"time": clone_manager.time_elapsed, "is_on": is_on})
 	lastAppliedState = is_on
-	playerTouchedAt = replayable.time if replayable else -1.0
+	playerTouchedAt = clone_manager.time_elapsed if clone_manager else -1.0
 
 func startRecording(slot: int) -> void:
 	_apply_state(default_state, false)
@@ -128,3 +162,17 @@ func preparePlayback() -> void:
 	mergedHistory.sort_custom(func(a, b): return a["time"] < b["time"])
 	# remove the t=0 default entries to avoid noise — only keep actual toggles
 	mergedHistory = mergedHistory.filter(func(e): return e["time"] > 0.0 or e["is_on"] != default_state)
+
+## Called when CloneManager starts recording for a slot
+func _on_recording_started(slot_id: int) -> void:
+	startRecording(slot_id)
+
+## Called when CloneManager starts playback
+func _on_playback_started(_clone_ids: Array[int]) -> void:
+	preparePlayback()
+
+## Called when CloneManager state changes
+func _on_state_changed(new_state: int) -> void:
+	# Reset to default when returning to IDLE
+	if new_state == CloneState.State.IDLE:
+		resetToDefault()

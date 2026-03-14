@@ -1,9 +1,7 @@
-[gd_scene load_steps=30 format=3 uid="uid://b80d7j5jpwmhn"]
+[gd_scene load_steps=28 format=3 uid="uid://b80d7j5jpwmhn"]
 
 [ext_resource type="Script" uid="uid://bwdurgqthyhi7" path="res://scripts/player-movement.gd" id="1_g2els"]
-[ext_resource type="Script" uid="uid://1t6ap0we673b" path="res://scripts/player-cloning.gd" id="2_jej6c"]
 [ext_resource type="Texture2D" uid="uid://dbnofakh38u23" path="res://art/character/Cyberpunk_torso.png" id="2_tuyoq"]
-[ext_resource type="Script" uid="uid://bud21x0d14cl7" path="res://scripts/replayable.gd" id="3_f1ej7"]
 [ext_resource type="Texture2D" uid="uid://b8cnfvnygom00" path="res://art/character/cyberpunk_head.png" id="3_fjrip"]
 [ext_resource type="AudioStream" uid="uid://dx1mro45wgeux" path="res://sounds/jump-fx.wav" id="3_qhqgy"]
 [ext_resource type="AudioStream" uid="uid://nbuyhsas7t4i" path="res://sounds/slide-fx.wav" id="4_dqkch"]
@@ -1155,20 +1153,10 @@ scale_curve = SubResource("CurveTexture_qhqgy")
 color_ramp = SubResource("GradientTexture1D_qhqgy")
 collision_mode = 2
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(0.1, 0.1)
 collision_mask = 2
 script = ExtResource("1_g2els")
-
-[node name="PlayerCloning" type="Node" parent="." node_paths=PackedStringArray("replayable", "posNode")]
-script = ExtResource("2_jej6c")
-replayable = NodePath("../Replayable")
-posNode = NodePath("..")
-timeLimit = 5.0
-
-[node name="Replayable" type="Node" parent="." node_paths=PackedStringArray("node")]
-script = ExtResource("3_f1ej7")
-node = NodePath("..")
 
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
 

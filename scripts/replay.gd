@@ -77,3 +77,25 @@ func sample(t: float) -> Dictionary:
 		"is_wall_sliding": isWallSlidingHistory[ix],
 		"has_double_jump": hasDoubleJumpHistory[ix],
 	}
+
+## Cleanup all recorded data
+func clear() -> void:
+	positionHistory.clear()
+	timeHistory.clear()
+	playerActionHistory.clear()
+	facingHistory.clear()
+	velocityYHistory.clear()
+	isSlidingHistory.clear()
+	isWallSlidingHistory.clear()
+	hasDoubleJumpHistory.clear()
+	lastIx = 0
+
+## Check if replay has no recorded data
+func is_empty() -> bool:
+	return positionHistory.size() == 0
+
+## Get total duration of recording in seconds
+func get_duration() -> float:
+	if timeHistory.size() == 0:
+		return 0.0
+	return timeHistory[-1]

@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://dax8y706w5v4u"]
+
+[ext_resource type="Script" uid="uid://bgkpy5u1ap0fh" path="res://scripts/clone_death_particles.gd" id="1_script"]
+
+[sub_resource type="Gradient" id="Gradient_color"]
+colors = PackedColorArray(3.85046e-06, 0.85818845, 0.8020454, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_color"]
+gradient = SubResource("Gradient_color")
+
+[sub_resource type="Curve" id="Curve_scale"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.47191018), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_scale"]
+curve = SubResource("Curve_scale")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_death"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 15.0
+direction = Vector3(0, 0, 0)
+radial_velocity_min = 99.99998
+radial_velocity_max = 99.99998
+gravity = Vector3(0, 0, 0)
+scale_min = 15.0
+scale_max = 15.0
+scale_curve = SubResource("CurveTexture_scale")
+color_ramp = SubResource("GradientTexture1D_color")
+
+[node name="CloneDeathParticles" type="GPUParticles2D"]
+emitting = false
+amount = 100
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.5
+process_material = SubResource("ParticleProcessMaterial_death")
+script = ExtResource("1_script")

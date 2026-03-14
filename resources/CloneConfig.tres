@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="CloneConfig" load_steps=2 format=3 uid="uid://cou13ouislkrc"]
+
+[ext_resource type="Script" uid="uid://bvp0ygp2c6wg2" path="res://scripts/clone_config.gd" id="1_3dklw"]
+
+[resource]
+script = ExtResource("1_3dklw")
+time_limit = 5.0

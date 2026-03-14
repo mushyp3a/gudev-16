@@ -1,18 +1,26 @@
 extends Node
 
-# clone-animator.gd (on the parent Node2D) handles all positioning and animation.
-# This script only exists to receive cloneId/replayable from PlayerCloning
-# and forward them up to the animator.
+## Simple forwarding script for clone instances
+## Receives cloneId and recording_system from CloneManager
+## and forwards them to the parent CloneAnimator
+## This keeps the clone scene structure simple and decoupled
 
-var replayable: Replayable
-var cloneId: int
+## Reference to the recording system (set by CloneManager)
+var recording_system: RecordingSystem
+
+## ID of this clone (set by CloneManager)
+var clone_id: int
 
 func _ready() -> void:
-	# Forward the references to clone-animator on the parent as soon as they're set
+	# Forward the references to clone-animator on the parent as soon as ready
 	_sync_to_animator()
 
+## Sync properties to the parent CloneAnimator
 func _sync_to_animator() -> void:
 	var animator = get_parent()
 	if animator and animator.has_method("play_anim"):
-		animator.replayable = replayable
-		animator.cloneId    = cloneId
+		# Parent is the CloneAnimator (extends Node2D)
+		animator.recording_system = recording_system
+		animator.clone_id = clone_id
+	else:
+		push_warning("ReplayClone: Parent is not a CloneAnimator")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://i4yqwb7kdpan"]
+[gd_scene load_steps=15 format=3 uid="uid://i4yqwb7kdpan"]
 
 [ext_resource type="AudioStream" uid="uid://b1bv57rnbsssg" path="res://sounds/cyberpunk.wav" id="1_atnvu"]
 [ext_resource type="PackedScene" uid="uid://dwywrs4icqj4t" path="res://scenes/cassette.tscn" id="1_prhh6"]
@@ -6,11 +6,21 @@
 [ext_resource type="Texture2D" uid="uid://bju52kjgk1unh" path="res://art/bg/Interior.png" id="1_xw8ud"]
 [ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="2_atnvu"]
 [ext_resource type="Texture2D" uid="uid://c40ywp28saast" path="res://art/Cyberpunk_block.png" id="5_k2ydu"]
+[ext_resource type="Script" uid="uid://cnbxdnlx48d7p" path="res://scripts/clone_manager.gd" id="7_su6kw"]
+[ext_resource type="Script" uid="uid://bvp0ygp2c6wg2" path="res://scripts/clone_config.gd" id="8_u85av"]
+[ext_resource type="Script" uid="uid://c3yn46mhpywyd" path="res://scripts/recording_system.gd" id="9_ofjn1"]
+[ext_resource type="PackedScene" uid="uid://l8va46asmpts" path="res://scenes/level-elements/lever.tscn" id="10_u85av"]
+[ext_resource type="PackedScene" uid="uid://ckt4dajo0wct4" path="res://scenes/level-elements/door.tscn" id="11_ofjn1"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ug2m1"]
 size = Vector2(20, 2000)
+
+[sub_resource type="Resource" id="Resource_ic0r7"]
+script = ExtResource("8_u85av")
+time_limit = 5.0
+metadata/_custom_type_script = "uid://bvp0ygp2c6wg2"
 
 [node name="Game" type="Node2D"]
 
@@ -19,11 +29,11 @@ layer = 1000
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("1_atnvu")
-autoplay = true
 
 [node name="cyberpunk-shader" parent="." instance=ExtResource("2_atnvu")]
 
 [node name="bg" type="ColorRect" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -41,7 +51,7 @@ grow_vertical = 2
 texture = ExtResource("1_xw8ud")
 
 [node name="Player" parent="." instance=ExtResource("1_ug2m1")]
-position = Vector2(-41, 70)
+position = Vector2(-50, 485)
 scale = Vector2(0.075, 0.075)
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -68,3 +78,23 @@ position = Vector2(633, 117)
 rotation = -1.5707964
 scale = Vector2(4, 4)
 texture = ExtResource("5_k2ydu")
+
+[node name="CloneManager" type="Node" parent="." node_paths=PackedStringArray("recording_system", "player_node")]
+script = ExtResource("7_su6kw")
+config = SubResource("Resource_ic0r7")
+recording_system = NodePath("../RecordingSystem")
+player_node = NodePath("../Player")
+
+[node name="RecordingSystem" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("9_ofjn1")
+player = NodePath("../Player")
+
+[node name="Lever" parent="." instance=ExtResource("10_u85av")]
+z_index = 100
+position = Vector2(328, 515)
+
+[node name="Door" parent="." instance=ExtResource("11_ofjn1")]
+position = Vector2(-125, 470)
+
+[connection signal="switched" from="Lever" to="Door" method="_on_lever_switched"]
+[connection signal="switched" from="Lever" to="Door" method="on_switch_toggled"]

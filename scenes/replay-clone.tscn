@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://4thnh388de76"]
+[gd_scene load_steps=29 format=3 uid="uid://4thnh388de76"]
 
 [ext_resource type="Script" uid="uid://cpmymecowypes" path="res://scripts/clone-animator.gd" id="1_om8nu"]
 [ext_resource type="Script" uid="uid://boehex7b8mqgb" path="res://scripts/replay-clone.gd" id="2_menae"]
@@ -12,6 +12,9 @@
 [ext_resource type="Texture2D" uid="uid://dmwgub6vy5qcs" path="res://art/character/Cyberpunk_back_lower_leg.png" id="10_tkhd6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nfdha"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_collision_detector"]
+size = Vector2(200, 400)
 
 [sub_resource type="Animation" id="Animation_3v2ag"]
 length = 0.001
@@ -1110,8 +1113,40 @@ _data = {
 &"wall_slide": SubResource("Animation_a8ls1")
 }
 
+[sub_resource type="Curve" id="Curve_sdbcs"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rqy57"]
+curve = SubResource("Curve_sdbcs")
+
+[sub_resource type="Gradient" id="Gradient_g2els"]
+colors = PackedColorArray(3.85046e-06, 0.85818845, 0.8020454, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qhqgy"]
+gradient = SubResource("Gradient_g2els")
+
+[sub_resource type="Curve" id="Curve_om8nu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.47191018), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_sdbcs"]
+curve = SubResource("Curve_om8nu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_om8nu"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 200.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 249.99998
+radial_accel_max = 249.99998
+scale_min = 50.0
+scale_max = 100.0
+scale_curve = SubResource("CurveTexture_sdbcs")
+color_ramp = SubResource("GradientTexture1D_qhqgy")
+alpha_curve = SubResource("CurveTexture_rqy57")
+
 [node name="ReplayClone" type="CharacterBody2D"]
-modulate = Color(1, 1, 1, 0.39215687)
 scale = Vector2(0.075, 0.075)
 collision_layer = 4
 collision_mask = 2
@@ -1123,7 +1158,15 @@ script = ExtResource("2_menae")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_nfdha")
 
+[node name="CollisionDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetector"]
+shape = SubResource("RectangleShape2D_collision_detector")
+
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
+modulate = Color(1, 1, 1, 0.39215687)
 
 [node name="hips" type="Bone2D" parent="Skeleton2D"]
 
@@ -1208,3 +1251,12 @@ scale = Vector2(0.9999996, 0.9999996)
 z_index = 8
 position = Vector2(99, 188)
 texture = ExtResource("10_tkhd6")
+
+[node name="DeathParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 100
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_om8nu")
+texture = ExtResource("4_sdbcs")
