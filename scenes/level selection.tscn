@@ -1,0 +1,105 @@
+[gd_scene load_steps=4 format=3 uid="uid://b18ejcu6pa32i"]
+
+[ext_resource type="Script" uid="uid://dtt5s54wk1e4y" path="res://scenes/level_selection.gd" id="1_fyp2k"]
+[ext_resource type="Theme" uid="uid://8sv5ae01o7bn" path="res://ui designs/button theme (2).theme" id="1_jgwpm"]
+[ext_resource type="Texture2D" uid="uid://d3xnxmpqbhncl" path="res://ui designs/Cyberpunk_background_1.png" id="2_7dgy3"]
+
+[node name="LevelSelection" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fyp2k")
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_7dgy3")
+expand_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.164
+offset_bottom = -0.27200317
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="Button" type="Button" parent="MarginContainer"]
+custom_minimum_size = Vector2(60, 35)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource("1_jgwpm")
+theme_override_font_sizes/font_size = 20
+text = "BACK"
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.148
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.9039993
+offset_right = -4.0
+offset_bottom = -1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="levels 1-2" type="HBoxContainer" parent="MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(1150, 200)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 275
+alignment = 1
+
+[node name="level 1" type="Button" parent="MarginContainer2/VBoxContainer/levels 1-2"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme = ExtResource("1_jgwpm")
+theme_override_font_sizes/font_size = 40
+text = "LEVEL 1"
+
+[node name="level 2" type="Button" parent="MarginContainer2/VBoxContainer/levels 1-2"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme = ExtResource("1_jgwpm")
+theme_override_font_sizes/font_size = 40
+text = "LEVEL 2"
+
+[node name="levels 3-4" type="HBoxContainer" parent="MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(1150, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 275
+alignment = 1
+
+[node name="level 3" type="Button" parent="MarginContainer2/VBoxContainer/levels 3-4"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme = ExtResource("1_jgwpm")
+theme_override_font_sizes/font_size = 40
+text = "LEVEL 3"
+
+[node name="level 4" type="Button" parent="MarginContainer2/VBoxContainer/levels 3-4"]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+theme = ExtResource("1_jgwpm")
+theme_override_font_sizes/font_size = 40
+text = "LEVEL 4"
+
+[connection signal="pressed" from="MarginContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/levels 1-2/level 1" to="." method="_on_level_1_pressed"]
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/levels 1-2/level 2" to="." method="_on_level_2_pressed"]
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/levels 3-4/level 3" to="." method="_on_level_3_pressed"]
+[connection signal="pressed" from="MarginContainer2/VBoxContainer/levels 3-4/level 4" to="." method="_on_level_4_pressed"]

@@ -23,6 +23,7 @@ time_limit = 5.0
 metadata/_custom_type_script = "uid://bvp0ygp2c6wg2"
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_xw8ud")
 
 [node name="CanvasLayer" parent="." instance=ExtResource("1_prhh6")]
 layer = 1000
