@@ -4,10 +4,10 @@
 [ext_resource type="Script" uid="uid://ccfnv86rqhprp" path="res://scenes/main_menu_2.gd" id="1_tvg03"]
 [ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="2_5dk12"]
 [ext_resource type="Texture2D" uid="uid://cxmxd46umnnf0" path="res://ui designs/Cyberpunk_background_intro.png" id="2_faqpa"]
-[ext_resource type="PackedScene" path="res://scenes/cyberpunk-shader.tscn" id="3_vvfmj"]
+[ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="3_vvfmj"]
 [ext_resource type="AudioStream" uid="uid://dco8y6ygul23u" path="res://sounds/boom-intro.wav" id="6_11ndu"]
 [ext_resource type="FontFile" uid="uid://bur04ovkmo56g" path="res://ui designs/glitch-goblin-font/GlitchGoblin-2O87v.ttf" id="7_7dsen"]
-[ext_resource type="Script" uid="uid://bdijdo7nmcqy7" path="res://scripts/player-menu.gd" id="8_0uop4"]
+[ext_resource type="Script" path="res://scripts/player-menu.gd" id="8_0uop4"]
 [ext_resource type="Texture2D" uid="uid://dbnofakh38u23" path="res://art/character/Cyberpunk_torso.png" id="9_fwba4"]
 [ext_resource type="Texture2D" uid="uid://b8cnfvnygom00" path="res://art/character/cyberpunk_head.png" id="10_cdurx"]
 [ext_resource type="Texture2D" uid="uid://cc8jqbo027jxx" path="res://art/character/Cyberpunk_upper_arm.png" id="11_u044n"]
@@ -1229,7 +1229,7 @@ size_flags_horizontal = 0
 theme = ExtResource("1_tqay6")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7dsen")
-text = "LORE"
+text = "Controls"
 
 [node name="Credits" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(300, 65)
