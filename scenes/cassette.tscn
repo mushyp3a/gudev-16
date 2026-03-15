@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bak62xkbu1v04"]
 
-[ext_resource type="Script" path="res://scripts/timer-updater.gd" id="1_i7tjp"]
+[ext_resource type="Script" uid="uid://di208arwp05he" path="res://scripts/timer-updater.gd" id="1_i7tjp"]
 [ext_resource type="Script" uid="uid://ci3yamotonwmj" path="res://scripts/cassette_ui_controller.gd" id="2_i7tjp"]
 [ext_resource type="FontFile" uid="uid://vm3adp50g3p0" path="res://fonts/Quadaptor.otf" id="3_0j804"]
 [ext_resource type="AudioStream" uid="uid://c1aj550mepr8y" path="res://sounds/button-press.wav" id="4_dgkdk"]
@@ -85,3 +85,12 @@ theme_override_font_sizes/font_size = 71
 text = "5:00"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="objective" type="Label" parent="."]
+offset_left = 11.0
+offset_top = 10.0
+offset_right = 673.0
+offset_bottom = 84.0
+theme_override_fonts/font = ExtResource("3_0j804")
+theme_override_font_sizes/font_size = 61
+text = "Ascend the building"

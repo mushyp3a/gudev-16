@@ -11,9 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://l8va46asmpts" path="res://scenes/level-elements/lever.tscn" id="10_ay5wj"]
 [ext_resource type="PackedScene" uid="uid://ckt4dajo0wct4" path="res://scenes/level-elements/door.tscn" id="11_vnw71"]
 [ext_resource type="PackedScene" uid="uid://cyuhyisihw572" path="res://scenes/level-elements/pressure-plate.tscn" id="12_6xlxe"]
-[ext_resource type="PackedScene" uid="uid://c44acsju21ayd" path="res://scenes/props/level-core.tscn" id="13_fp0po"]
 [ext_resource type="PackedScene" uid="uid://crate2preset" path="res://scenes/props/create-norm.tscn" id="14_6gxdu"]
 [ext_resource type="PackedScene" uid="uid://cyyjrf5j16wm5" path="res://scenes/props/crate-moving.tscn" id="15_ixq74"]
+[ext_resource type="PackedScene" uid="uid://bkebr75413v26" path="res://scenes/props/level-exit.tscn" id="16_h3m2t"]
 [ext_resource type="PackedScene" path="res://scenes/props/crate-disappear.tscn" id="16_oh1hm"]
 [ext_resource type="Texture2D" uid="uid://d3xnxmpqbhncl" path="res://ui designs/Cyberpunk_background_1.png" id="18_kwl1m"]
 
@@ -123,10 +123,6 @@ position = Vector2(293, 529)
 [node name="LevelElements" type="Node2D" parent="."]
 position = Vector2(0, -134)
 
-[node name="LevelCore" parent="LevelElements" instance=ExtResource("13_fp0po")]
-position = Vector2(-402, 342.00003)
-level_number = 2
-
 [node name="Crate2" parent="LevelElements" instance=ExtResource("14_6gxdu")]
 position = Vector2(-130, 353)
 scale = Vector2(0.3, 0.3)
@@ -160,6 +156,9 @@ point_b = Vector2(154, 73)
 position = Vector2(414, 485.00003)
 scale = Vector2(0.3, 0.3)
 start_visible = false
+
+[node name="LevelCore" parent="LevelElements" instance=ExtResource("16_h3m2t")]
+position = Vector2(-606, 475)
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color(0, 0, 0, 1)
