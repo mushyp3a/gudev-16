@@ -1196,8 +1196,8 @@ anchors_preset = -1
 anchor_right = 0.44400004
 anchor_bottom = 0.95100003
 offset_left = -2.0
-offset_top = 119.0
-offset_right = -3.488037
+offset_top = 501.0
+offset_right = -235.48004
 offset_bottom = 118.75195
 grow_horizontal = 2
 grow_vertical = 2
@@ -1206,46 +1206,46 @@ theme_override_constants/margin_top = 150
 theme_override_constants/margin_right = 30
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-custom_minimum_size = Vector2(450, 400)
+custom_minimum_size = Vector2(350, 400)
 layout_mode = 2
 theme_override_constants/separation = 15
 
 [node name="Start Button" type="Button" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(100, 150)
+custom_minimum_size = Vector2(200, 150)
 layout_mode = 2
 theme = ExtResource("1_tqay6")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_11ndu")
 text = "START"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(270, 0)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 12
 
 [node name="Lore" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(250, 50)
+custom_minimum_size = Vector2(300, 65)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("1_tqay6")
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7dsen")
 text = "LORE"
 
 [node name="Credits" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(250, 50)
+custom_minimum_size = Vector2(300, 65)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("1_tqay6")
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7dsen")
 text = "CREDITS"
 
 [node name="Quit" type="Button" parent="MarginContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(250, 50)
+custom_minimum_size = Vector2(300, 65)
 layout_mode = 2
 size_flags_horizontal = 0
 theme = ExtResource("1_tqay6")
-theme_override_font_sizes/font_size = 25
+theme_override_font_sizes/font_size = 30
 theme_override_styles/focus = SubResource("StyleBoxEmpty_7dsen")
 text = "QUIT"
 

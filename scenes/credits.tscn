@@ -75,17 +75,18 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/MarginContainer2"]
-custom_minimum_size = Vector2(500, 400)
+custom_minimum_size = Vector2(850, 400)
 layout_mode = 2
 size_flags_horizontal = 0
+theme_override_constants/separation = 30
 
 [node name="heading" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
-custom_minimum_size = Vector2(350, 150)
+custom_minimum_size = Vector2(400, 150)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_fonts/normal_font = ExtResource("2_0ctdu")
-theme_override_font_sizes/normal_font_size = 80
+theme_override_font_sizes/normal_font_size = 95
 text = "Credits"
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -96,7 +97,7 @@ layout_mode = 2
 theme_override_constants/line_separation = 5
 theme_override_constants/table_h_separation = 3
 theme_override_fonts/normal_font = ExtResource("2_0ctdu")
-theme_override_font_sizes/normal_font_size = 28
+theme_override_font_sizes/normal_font_size = 35
 text = "Programming - Mackenzie + Oliver
 Music - Mackenzie
 Art - Reuben
