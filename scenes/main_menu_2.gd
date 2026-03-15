@@ -3,6 +3,7 @@ extends Control
 @onready var background = $background
 @onready var scene = $"/root/Diamond"
 @onready var transition = $Diamond
+@onready var boom = $boomboom
 
 var levels_completed:int = 0 
 var textures = [ 
@@ -23,7 +24,12 @@ func _ready() -> void:
 func _process(delta: float) -> void: 
 	pass 
 
-func _on_start_button_pressed() -> void: 
+func _on_start_button_pressed() -> void:
+	boom.play()
+
+	var wait_time = boom.stream.get_length() - 1.5
+	await get_tree().create_timer(wait_time).timeout
+
 	transition.change_scene("res://scenes/intro.tscn")
 	#idk whats going on
 	#the below line is a function in diamond.gd (for some reason it half works)

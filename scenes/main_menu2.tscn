@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="2_5dk12"]
 [ext_resource type="Texture2D" uid="uid://cxmxd46umnnf0" path="res://ui designs/Cyberpunk_background_intro.png" id="2_faqpa"]
 [ext_resource type="PackedScene" path="res://scenes/cyberpunk-shader.tscn" id="3_vvfmj"]
-[ext_resource type="AudioStream" uid="uid://b1bv57rnbsssg" path="res://sounds/cyberpunk.wav" id="6_11ndu"]
+[ext_resource type="AudioStream" uid="uid://dco8y6ygul23u" path="res://sounds/boom-intro.wav" id="6_11ndu"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -19,9 +19,6 @@ script = ExtResource("1_tvg03")
 [node name="Diamond" parent="." instance=ExtResource("2_5dk12")]
 
 [node name="cyberpunk-shader" parent="." instance=ExtResource("3_vvfmj")]
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_11ndu")
 
 [node name="background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -90,6 +87,9 @@ size_flags_horizontal = 0
 theme = ExtResource("1_tqay6")
 theme_override_font_sizes/font_size = 25
 text = "QUIT"
+
+[node name="boomboom" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_11ndu")
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Start Button" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/VBoxContainer/Lore" to="." method="_on_lore_pressed"]

@@ -3,6 +3,7 @@ extends Control
 @export var tex : TextureRect
 @export var sceneName : String
 @export var diamond : CanvasLayer
+@export var bump : AudioStreamPlayer2D
 
 var start_pos : Vector2
 
@@ -15,6 +16,7 @@ func _on_mouse_exited():
 func _gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
+			bump.play()
 			diamond.change_scene("res://scenes/" + sceneName + ".tscn")
 
 func expand():

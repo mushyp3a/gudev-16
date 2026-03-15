@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://c44acsju21ayd"]
+
+[ext_resource type="Script" uid="uid://u61kbpxsxml3" path="res://scripts/level-core.gd" id="1_core_script"]
+[ext_resource type="Texture2D" uid="uid://c40ywp28saast" path="res://art/Cyberpunk_block.png" id="2_core_sprite"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_core"]
+size = Vector2(362, 323)
+
+[node name="LevelCore" type="Area2D"]
+collision_layer = 2
+script = ExtResource("1_core_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_core_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_core")

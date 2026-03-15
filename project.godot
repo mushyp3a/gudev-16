@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="gudev-16"
-run/main_scene="res://scenes/replay-testing-scene-2.tscn"
+run/main_scene="uid://c7clm10k3xbqo"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -21,6 +21,7 @@ global="*res://global.gd"
 levels_completed="*res://levels_completed.gd"
 ShaderManager="*res://scripts/shader-manager.gd"
 Music="*res://scenes/sounds/music.tscn"
+ScreenColorSampler="*res://scripts/screen-color-sampler.gd"
 
 [display]
 
@@ -100,4 +101,4 @@ interact={
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.99607843, 0.6156863, 0.3882353, 1)
+environment/defaults/default_clear_color=Color(0.15, 0.25, 0.35, 1)

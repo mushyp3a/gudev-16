@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c2yb4wikmg6qh"]
+[gd_scene load_steps=13 format=3 uid="uid://c2yb4wikmg6qh"]
 
 [ext_resource type="Script" uid="uid://dtt5s54wk1e4y" path="res://scenes/level_selection.gd" id="1_fyp2k"]
 [ext_resource type="Theme" uid="uid://8sv5ae01o7bn" path="res://ui designs/button theme (2).theme" id="1_jgwpm"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dygon5g4pso16" path="res://art/building3.png" id="7_0rqca"]
 [ext_resource type="Texture2D" uid="uid://lu36ty3ric6u" path="res://art/building4.png" id="8_2wv3l"]
 [ext_resource type="FontFile" uid="uid://vm3adp50g3p0" path="res://fonts/Quadaptor.otf" id="11_e545p"]
+[ext_resource type="AudioStream" uid="uid://dx1mro45wgeux" path="res://sounds/jump-fx.wav" id="12_qy6r0"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -27,7 +28,7 @@ script = ExtResource("1_fyp2k")
 
 [node name="Buttons" type="Node" parent="."]
 
-[node name="building1" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond")]
+[node name="building1" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond", "bump")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 57.6
@@ -38,6 +39,7 @@ script = ExtResource("4_ujbu7")
 tex = NodePath("../../background/TextureRect")
 sceneName = "platformer-scene"
 diamond = NodePath("../../Diamond")
+bump = NodePath("../../lilBump")
 
 [node name="building2" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond")]
 layout_mode = 3
@@ -61,7 +63,7 @@ script = ExtResource("4_ujbu7")
 tex = NodePath("../../background/TextureRect3")
 diamond = NodePath("../../Diamond")
 
-[node name="building4" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond")]
+[node name="building4" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond", "bump")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1508.0
@@ -71,6 +73,7 @@ offset_bottom = 1089.0
 script = ExtResource("4_ujbu7")
 tex = NodePath("../../background/TextureRect4")
 diamond = NodePath("../../Diamond")
+bump = NodePath("../../lilBump")
 
 [node name="background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -203,6 +206,9 @@ grow_horizontal = 2
 theme_override_fonts/font = ExtResource("11_e545p")
 theme_override_font_sizes/font_size = 96
 text = "Destroy their towers"
+
+[node name="lilBump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_qy6r0")
 
 [connection signal="mouse_entered" from="Buttons/building1" to="Buttons/building1" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/building1" to="Buttons/building1" method="_on_mouse_exited"]
