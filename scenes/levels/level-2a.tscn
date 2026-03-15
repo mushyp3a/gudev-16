@@ -1,25 +1,25 @@
-[gd_scene load_steps=19 format=3 uid="uid://rvvx6i02f3wm"]
+[gd_scene load_steps=19 format=3 uid="uid://dy8ted0841xn"]
 
-[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="1_gf5pd"]
-[ext_resource type="PackedScene" uid="uid://bak62xkbu1v04" path="res://scenes/cassette.tscn" id="2_2l4ai"]
-[ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="3_mpv8i"]
-[ext_resource type="Texture2D" uid="uid://bju52kjgk1unh" path="res://art/bg/Interior.png" id="4_403ay"]
-[ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="5_41q7a"]
-[ext_resource type="Script" uid="uid://cnbxdnlx48d7p" path="res://scripts/clone_manager.gd" id="7_8aktb"]
-[ext_resource type="Script" uid="uid://bvp0ygp2c6wg2" path="res://scripts/clone_config.gd" id="8_cfoc6"]
-[ext_resource type="Script" uid="uid://c3yn46mhpywyd" path="res://scripts/recording_system.gd" id="9_37546"]
-[ext_resource type="PackedScene" uid="uid://l8va46asmpts" path="res://scenes/level-elements/lever.tscn" id="10_ay5wj"]
-[ext_resource type="PackedScene" uid="uid://ckt4dajo0wct4" path="res://scenes/level-elements/door.tscn" id="11_vnw71"]
-[ext_resource type="PackedScene" uid="uid://cyuhyisihw572" path="res://scenes/level-elements/pressure-plate.tscn" id="12_6xlxe"]
-[ext_resource type="PackedScene" uid="uid://crate2preset" path="res://scenes/props/create-norm.tscn" id="14_6gxdu"]
-[ext_resource type="PackedScene" uid="uid://cyyjrf5j16wm5" path="res://scenes/props/crate-moving.tscn" id="15_ixq74"]
-[ext_resource type="PackedScene" uid="uid://bkebr75413v26" path="res://scenes/props/level-exit.tscn" id="16_h3m2t"]
-[ext_resource type="Texture2D" uid="uid://d3xnxmpqbhncl" path="res://ui designs/Cyberpunk_background_1.png" id="18_kwl1m"]
+[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="1_1ix62"]
+[ext_resource type="PackedScene" uid="uid://bak62xkbu1v04" path="res://scenes/cassette.tscn" id="2_685dq"]
+[ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="3_3mlnm"]
+[ext_resource type="Texture2D" uid="uid://bju52kjgk1unh" path="res://art/bg/Interior.png" id="4_ux8lk"]
+[ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="5_ewown"]
+[ext_resource type="Script" uid="uid://cnbxdnlx48d7p" path="res://scripts/clone_manager.gd" id="6_b618b"]
+[ext_resource type="Script" uid="uid://bvp0ygp2c6wg2" path="res://scripts/clone_config.gd" id="7_66v34"]
+[ext_resource type="Script" uid="uid://c3yn46mhpywyd" path="res://scripts/recording_system.gd" id="8_14tv5"]
+[ext_resource type="PackedScene" uid="uid://l8va46asmpts" path="res://scenes/level-elements/lever.tscn" id="9_ad8jv"]
+[ext_resource type="PackedScene" uid="uid://ckt4dajo0wct4" path="res://scenes/level-elements/door.tscn" id="10_ntv44"]
+[ext_resource type="PackedScene" uid="uid://cyuhyisihw572" path="res://scenes/level-elements/pressure-plate.tscn" id="11_hhb5p"]
+[ext_resource type="PackedScene" uid="uid://crate2preset" path="res://scenes/props/create-norm.tscn" id="12_aqplb"]
+[ext_resource type="Texture2D" uid="uid://d3xnxmpqbhncl" path="res://ui designs/Cyberpunk_background_1.png" id="13_tlafw"]
+[ext_resource type="PackedScene" uid="uid://cyyjrf5j16wm5" path="res://scenes/props/crate-moving.tscn" id="14_u2qny"]
+[ext_resource type="PackedScene" uid="uid://bkebr75413v26" path="res://scenes/props/level-exit.tscn" id="16_op1nl"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
 
 [sub_resource type="Resource" id="Resource_ic0r7"]
-script = ExtResource("8_cfoc6")
+script = ExtResource("7_66v34")
 metadata/_custom_type_script = "uid://bvp0ygp2c6wg2"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ug2m1"]
@@ -27,12 +27,12 @@ size = Vector2(20, 2000)
 
 [node name="Game" type="Node2D"]
 
-[node name="Diamond" parent="." instance=ExtResource("1_gf5pd")]
+[node name="Diamond" parent="." instance=ExtResource("1_1ix62")]
 
-[node name="CanvasLayer" parent="." instance=ExtResource("2_2l4ai")]
+[node name="CanvasLayer" parent="." instance=ExtResource("2_685dq")]
 layer = 1000
 
-[node name="cyberpunk-shader" parent="." instance=ExtResource("3_mpv8i")]
+[node name="cyberpunk-shader" parent="." instance=ExtResource("3_3mlnm")]
 layer = 2000
 
 [node name="bg" type="ColorRect" parent="."]
@@ -50,9 +50,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_403ay")
+texture = ExtResource("4_ux8lk")
 
-[node name="Player" parent="." instance=ExtResource("5_41q7a")]
+[node name="Player" parent="." instance=ExtResource("5_ewown")]
 position = Vector2(146.99998, 319)
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -66,13 +66,13 @@ collision_mask = 5
 shape = SubResource("WorldBoundaryShape2D_ug2m1")
 
 [node name="CloneManager" type="Node" parent="." node_paths=PackedStringArray("recording_system", "player_node")]
-script = ExtResource("7_8aktb")
+script = ExtResource("6_b618b")
 config = SubResource("Resource_ic0r7")
 recording_system = NodePath("../RecordingSystem")
 player_node = NodePath("../Player")
 
 [node name="RecordingSystem" type="Node" parent="." node_paths=PackedStringArray("player")]
-script = ExtResource("9_37546")
+script = ExtResource("8_14tv5")
 player = NodePath("../Player")
 
 [node name="Control" type="Control" parent="."]
@@ -104,57 +104,57 @@ vertical_alignment = 1
 [node name="PuzzleElements" type="Node2D" parent="."]
 position = Vector2(0, -134)
 
-[node name="Lever" parent="PuzzleElements" instance=ExtResource("10_ay5wj")]
+[node name="Lever" parent="PuzzleElements" instance=ExtResource("9_ad8jv")]
 z_index = 100
 position = Vector2(750, 146.00002)
 rotation = -1.5707964
 
-[node name="Door" parent="PuzzleElements" instance=ExtResource("11_vnw71")]
+[node name="Door" parent="PuzzleElements" instance=ExtResource("10_ntv44")]
 position = Vector2(39, 457)
 
-[node name="PressurePlate" parent="PuzzleElements" instance=ExtResource("12_6xlxe")]
+[node name="PressurePlate" parent="PuzzleElements" instance=ExtResource("11_hhb5p")]
 position = Vector2(-605, 275)
 
 [node name="LevelElements" type="Node2D" parent="."]
 position = Vector2(0, -134)
 
-[node name="Crate2" parent="LevelElements" instance=ExtResource("14_6gxdu")]
+[node name="Crate2" parent="LevelElements" instance=ExtResource("12_aqplb")]
 position = Vector2(-8, 333)
 scale = Vector2(0.3, 0.3)
 
-[node name="Crate13" parent="LevelElements" instance=ExtResource("14_6gxdu")]
+[node name="Crate13" parent="LevelElements" instance=ExtResource("12_aqplb")]
 position = Vector2(128, -161)
 scale = Vector2(0.3, 0.3)
 
-[node name="Crate14" parent="LevelElements" instance=ExtResource("14_6gxdu")]
+[node name="Crate14" parent="LevelElements" instance=ExtResource("12_aqplb")]
 position = Vector2(247.00002, -161)
 scale = Vector2(0.3, 0.3)
 
-[node name="Crate5" parent="LevelElements" instance=ExtResource("14_6gxdu")]
+[node name="Crate5" parent="LevelElements" instance=ExtResource("12_aqplb")]
 position = Vector2(-792, 168)
 scale = Vector2(0.3, 0.3)
 
-[node name="Crate11" parent="LevelElements" instance=ExtResource("14_6gxdu")]
+[node name="Crate11" parent="LevelElements" instance=ExtResource("12_aqplb")]
 position = Vector2(-466.00003, 65)
 scale = Vector2(0.3, 0.3)
 
-[node name="Crate6" parent="LevelElements" instance=ExtResource("14_6gxdu")]
+[node name="Crate6" parent="LevelElements" instance=ExtResource("12_aqplb")]
 position = Vector2(-616, 329)
 scale = Vector2(0.3, 0.3)
 
-[node name="Crate7" parent="LevelElements" instance=ExtResource("14_6gxdu")]
+[node name="Crate7" parent="LevelElements" instance=ExtResource("12_aqplb")]
 position = Vector2(-369, 451)
 scale = Vector2(0.3, 0.3)
 
-[node name="Crate8" parent="LevelElements" instance=ExtResource("14_6gxdu")]
+[node name="Crate8" parent="LevelElements" instance=ExtResource("12_aqplb")]
 position = Vector2(715, 262)
 scale = Vector2(0.3, 0.3)
 
-[node name="Crate9" parent="LevelElements" instance=ExtResource("14_6gxdu")]
+[node name="Crate9" parent="LevelElements" instance=ExtResource("12_aqplb")]
 position = Vector2(551, 370)
 scale = Vector2(0.3, 0.3)
 
-[node name="Crate10" parent="LevelElements" instance=ExtResource("14_6gxdu")]
+[node name="Crate10" parent="LevelElements" instance=ExtResource("12_aqplb")]
 position = Vector2(348, 465)
 scale = Vector2(0.3, 0.3)
 
@@ -171,15 +171,15 @@ modulate = Color(0, 0, 0, 1)
 z_index = -100
 position = Vector2(530, 431)
 rotation = -1.5707964
-texture = ExtResource("18_kwl1m")
+texture = ExtResource("13_tlafw")
 
-[node name="CrateMoving" parent="LevelElements" instance=ExtResource("15_ixq74")]
+[node name="CrateMoving" parent="LevelElements" instance=ExtResource("14_u2qny")]
 position = Vector2(-136, 10)
 scale = Vector2(0.3, 0.3)
 point_a = Vector2(-136, -3)
 point_b = Vector2(-136, -168)
 
-[node name="LevelCore" parent="LevelElements" instance=ExtResource("16_h3m2t")]
+[node name="LevelCore" parent="LevelElements" instance=ExtResource("16_op1nl")]
 position = Vector2(181, -292)
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -188,7 +188,7 @@ offset_left = -967.0
 offset_top = 405.0
 offset_right = 953.0
 offset_bottom = 1485.0
-texture = ExtResource("18_kwl1m")
+texture = ExtResource("13_tlafw")
 
 [connection signal="switched" from="PuzzleElements/Lever" to="PuzzleElements/Door" method="on_switch_toggled"]
 [connection signal="activated" from="PuzzleElements/PressurePlate" to="LevelElements/CrateMoving" method="on_switch_toggled"]
