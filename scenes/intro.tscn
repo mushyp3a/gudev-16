@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://du5oy00tr107l"]
 
-[ext_resource type="Script" uid="uid://cvxxran4n7uln" path="res://scripts/intro-scene.gd" id="1_intro"]
-[ext_resource type="Shader" uid="uid://dywyx8dcdvfpw" path="res://shaders/intro_blur.gdshader" id="2_shader"]
+[ext_resource type="Script" path="res://scripts/intro-scene.gd" id="1_intro"]
+[ext_resource type="Shader" path="res://shaders/intro_blur.gdshader" id="2_shader"]
 [ext_resource type="FontFile" uid="uid://vm3adp50g3p0" path="res://fonts/Quadaptor.otf" id="3_font"]
-[ext_resource type="PackedScene" path="res://scenes/cyberpunk-shader.tscn" id="4_i2l1n"]
+[ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="4_i2l1n"]
 [ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="5_wfs7u"]
 [ext_resource type="AudioStream" uid="uid://qlfx5kd72t7n" path="res://sounds/ambience-cyberpunk.wav" id="6_es01l"]
 

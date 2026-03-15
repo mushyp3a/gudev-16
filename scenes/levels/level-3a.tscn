@@ -1,0 +1,228 @@
+[gd_scene load_steps=19 format=3 uid="uid://dxbpmb7vditto"]
+
+[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="1_p021g"]
+[ext_resource type="PackedScene" uid="uid://bak62xkbu1v04" path="res://scenes/cassette.tscn" id="2_62xci"]
+[ext_resource type="PackedScene" uid="uid://cjmsj0xt4extm" path="res://scenes/cyberpunk-shader.tscn" id="3_tmueq"]
+[ext_resource type="Texture2D" uid="uid://bju52kjgk1unh" path="res://art/bg/Interior.png" id="4_lljdn"]
+[ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="5_f8aef"]
+[ext_resource type="Script" uid="uid://cnbxdnlx48d7p" path="res://scripts/clone_manager.gd" id="6_wpkp5"]
+[ext_resource type="Script" uid="uid://bvp0ygp2c6wg2" path="res://scripts/clone_config.gd" id="7_wwg8v"]
+[ext_resource type="Script" uid="uid://c3yn46mhpywyd" path="res://scripts/recording_system.gd" id="8_evqe5"]
+[ext_resource type="PackedScene" uid="uid://l8va46asmpts" path="res://scenes/level-elements/lever.tscn" id="9_7ivga"]
+[ext_resource type="PackedScene" uid="uid://ckt4dajo0wct4" path="res://scenes/level-elements/door.tscn" id="10_u62sf"]
+[ext_resource type="PackedScene" uid="uid://cyuhyisihw572" path="res://scenes/level-elements/pressure-plate.tscn" id="11_f85cg"]
+[ext_resource type="PackedScene" uid="uid://crate2preset" path="res://scenes/props/create-norm.tscn" id="12_7q4gp"]
+[ext_resource type="Texture2D" uid="uid://d3xnxmpqbhncl" path="res://ui designs/Cyberpunk_background_1.png" id="13_mu0oh"]
+[ext_resource type="PackedScene" uid="uid://cyyjrf5j16wm5" path="res://scenes/props/crate-moving.tscn" id="14_gu1gi"]
+[ext_resource type="PackedScene" uid="uid://bkebr75413v26" path="res://scenes/props/level-exit.tscn" id="16_g61gf"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
+
+[sub_resource type="Resource" id="Resource_ic0r7"]
+script = ExtResource("7_wwg8v")
+metadata/_custom_type_script = "uid://bvp0ygp2c6wg2"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ug2m1"]
+size = Vector2(20, 2000)
+
+[node name="Game" type="Node2D"]
+
+[node name="Diamond" parent="." instance=ExtResource("1_p021g")]
+
+[node name="CanvasLayer" parent="." instance=ExtResource("2_62xci")]
+layer = 1000
+
+[node name="cyberpunk-shader" parent="." instance=ExtResource("3_tmueq")]
+layer = 2000
+
+[node name="bg" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="bg"]
+z_index = -1000
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_lljdn")
+
+[node name="Player" parent="." instance=ExtResource("5_f8aef")]
+position = Vector2(-20, 271)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(-48, 406)
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape2D_ug2m1")
+
+[node name="CloneManager" type="Node" parent="." node_paths=PackedStringArray("recording_system", "player_node")]
+script = ExtResource("6_wpkp5")
+config = SubResource("Resource_ic0r7")
+recording_system = NodePath("../RecordingSystem")
+player_node = NodePath("../Player")
+
+[node name="RecordingSystem" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("8_evqe5")
+player = NodePath("../Player")
+
+[node name="Control" type="Control" parent="."]
+z_index = -100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = 351.0
+offset_right = -50.0
+offset_bottom = 351.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SelectionIndicator" type="Label" parent="Control"]
+z_index = 100
+layout_mode = 0
+offset_left = -11.0
+offset_top = -21.0
+offset_right = 12.0
+offset_bottom = 21.0
+theme_override_colors/font_color = Color(0.40784314, 0.73333335, 0.34901962, 1)
+theme_override_font_sizes/font_size = 30
+text = "▼"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PuzzleElements" type="Node2D" parent="."]
+position = Vector2(0, -134)
+
+[node name="Lever" parent="PuzzleElements" instance=ExtResource("9_7ivga")]
+z_index = 100
+position = Vector2(-932.00006, 241.00003)
+rotation = 1.5707964
+
+[node name="Door" parent="PuzzleElements" instance=ExtResource("10_u62sf")]
+position = Vector2(-734, 234)
+
+[node name="Door2" parent="PuzzleElements" instance=ExtResource("10_u62sf")]
+position = Vector2(198, 465)
+
+[node name="Door3" parent="PuzzleElements" instance=ExtResource("10_u62sf")]
+position = Vector2(313, 467)
+
+[node name="PressurePlate" parent="PuzzleElements" instance=ExtResource("11_f85cg")]
+position = Vector2(-281, -190)
+
+[node name="PressurePlate2" parent="PuzzleElements" instance=ExtResource("11_f85cg")]
+position = Vector2(307, 288)
+
+[node name="PressurePlate3" parent="PuzzleElements" instance=ExtResource("11_f85cg")]
+position = Vector2(-197, 251)
+
+[node name="LevelElements" type="Node2D" parent="."]
+position = Vector2(0, -134)
+
+[node name="Crate2" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(363, 345)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate7" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(-901, 354)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate8" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(-783, 354)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate9" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(-901, 113)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate12" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(49, 301)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate16" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(-286, -135)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate13" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(-358, 466.00003)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate14" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(-198, 303)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate15" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(-420, 146)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate10" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(-784.00006, 113)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate11" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(-665.00006, 354)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate4" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(718, 345)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate5" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(599, 345)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate6" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(481, 345)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate3" parent="LevelElements" instance=ExtResource("12_7q4gp")]
+position = Vector2(247, 345)
+scale = Vector2(0.3, 0.3)
+
+[node name="Wall" type="StaticBody2D" parent="LevelElements"]
+position = Vector2(786, -21)
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelElements/Wall"]
+shape = SubResource("RectangleShape2D_ug2m1")
+
+[node name="Sprite2D" type="Sprite2D" parent="LevelElements/Wall"]
+modulate = Color(0, 0, 0, 1)
+z_index = -100
+position = Vector2(530, 431)
+rotation = -1.5707964
+texture = ExtResource("13_mu0oh")
+
+[node name="CrateMoving" parent="LevelElements" instance=ExtResource("14_gu1gi")]
+position = Vector2(-839, -34)
+scale = Vector2(0.3, 0.3)
+point_a = Vector2(-839, -15)
+point_b = Vector2(-577, -15)
+
+[node name="LevelCore" parent="LevelElements" instance=ExtResource("16_g61gf")]
+position = Vector2(681, 469)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_left = -967.0
+offset_top = 405.0
+offset_right = 953.0
+offset_bottom = 1485.0
+texture = ExtResource("13_mu0oh")
+
+[connection signal="switched" from="PuzzleElements/Lever" to="PuzzleElements/Door2" method="on_switch_toggled"]
+[connection signal="activated" from="PuzzleElements/PressurePlate" to="PuzzleElements/Door" method="on_switch_toggled"]
+[connection signal="activated" from="PuzzleElements/PressurePlate2" to="LevelElements/CrateMoving" method="on_switch_toggled"]
+[connection signal="activated" from="PuzzleElements/PressurePlate3" to="PuzzleElements/Door3" method="on_switch_toggled"]

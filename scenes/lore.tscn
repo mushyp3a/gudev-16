@@ -82,22 +82,49 @@ layout_mode = 2
 size_flags_horizontal = 0
 
 [node name="heading" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
-custom_minimum_size = Vector2(200, 150)
+custom_minimum_size = Vector2(450, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/normal_font = ExtResource("3_fiw8w")
+theme_override_font_sizes/normal_font_size = 90
+text = "
+Controls"
+
+[node name="controls" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(100, 150)
+layout_mode = 2
+theme_override_constants/line_separation = 5
+theme_override_constants/table_h_separation = 3
+theme_override_fonts/normal_font = ExtResource("3_fiw8w")
+theme_override_font_sizes/normal_font_size = 40
+text = "Movement - WASD
+
+Access Cassette - Tab"
+horizontal_alignment = 1
+
+[node name="How to play" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(500, 175)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_fonts/normal_font = ExtResource("3_fiw8w")
 theme_override_font_sizes/normal_font_size = 80
 text = "
-LORE"
+How to Play"
 
-[node name="lore" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
-custom_minimum_size = Vector2(100, 300)
+[node name="player instructions" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(100, 700)
 layout_mode = 2
 theme_override_constants/line_separation = 5
 theme_override_constants/table_h_separation = 3
 theme_override_fonts/normal_font = ExtResource("3_fiw8w")
-theme_override_font_sizes/normal_font_size = 25
-text = "LORE LORE LORE GUYS THE LORE THE LORE IS SO CRAZY GUYS MOOORE LORE GUYS THERES EVEN MORE LORE NOW"
+theme_override_font_sizes/normal_font_size = 40
+text = "Use the casstte player to control your different clones, allowing you to ineract with multiple things at once
+
+Each Number on the cassette corresponds with a different clone
+
+Click on different buildings to select once to destroy, then scale the building and find the core to destroy it, you will need to use mulitple clones to open doors and move platforms to get there though!"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="MarginContainer/Button" to="." method="_on_button_pressed"]
