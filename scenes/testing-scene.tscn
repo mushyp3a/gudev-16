@@ -1,0 +1,140 @@
+[gd_scene load_steps=16 format=3 uid="uid://ditkkn5g1ktrw"]
+
+[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="1_pqx4s"]
+[ext_resource type="PackedScene" uid="uid://bak62xkbu1v04" path="res://scenes/cassette.tscn" id="2_5ms3q"]
+[ext_resource type="PackedScene" path="res://scenes/cyberpunk-shader.tscn" id="3_vqcix"]
+[ext_resource type="Texture2D" uid="uid://bju52kjgk1unh" path="res://art/bg/Interior.png" id="4_gauo8"]
+[ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="5_3l6l5"]
+[ext_resource type="Texture2D" uid="uid://bqobpiiy7u16x" path="res://art/Cyberpunk_crate_3.png" id="6_pqx4s"]
+[ext_resource type="Script" path="res://scripts/clone_manager.gd" id="7_psyvp"]
+[ext_resource type="Script" path="res://scripts/clone_config.gd" id="8_lenab"]
+[ext_resource type="Script" path="res://scripts/recording_system.gd" id="9_lwvju"]
+[ext_resource type="PackedScene" uid="uid://l8va46asmpts" path="res://scenes/level-elements/lever.tscn" id="10_h2kf0"]
+[ext_resource type="PackedScene" uid="uid://ckt4dajo0wct4" path="res://scenes/level-elements/door.tscn" id="11_l2h2i"]
+[ext_resource type="PackedScene" uid="uid://cyuhyisihw572" path="res://scenes/level-elements/pressure-plate.tscn" id="12_ue3sk"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ug2m1"]
+size = Vector2(20, 2000)
+
+[sub_resource type="Resource" id="Resource_ic0r7"]
+script = ExtResource("8_lenab")
+time_limit = 5.0
+metadata/_custom_type_script = "uid://bvp0ygp2c6wg2"
+
+[node name="Game" type="Node2D"]
+
+[node name="Diamond" parent="." instance=ExtResource("1_pqx4s")]
+
+[node name="CanvasLayer" parent="." instance=ExtResource("2_5ms3q")]
+layer = 1000
+
+[node name="cyberpunk-shader" parent="." instance=ExtResource("3_vqcix")]
+
+[node name="bg" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="bg"]
+z_index = -1000
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_gauo8")
+
+[node name="Player" parent="." instance=ExtResource("5_3l6l5")]
+position = Vector2(-50, 485)
+scale = Vector2(0.15, 0.15)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(-48, 540)
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape2D_ug2m1")
+
+[node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2(786, -21)
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+shape = SubResource("RectangleShape2D_ug2m1")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall"]
+z_index = -100
+position = Vector2(149, 448)
+rotation = -1.5707964
+texture = ExtResource("6_pqx4s")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Wall"]
+z_index = -100
+position = Vector2(149, -204)
+rotation = -1.5707964
+texture = ExtResource("6_pqx4s")
+
+[node name="CloneManager" type="Node" parent="." node_paths=PackedStringArray("recording_system", "player_node")]
+script = ExtResource("7_psyvp")
+config = SubResource("Resource_ic0r7")
+recording_system = NodePath("../RecordingSystem")
+player_node = NodePath("../Player")
+
+[node name="RecordingSystem" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("9_lwvju")
+player = NodePath("../Player")
+
+[node name="Lever" parent="." instance=ExtResource("10_h2kf0")]
+z_index = 100
+position = Vector2(323, 507)
+scale = Vector2(0.6, 0.6)
+
+[node name="Door" parent="." instance=ExtResource("11_l2h2i")]
+position = Vector2(-128, 396)
+scale = Vector2(2, 2)
+
+[node name="Door2" parent="." instance=ExtResource("11_l2h2i")]
+position = Vector2(473, 397)
+scale = Vector2(2, 2)
+
+[node name="PressurePlate" parent="." instance=ExtResource("12_ue3sk")]
+position = Vector2(126, 528)
+scale = Vector2(0.6, 0.6)
+
+[node name="Control" type="Control" parent="."]
+z_index = -100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = 485.0
+offset_right = -50.0
+offset_bottom = 485.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SelectionIndicator" type="Label" parent="Control"]
+z_index = 100
+layout_mode = 0
+offset_left = -11.0
+offset_top = -21.0
+offset_right = 12.0
+offset_bottom = 21.0
+theme_override_colors/font_color = Color(0.40784314, 0.73333335, 0.34901962, 1)
+theme_override_font_sizes/font_size = 30
+text = "▼"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="switched" from="Lever" to="Door" method="on_switch_toggled"]
+[connection signal="activated" from="PressurePlate" to="Door2" method="on_switch_toggled"]

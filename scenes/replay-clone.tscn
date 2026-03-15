@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://4thnh388de76"]
+[gd_scene load_steps=29 format=3 uid="uid://jfinhcx3ce21"]
 
 [ext_resource type="Script" uid="uid://cpmymecowypes" path="res://scripts/clone-animator.gd" id="1_om8nu"]
 [ext_resource type="Script" uid="uid://boehex7b8mqgb" path="res://scripts/replay-clone.gd" id="2_menae"]
@@ -1146,8 +1146,8 @@ scale_curve = SubResource("CurveTexture_sdbcs")
 color_ramp = SubResource("GradientTexture1D_qhqgy")
 alpha_curve = SubResource("CurveTexture_rqy57")
 
-[node name="ReplayClone" type="CharacterBody2D"]
-scale = Vector2(0.075, 0.075)
+[node name="ReplayClone" type="CharacterBody2D" groups=["clone"]]
+scale = Vector2(0.1, 0.1)
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_om8nu")
@@ -1267,8 +1267,8 @@ texture = ExtResource("10_tkhd6")
 [node name="DeathParticles" type="GPUParticles2D" parent="."]
 emitting = false
 amount = 100
+texture = ExtResource("4_sdbcs")
 lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_om8nu")
-texture = ExtResource("4_sdbcs")

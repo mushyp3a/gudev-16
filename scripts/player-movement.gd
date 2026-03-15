@@ -22,7 +22,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animator = $Skeleton2D/hips/AnimationPlayer
 @onready var skeleton = $Skeleton2D
 
-## Reference to CloneManager (found dynamically)
 var clone_manager: CloneManager = null
 
 var has_double_jump := true
@@ -35,19 +34,24 @@ var slide_timer := 0.0
 var slide_cooldown_timer := 0.0
 var slide_direction := 1.0
 
+var wall_jump_enabled := false
+var double_jump_enabled := false
+
 func play_anim(anim_name: String):
 	if animator.current_animation != anim_name:
 		animator.play(anim_name, 0.15)
 
 func _ready():
-	_find_clone_manager()
+	var root = get_tree().root
+	clone_manager = root.get_node_or_null("CloneManager")
+	if clone_manager == null:
+		clone_manager = root.find_child("CloneManager", true, false)
+
 	ShaderManager.go_to_plan()
 
-	# Connect to CloneManager state changes to control visibility
 	if clone_manager:
 		clone_manager.state_changed.connect(_on_state_changed)
 
-## Reset all movement state (called when returning to spawn)
 func reset_movement_state() -> void:
 	velocity = Vector2.ZERO
 	is_sliding = false
@@ -57,18 +61,6 @@ func reset_movement_state() -> void:
 	wall_jump_cooldown = 0.0
 	has_double_jump = true
 
-## Find the CloneManager node in the scene tree
-func _find_clone_manager() -> void:
-	var root = get_tree().root
-	clone_manager = root.get_node_or_null("CloneManager")
-
-	if clone_manager == null:
-		clone_manager = root.find_child("CloneManager", true, false)
-
-	if clone_manager == null:
-		push_warning("PlayerMovement: Could not find CloneManager node")
-
-## Handle CloneManager state changes to control player visibility
 func _on_state_changed(new_state: CloneState.State) -> void:
 	match new_state:
 		CloneState.State.IDLE:
@@ -81,8 +73,6 @@ func _on_state_changed(new_state: CloneState.State) -> void:
 			visible = false
 
 func _physics_process(delta):
-	# Block all player input while planning or waiting for first move after Record
-	# Player can only move during RECORDING state
 	var frozen = false
 	if clone_manager:
 		frozen = clone_manager.current_state != CloneState.State.RECORDING
@@ -108,6 +98,7 @@ func _physics_process(delta):
 			wall.emitting = true
 			slideFx.play()
 			last_wall_normal = get_wall_normal()
+			wall.position.x = abs(wall.position.x) * -last_wall_normal.x
 			velocity.y = move_toward(velocity.y, WALL_SLIDE_GRAVITY, gravity * delta)
 		else:
 			velocity.y += gravity * delta * GRAVITY_MULT
@@ -147,7 +138,7 @@ func _physics_process(delta):
 				jumpFx.play()
 				floor.restart()
 				floor.emitting = true
-			elif is_wall_sliding:
+			elif is_wall_sliding and wall_jump_enabled:
 				if _get_input_direction() > 0 and wall.position.x < 0:
 					wall.position.x *= -1
 				elif _get_input_direction() < 0 and wall.position.x > 0:
@@ -157,7 +148,7 @@ func _physics_process(delta):
 				has_double_jump = true
 				wall_jump_cooldown = 0.18
 				jumpFx.play()
-			elif has_double_jump:
+			elif has_double_jump and double_jump_enabled:
 				ShaderManager.trigger_hit()
 				velocity.y = DOUBLE_JUMP_VELOCITY
 				has_double_jump = false

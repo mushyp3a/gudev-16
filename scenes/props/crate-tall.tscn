@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://crate1preset"]
+
+[ext_resource type="Texture2D" uid="uid://cecxlwsmolufv" path="res://art/Cyberpunk_crate_1.png" id="1_ltcbp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crate1"]
+size = Vector2(256, 494)
+
+[node name="Crate1" type="StaticBody2D"]
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ltcbp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_crate1")

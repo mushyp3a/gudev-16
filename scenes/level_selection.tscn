@@ -1,11 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://b18ejcu6pa32i"]
+[gd_scene load_steps=13 format=3 uid="uid://c2yb4wikmg6qh"]
 
 [ext_resource type="Script" uid="uid://dtt5s54wk1e4y" path="res://scenes/level_selection.gd" id="1_fyp2k"]
 [ext_resource type="Theme" uid="uid://8sv5ae01o7bn" path="res://ui designs/button theme (2).theme" id="1_jgwpm"]
-[ext_resource type="Texture2D" uid="uid://d3xnxmpqbhncl" path="res://ui designs/Cyberpunk_background_1.png" id="2_7dgy3"]
 [ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="2_tuscg"]
+[ext_resource type="PackedScene" path="res://scenes/cyberpunk-shader.tscn" id="3_42rqe"]
+[ext_resource type="Texture2D" uid="uid://cxmxd46umnnf0" path="res://ui designs/Cyberpunk_background_intro.png" id="4_42rqe"]
+[ext_resource type="Script" uid="uid://dwac2umrk7p6y" path="res://scripts/level-select.gd" id="4_ujbu7"]
+[ext_resource type="Texture2D" uid="uid://ch24x0jfqd3m1" path="res://art/building1.png" id="5_rcujv"]
+[ext_resource type="Texture2D" uid="uid://xhxgsur6wmic" path="res://art/building2.png" id="6_efsdc"]
+[ext_resource type="Texture2D" uid="uid://dygon5g4pso16" path="res://art/building3.png" id="7_0rqca"]
+[ext_resource type="Texture2D" uid="uid://lu36ty3ric6u" path="res://art/building4.png" id="8_2wv3l"]
+[ext_resource type="FontFile" uid="uid://vm3adp50g3p0" path="res://fonts/Quadaptor.otf" id="11_e545p"]
+[ext_resource type="AudioStream" uid="uid://dx1mro45wgeux" path="res://sounds/jump-fx.wav" id="12_qy6r0"]
 
-[node name="LevelSelection" type="Control"]
+[node name="Game" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,6 +24,57 @@ script = ExtResource("1_fyp2k")
 
 [node name="Diamond" parent="." instance=ExtResource("2_tuscg")]
 
+[node name="cyberpunk-shader" parent="." instance=ExtResource("3_42rqe")]
+
+[node name="Buttons" type="Node" parent="."]
+
+[node name="building1" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond", "bump")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 57.6
+offset_top = 167.4
+offset_right = 313.6
+offset_bottom = 1247.4
+script = ExtResource("4_ujbu7")
+tex = NodePath("../../background/TextureRect")
+sceneName = "levels/level-1"
+diamond = NodePath("../../Diamond")
+bump = NodePath("../../lilBump")
+
+[node name="building2" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 528.0
+offset_top = 103.0
+offset_right = 784.0
+offset_bottom = 1183.0
+script = ExtResource("4_ujbu7")
+tex = NodePath("../../background/TextureRect2")
+diamond = NodePath("../../Diamond")
+
+[node name="building3" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1052.0
+offset_top = 21.0
+offset_right = 1308.0
+offset_bottom = 1101.0
+script = ExtResource("4_ujbu7")
+tex = NodePath("../../background/TextureRect3")
+diamond = NodePath("../../Diamond")
+
+[node name="building4" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond", "bump")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1508.0
+offset_top = 9.0
+offset_right = 3428.0
+offset_bottom = 1089.0
+script = ExtResource("4_ujbu7")
+tex = NodePath("../../background/TextureRect4")
+diamond = NodePath("../../Diamond")
+bump = NodePath("../../lilBump")
+
 [node name="background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -23,8 +82,41 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_7dgy3")
+mouse_filter = 2
+texture = ExtResource("4_42rqe")
 expand_mode = 1
+
+[node name="TextureRect" type="TextureRect" parent="background"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(200, 600)
+mouse_filter = 2
+texture = ExtResource("5_rcujv")
+
+[node name="TextureRect2" type="TextureRect" parent="background"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(650, 600)
+mouse_filter = 2
+texture = ExtResource("6_efsdc")
+
+[node name="TextureRect3" type="TextureRect" parent="background"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+pivot_offset = Vector2(1200, 600)
+mouse_filter = 2
+texture = ExtResource("7_0rqca")
+
+[node name="TextureRect4" type="TextureRect" parent="background"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+pivot_offset = Vector2(1700, 600)
+mouse_filter = 2
+texture = ExtResource("8_2wv3l")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -45,6 +137,7 @@ theme_override_font_sizes/font_size = 20
 text = "BACK"
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.148
@@ -101,6 +194,30 @@ theme = ExtResource("1_jgwpm")
 theme_override_font_sizes/font_size = 40
 text = "LEVEL 4"
 
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -597.0
+offset_right = 597.0
+offset_bottom = 116.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("11_e545p")
+theme_override_font_sizes/font_size = 96
+text = "Destroy their towers"
+
+[node name="lilBump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_qy6r0")
+
+[connection signal="mouse_entered" from="Buttons/building1" to="Buttons/building1" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/building1" to="Buttons/building1" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Buttons/building2" to="Buttons/building2" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/building2" to="Buttons/building2" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Buttons/building3" to="Buttons/building3" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/building3" to="Buttons/building3" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Buttons/building4" to="Buttons/building4" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/building4" to="Buttons/building4" method="_on_mouse_exited"]
 [connection signal="pressed" from="MarginContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/levels 1-2/level 1" to="." method="_on_level_1_pressed"]
 [connection signal="pressed" from="MarginContainer2/VBoxContainer/levels 1-2/level 2" to="." method="_on_level_2_pressed"]

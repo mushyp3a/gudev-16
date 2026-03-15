@@ -39,7 +39,6 @@ var is_transitioning := false
 var transition_tween : Tween
 var music_tween : Tween
 var material : ShaderMaterial
-var music : AudioStreamPlayer2D
 
 const PLAN_PITCH = 0.5
 const RUN_PITCH = 1.0
@@ -56,8 +55,7 @@ func _on_node_added(node: Node):
 
 func _fetch_nodes():
 	material = get_tree().root.get_node("Game/cyberpunk-shader/ColorRect").material
-	music = get_tree().root.get_node("Game/AudioStreamPlayer2D")
-	music.pitch_scale = PLAN_PITCH
+	Music.pitch_scale = PLAN_PITCH
 	current_phase = "plan"
 	is_transitioning = false
 	apply_phase_instant(PHASE_PLAN)
@@ -125,12 +123,12 @@ func apply_phase_instant(phase: Dictionary):
 		material.set_shader_parameter(key, phase[key])
 
 func _tween_pitch(target: float, duration: float):
-	if !music or !is_instance_valid(music):
+	if !Music or !is_instance_valid(Music):
 		return
 	if music_tween:
 		music_tween.kill()
 	music_tween = create_tween()
-	music_tween.tween_property(music, "pitch_scale", target, duration)\
+	music_tween.tween_property(Music, "pitch_scale", target, duration)\
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 func trigger_hit(intensity: float = 1.0):
