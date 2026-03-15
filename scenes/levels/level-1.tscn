@@ -34,6 +34,7 @@ size = Vector2(20, 2000)
 layer = 1000
 
 [node name="cyberpunk-shader" parent="." instance=ExtResource("3_mpv8i")]
+layer = 2000
 
 [node name="bg" type="ColorRect" parent="."]
 anchors_preset = 15
