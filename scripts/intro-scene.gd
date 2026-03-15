@@ -4,9 +4,9 @@ extends Control
 	"People have been enhancing their bodies with technology for years ",
 	"But now massive tech company Obsidian Corp plan to release a virus ",
 	"Which would control the minds of anyone using these mechanical enhancements",
-	"The police wont listen, now it's up to you to stop them",
+	"The police won't listen, now it's up to you to stop them",
 	"Using your grandfather’s old time machine, you must travel back and break into their headquarters before the upload begins",
-	"you must destroy their plans before they can take control of millions",
+	"You must destroy their plans before they can take control of millions",
 ]
 
 @export var time_per_line: float = 3.0
