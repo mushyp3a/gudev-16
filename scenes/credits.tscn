@@ -49,14 +49,16 @@ text = "BACK"
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.26500002
-anchor_top = 0.085
-anchor_right = 0.734
-anchor_bottom = 0.915
-offset_left = -0.2800293
-offset_top = -0.08000183
-offset_right = -0.5680542
-offset_bottom = 0.079956055
+anchor_left = 0.26200002
+anchor_top = 0.17600001
+anchor_right = 0.73800004
+anchor_bottom = 0.85700005
+offset_left = -0.54003906
+offset_top = -0.08001709
+offset_right = 0.539917
+offset_bottom = 7.4399414
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 10
@@ -75,10 +77,10 @@ theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/MarginContainer2"]
-custom_minimum_size = Vector2(850, 400)
+custom_minimum_size = Vector2(875, 400)
 layout_mode = 2
 size_flags_horizontal = 0
-theme_override_constants/separation = 30
+theme_override_constants/separation = 40
 
 [node name="heading" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
 custom_minimum_size = Vector2(400, 150)
@@ -92,16 +94,25 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="credits" type="RichTextLabel" parent="MarginContainer2/MarginContainer2/VBoxContainer"]
-custom_minimum_size = Vector2(100, 300)
+custom_minimum_size = Vector2(100, 450)
 layout_mode = 2
 theme_override_constants/line_separation = 5
 theme_override_constants/table_h_separation = 3
 theme_override_fonts/normal_font = ExtResource("2_0ctdu")
 theme_override_font_sizes/normal_font_size = 35
-text = "Programming - Mackenzie + Oliver
-Music - Mackenzie
-Art - Reuben
-Ui - Leia"
+text = "———— programming ————
+player movement - mackenzie
+replay - oliver
+
+—————— art ———————
+art - reuben
+
+——————— ui ———————
+ui - leia
+
+———— level design ————
+levels - mackenzie
+levels - leia"
 horizontal_alignment = 1
 vertical_alignment = 1
 
