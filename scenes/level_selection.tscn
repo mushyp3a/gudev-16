@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c2yb4wikmg6qh"]
+[gd_scene load_steps=17 format=3 uid="uid://c2yb4wikmg6qh"]
 
 [ext_resource type="Script" uid="uid://dtt5s54wk1e4y" path="res://scenes/level_selection.gd" id="1_fyp2k"]
 [ext_resource type="Theme" uid="uid://8sv5ae01o7bn" path="res://ui designs/button theme (2).theme" id="1_jgwpm"]
@@ -7,8 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://cxmxd46umnnf0" path="res://ui designs/Cyberpunk_background_intro.png" id="4_42rqe"]
 [ext_resource type="Script" uid="uid://dwac2umrk7p6y" path="res://scripts/level-select.gd" id="4_ujbu7"]
 [ext_resource type="Texture2D" uid="uid://ch24x0jfqd3m1" path="res://art/building1.png" id="5_rcujv"]
+[ext_resource type="Texture2D" uid="uid://yati7ejptciq" path="res://art/fires/fire1.png" id="5_w3k4e"]
 [ext_resource type="Texture2D" uid="uid://xhxgsur6wmic" path="res://art/building2.png" id="6_efsdc"]
+[ext_resource type="Texture2D" uid="uid://bskctt4op03us" path="res://art/fires/fire2.png" id="6_ljdws"]
 [ext_resource type="Texture2D" uid="uid://dygon5g4pso16" path="res://art/building3.png" id="7_0rqca"]
+[ext_resource type="Texture2D" uid="uid://bhtsgsax3nwxq" path="res://art/fires/fire3.png" id="7_crhqw"]
+[ext_resource type="Texture2D" uid="uid://chvma4c8xhqsu" path="res://art/fires/fire4.png" id="8_0oihc"]
 [ext_resource type="Texture2D" uid="uid://lu36ty3ric6u" path="res://art/building4.png" id="8_2wv3l"]
 [ext_resource type="FontFile" uid="uid://vm3adp50g3p0" path="res://fonts/Quadaptor.otf" id="11_e545p"]
 [ext_resource type="AudioStream" uid="uid://dx1mro45wgeux" path="res://sounds/jump-fx.wav" id="12_qy6r0"]
@@ -28,7 +32,7 @@ script = ExtResource("1_fyp2k")
 
 [node name="Buttons" type="Node" parent="."]
 
-[node name="building1" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond", "bump")]
+[node name="building1" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond", "bump", "unlocked_sprite")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 57.6
@@ -37,11 +41,17 @@ offset_right = 313.6
 offset_bottom = 1247.4
 script = ExtResource("4_ujbu7")
 tex = NodePath("../../background/TextureRect")
-sceneName = "levels/level-1"
+sceneName = "levels/level-1a"
 diamond = NodePath("../../Diamond")
 bump = NodePath("../../lilBump")
+unlocked_sprite = NodePath("UnlockedSprite")
 
-[node name="building2" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond")]
+[node name="UnlockedSprite" type="Sprite2D" parent="Buttons/building1"]
+visible = false
+position = Vector2(28.400002, 63.600006)
+texture = ExtResource("5_w3k4e")
+
+[node name="building2" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond", "bump", "unlocked_sprite")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 528.0
@@ -51,8 +61,16 @@ offset_bottom = 1183.0
 script = ExtResource("4_ujbu7")
 tex = NodePath("../../background/TextureRect2")
 diamond = NodePath("../../Diamond")
+bump = NodePath("../../lilBump")
+tower_number = 2
+unlocked_sprite = NodePath("UnlockedSprite")
 
-[node name="building3" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond")]
+[node name="UnlockedSprite" type="Sprite2D" parent="Buttons/building2"]
+visible = false
+position = Vector2(-3.000023, 208)
+texture = ExtResource("6_ljdws")
+
+[node name="building3" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond", "bump", "unlocked_sprite")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1052.0
@@ -62,8 +80,16 @@ offset_bottom = 1101.0
 script = ExtResource("4_ujbu7")
 tex = NodePath("../../background/TextureRect3")
 diamond = NodePath("../../Diamond")
+bump = NodePath("../../lilBump")
+tower_number = 3
+unlocked_sprite = NodePath("UnlockedSprite")
 
-[node name="building4" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond", "bump")]
+[node name="UnlockedSprite" type="Sprite2D" parent="Buttons/building3"]
+visible = false
+position = Vector2(-37.000023, 129)
+texture = ExtResource("7_crhqw")
+
+[node name="building4" type="Control" parent="Buttons" node_paths=PackedStringArray("tex", "diamond", "bump", "unlocked_sprite")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1508.0
@@ -74,6 +100,13 @@ script = ExtResource("4_ujbu7")
 tex = NodePath("../../background/TextureRect4")
 diamond = NodePath("../../Diamond")
 bump = NodePath("../../lilBump")
+tower_number = 4
+unlocked_sprite = NodePath("UnlockedSprite")
+
+[node name="UnlockedSprite" type="Sprite2D" parent="Buttons/building4"]
+visible = false
+position = Vector2(168.99997, 209)
+texture = ExtResource("8_0oihc")
 
 [node name="background" type="TextureRect" parent="."]
 layout_mode = 1

@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://bak62xkbu1v04"]
+[gd_scene load_steps=12 format=3 uid="uid://bak62xkbu1v04"]
 
 [ext_resource type="Script" uid="uid://di208arwp05he" path="res://scripts/timer-updater.gd" id="1_i7tjp"]
 [ext_resource type="Script" uid="uid://ci3yamotonwmj" path="res://scripts/cassette_ui_controller.gd" id="2_i7tjp"]
 [ext_resource type="FontFile" uid="uid://vm3adp50g3p0" path="res://fonts/Quadaptor.otf" id="3_0j804"]
+[ext_resource type="Texture2D" uid="uid://cdqgumay3ojnd" path="res://art/cassette/cassette-maybe.png" id="3_p5oea"]
 [ext_resource type="AudioStream" uid="uid://c1aj550mepr8y" path="res://sounds/button-press.wav" id="4_dgkdk"]
+[ext_resource type="Texture2D" uid="uid://b0ary3r8lfsor" path="res://art/cassette/red-button-up.png" id="4_eoihv"]
+[ext_resource type="Texture2D" uid="uid://hy28g6eet3is" path="res://art/cassette/red-button-down.png" id="4_red_down"]
+[ext_resource type="Texture2D" uid="uid://dtaw1b8mrlrh2" path="res://art/cassette/blue-button-down.png" id="5_blue_down"]
+[ext_resource type="Texture2D" uid="uid://cs7cae7bb1bji" path="res://art/cassette/blue-button-up.png" id="5_mvr7s"]
+[ext_resource type="Script" uid="uid://brfx5op8l0pm1" path="res://scripts/objective-text.gd" id="5_objective"]
+[ext_resource type="Script" uid="uid://cdkega21oevvx" path="res://scripts/cassette-button-clicker.gd" id="6_clicker"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_i7tjp")
@@ -18,56 +25,140 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("2_i7tjp")
 
-[node name="Panel" type="PanelContainer" parent="CassetteUI"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1200.0
-offset_top = -600.0
-grow_horizontal = 0
-grow_vertical = 0
-mouse_filter = 2
+[node name="TextureRect" type="TextureRect" parent="CassetteUI"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = 480.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("3_p5oea")
 
-[node name="SlotButtons" type="GridContainer" parent="CassetteUI/Panel"]
+[node name="SlotButtons" type="GridContainer" parent="CassetteUI/TextureRect"]
 custom_minimum_size = Vector2(0, 74.945)
-layout_mode = 2
+layout_mode = 0
+offset_left = 561.0
+offset_top = 477.0
+offset_right = 1169.0
+offset_bottom = 601.0
 size_flags_vertical = 8
 mouse_filter = 2
 theme_override_constants/h_separation = 14
 columns = 6
 
-[node name="RecordButton" type="Button" parent="CassetteUI/Panel/SlotButtons"]
+[node name="RecordButton" type="Button" parent="CassetteUI/TextureRect/SlotButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+flat = true
 
-[node name="PlayButton" type="Button" parent="CassetteUI/Panel/SlotButtons"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="TextureRect" type="TextureRect" parent="CassetteUI/TextureRect/SlotButtons/RecordButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_eoihv")
+script = ExtResource("6_clicker")
+up = ExtResource("4_eoihv")
+down = ExtResource("4_red_down")
 
-[node name="Slot1" type="Button" parent="CassetteUI/Panel/SlotButtons"]
+[node name="PlayButton" type="Button" parent="CassetteUI/TextureRect/SlotButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+flat = true
 
-[node name="Slot2" type="Button" parent="CassetteUI/Panel/SlotButtons"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="TextureRect" type="TextureRect" parent="CassetteUI/TextureRect/SlotButtons/PlayButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_mvr7s")
+script = ExtResource("6_clicker")
+up = ExtResource("5_mvr7s")
+down = ExtResource("5_blue_down")
 
-[node name="Slot3" type="Button" parent="CassetteUI/Panel/SlotButtons"]
+[node name="Slot1" type="Button" parent="CassetteUI/TextureRect/SlotButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+flat = true
+expand_icon = true
 
-[node name="Slot4" type="Button" parent="CassetteUI/Panel/SlotButtons"]
+[node name="TextureRect" type="TextureRect" parent="CassetteUI/TextureRect/SlotButtons/Slot1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_mvr7s")
+script = ExtResource("6_clicker")
+up = ExtResource("5_mvr7s")
+down = ExtResource("5_blue_down")
+
+[node name="Slot2" type="Button" parent="CassetteUI/TextureRect/SlotButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="CassetteUI/TextureRect/SlotButtons/Slot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_mvr7s")
+script = ExtResource("6_clicker")
+up = ExtResource("5_mvr7s")
+down = ExtResource("5_blue_down")
+
+[node name="Slot3" type="Button" parent="CassetteUI/TextureRect/SlotButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="CassetteUI/TextureRect/SlotButtons/Slot3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_mvr7s")
+script = ExtResource("6_clicker")
+up = ExtResource("5_mvr7s")
+down = ExtResource("5_blue_down")
+
+[node name="Slot4" type="Button" parent="CassetteUI/TextureRect/SlotButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="CassetteUI/TextureRect/SlotButtons/Slot4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_mvr7s")
+script = ExtResource("6_clicker")
+up = ExtResource("5_mvr7s")
+down = ExtResource("5_blue_down")
 
 [node name="ClickFX" type="AudioStreamPlayer2D" parent="CassetteUI"]
 stream = ExtResource("4_dgkdk")
@@ -94,3 +185,4 @@ offset_bottom = 84.0
 theme_override_fonts/font = ExtResource("3_0j804")
 theme_override_font_sizes/font_size = 61
 text = "Ascend the building"
+script = ExtResource("5_objective")

@@ -1,6 +1,7 @@
 extends Node
 
 var levels_completed:int = 0
+var next_tower_level: String = ""
 var textures = [
 	preload("res://ui designs/Cyberpunk_background_intro.png"),
 	preload("res://ui designs/Cyberpunk_background_1.png"),

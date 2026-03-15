@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bkebr75413v26"]
+[gd_scene load_steps=12 format=3 uid="uid://bkebr75413v26"]
 
-[ext_resource type="Script" path="res://scripts/level-core.gd" id="1_yu826"]
+[ext_resource type="Script" uid="uid://bj712cew7xxy7" path="res://scripts/level-exit.gd" id="1_yu826"]
 [ext_resource type="Texture2D" uid="uid://c40ywp28saast" path="res://art/Cyberpunk_block.png" id="2_nxnal"]
 [ext_resource type="AudioStream" uid="uid://bvdl5gg8lmsq6" path="res://sounds/win.wav" id="3_foowj"]
 [ext_resource type="FontFile" uid="uid://vm3adp50g3p0" path="res://fonts/Quadaptor.otf" id="4_nxnal"]
+[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="5_foowj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_core"]
 size = Vector2(362, 323)
@@ -33,7 +34,7 @@ scale_max = 13.44
 scale_curve = SubResource("CurveTexture_il55r")
 color_ramp = SubResource("GradientTexture1D_qhqgy")
 
-[node name="LevelCore" type="Area2D"]
+[node name="Game" type="Area2D"]
 scale = Vector2(0.3, 0.3)
 collision_layer = 2
 script = ExtResource("1_yu826")
@@ -80,3 +81,5 @@ theme_override_font_sizes/font_size = 121
 text = "▼"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Diamond" parent="." instance=ExtResource("5_foowj")]

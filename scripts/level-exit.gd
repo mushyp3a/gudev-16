@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var level_number: int = 1
+@export_file("*.tscn") var next_level_scene: String = ""
 @export var transition_delay: float = 0.5
 
 @onready var victory_sfx: AudioStreamPlayer = $VictorySFX
@@ -23,42 +23,47 @@ func _on_body_entered(body: Node2D) -> void:
 
 	if body.name == "Player":
 		triggered = true
-		_trigger_level_complete(body)
+		_trigger_level_transition(body)
 
-func _trigger_level_complete(player: Node2D) -> void:
-	print("Level %d completed!" % level_number)
+func _trigger_level_transition(player: Node2D) -> void:
+	if next_level_scene.is_empty():
+		push_error("No next level scene specified for level exit!")
+		return
 
+	print("Transitioning to: %s" % next_level_scene)
+
+	if victory_sfx and victory_sfx.stream:
+		victory_sfx.play()
+
+	# Wait for transition delay while scene is still fully visible
+	await get_tree().create_timer(transition_delay).timeout
+
+	# NOW hide player and cleanup (Diamond will sample color before this affects visuals)
 	player.visible = false
 
 	if player.has_method("set_physics_process"):
 		player.set_physics_process(false)
 
-	if victory_sfx and victory_sfx.stream:
-		victory_sfx.play()
-
-	if levels_completed:
-		levels_completed.complete_level(level_number)
-
 	_freeze_timer()
 	_cleanup_clones()
 
-	await get_tree().create_timer(transition_delay).timeout
+	# Store next level for intermediate scene
+	global.next_tower_level = next_level_scene
 
-	# Find Diamond NOW to avoid timing issues
+	# Find Diamond NOW (not in _ready) to avoid timing issues
 	if not diamond:
 		var root = get_tree().root
 		diamond = root.find_child("Diamond", true, true)
 
+	# Transition to tower ascend intermediate scene
 	if diamond:
-		diamond.change_scene("res://scenes/levels/level-beat.tscn")
+		diamond.change_scene("res://scenes/props/tower-ascend.tscn")
 	else:
-		print("WARNING: Diamond not found in level-core, using fallback!")
-		get_tree().change_scene_to_file("res://scenes/levels/level-beat.tscn")
+		get_tree().change_scene_to_file("res://scenes/props/tower-ascend.tscn")
 
 func _freeze_timer() -> void:
 	if clone_manager:
 		clone_manager.set_physics_process(false)
-		print("Timer frozen at: %.2f" % clone_manager.time_elapsed)
 
 func _cleanup_clones() -> void:
 	if not clone_manager:
@@ -67,6 +72,3 @@ func _cleanup_clones() -> void:
 	for i in range(clone_manager.clones.size() - 1, -1, -1):
 		if clone_manager.clones[i] != null:
 			clone_manager.delete_clone(i)
-
-	print("All clones cleaned up before level transition")
-

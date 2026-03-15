@@ -13,6 +13,7 @@ var clone_manager: CloneManager = null
 var slotHistory: Array = [[], [], [], []]
 var mergedHistory: Array = []
 var lastAppliedState: bool = false
+var clone_death_times: Dictionary = {}  # {clone_id: death_time}
 
 signal switched(is_on: bool)
 
@@ -34,6 +35,7 @@ func _ready() -> void:
 		clone_manager.recording_started.connect(_on_recording_started)
 		clone_manager.playback_started.connect(_on_playback_started)
 		clone_manager.state_changed.connect(_on_state_changed)
+		clone_manager.clone_died.connect(_on_clone_died)
 
 	_apply_state(default_state, false)
 
@@ -69,7 +71,10 @@ func _process(_delta: float) -> void:
 func toggle() -> void:
 	_apply_state(!is_on, true)
 	if recording_system and recording_system.current_recording_id >= 0:
-		slotHistory[recording_system.current_recording_id].push_back({"time": clone_manager.time_elapsed})
+		slotHistory[recording_system.current_recording_id].push_back({
+			"time": clone_manager.time_elapsed,
+			"clone_id": recording_system.current_recording_id
+		})
 	lastAppliedState = is_on
 
 func startRecording(slot: int) -> void:
@@ -89,7 +94,10 @@ func _rebuildMerged(recordingSlot: int) -> void:
 		if slot == recordingSlot:
 			continue
 		for entry in slotHistory[slot]:
-			mergedHistory.push_back({"time": entry["time"]})
+			mergedHistory.push_back({
+				"time": entry["time"],
+				"clone_id": entry.get("clone_id", slot)
+			})
 	mergedHistory.sort_custom(func(a, b): return a["time"] < b["time"])
 
 func _sampleMerged(t: float) -> bool:
@@ -107,6 +115,14 @@ func _sampleMerged(t: float) -> bool:
 	var toggle_count = 0
 	for entry in complete_timeline:
 		if entry["time"] <= t:
+			# Check if this clone was dead at this time
+			var clone_id = entry.get("clone_id", -1)
+			if clone_id >= 0 and clone_id in clone_death_times:
+				var death_time = clone_death_times[clone_id]
+				if entry["time"] >= death_time:
+					# Skip interactions after clone death
+					continue
+
 			toggle_count += 1
 		else:
 			break
@@ -136,15 +152,23 @@ func preparePlayback() -> void:
 	mergedHistory = []
 	for slot in range(4):
 		for entry in slotHistory[slot]:
-			mergedHistory.push_back({"time": entry["time"]})
+			mergedHistory.push_back({
+				"time": entry["time"],
+				"clone_id": entry.get("clone_id", slot)
+			})
 	mergedHistory.sort_custom(func(a, b): return a["time"] < b["time"])
 
 func _on_recording_started(slot_id: int) -> void:
 	startRecording(slot_id)
 
 func _on_playback_started(_clone_ids: Array[int]) -> void:
+	clone_death_times.clear()
 	preparePlayback()
 
 func _on_state_changed(new_state: int) -> void:
 	if new_state == CloneState.State.IDLE:
+		clone_death_times.clear()
 		resetToDefault()
+
+func _on_clone_died(clone_id: int, death_time: float) -> void:
+	clone_death_times[clone_id] = death_time

@@ -10,6 +10,7 @@ signal recording_stopped(clone_id: int)
 signal playback_started(clone_ids: Array[int])
 signal playback_stopped()
 signal time_updated(elapsed: float)
+signal clone_died(clone_id: int, death_time: float)
 
 @export var config: CloneConfig
 @export var recording_system: RecordingSystem

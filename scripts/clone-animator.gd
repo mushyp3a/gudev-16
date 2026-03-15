@@ -88,6 +88,13 @@ func _handle_playback_state(replay: Replay) -> void:
 			return
 		else:
 			visible = true
+			# Disable collision detection during RECORDING for non-recording clones
+			if collision_detector:
+				collision_detector.monitoring = false
+	else:
+		# Enable collision detection during PLAYBACK
+		if collision_detector:
+			collision_detector.monitoring = true
 
 	if replay.positionHistory.size() < 2:
 		if replay.positionHistory.size() > 0:
@@ -131,10 +138,15 @@ func _on_collision_detected(body: Node) -> void:
 		return
 
 	if body is StaticBody2D:
+		print("Clone %d hit StaticBody2D: %s (monitoring: %s)" % [clone_id, body.name, collision_detector.monitoring if collision_detector else "null"])
 		_kill_clone()
 
 func _kill_clone() -> void:
 	is_dead = true
+
+	# Only notify CloneManager about death during PLAYBACK, not during RECORDING
+	if clone_manager and clone_manager.current_state == CloneState.State.PLAYING:
+		clone_manager.clone_died.emit(clone_id, clone_manager.time_elapsed)
 
 	var particles = DEATH_PARTICLES_SCENE.instantiate()
 	particles.global_position = global_position

@@ -19,7 +19,7 @@ const ESCAPE_DISABLED_SCENES := [
 var diamond: CanvasLayer = null
 
 func _ready() -> void:
-	diamond = get_tree().root.find_child("Diamond", true, false)
+	diamond = get_tree().root.find_child("Diamond", true, true)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -46,7 +46,7 @@ func _handle_escape() -> void:
 
 func _change_scene(target_scene: String) -> void:
 	if not diamond:
-		diamond = get_tree().root.find_child("Diamond", true, false)
+		diamond = get_tree().root.find_child("Diamond", true, true)
 
 	if diamond:
 		diamond.change_scene(target_scene)

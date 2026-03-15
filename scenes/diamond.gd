@@ -14,6 +14,8 @@ func _ready():
 		diamond_rect.color = last_transition_color
 	RenderingServer.set_default_clear_color(last_transition_color)
 
+	print("▼ TRANSITION IN - Color: ", last_transition_color)
+
 	# Play out animation (transition from previous scene)
 	animation_player.play("out")
 
@@ -30,6 +32,8 @@ func change_scene(target_scene: String) -> void:
 
 	# Sample screen color before transition (current scene color)
 	await _update_diamond_color()
+
+	print("▲ TRANSITION OUT - Color: ", last_transition_color)
 
 	# Play transition in animation
 	animation_player.play("in")

@@ -6,15 +6,23 @@ signal stop_requested()
 
 var clone_manager: CloneManager = null
 
-@onready var panel = $Panel
+@onready var panel = $TextureRect
 @onready var slot_buttons = [
-	$Panel/SlotButtons/Slot1,
-	$Panel/SlotButtons/Slot2,
-	$Panel/SlotButtons/Slot3,
-	$Panel/SlotButtons/Slot4
+	$TextureRect/SlotButtons/Slot1,
+	$TextureRect/SlotButtons/Slot2,
+	$TextureRect/SlotButtons/Slot3,
+	$TextureRect/SlotButtons/Slot4
 ]
-@onready var record_button = $Panel/SlotButtons/RecordButton
-@onready var play_button = $Panel/SlotButtons/PlayButton
+@onready var slot_button_textures = [
+	$TextureRect/SlotButtons/Slot1/TextureRect,
+	$TextureRect/SlotButtons/Slot2/TextureRect,
+	$TextureRect/SlotButtons/Slot3/TextureRect,
+	$TextureRect/SlotButtons/Slot4/TextureRect
+]
+@onready var record_button = $TextureRect/SlotButtons/RecordButton
+@onready var play_button = $TextureRect/SlotButtons/PlayButton
+@onready var record_button_texture = $TextureRect/SlotButtons/RecordButton/TextureRect
+@onready var play_button_texture = $TextureRect/SlotButtons/PlayButton/TextureRect
 @onready var clickFx = $ClickFX
 
 var is_open: bool = true
@@ -43,7 +51,9 @@ func _ready() -> void:
 	clone_manager.state_changed.connect(_on_state_changed)
 	clone_manager.clone_selected.connect(_on_clone_selected)
 	clone_manager.clone_deselected.connect(_on_clone_deselected)
+	clone_manager.recording_started.connect(_on_recording_started)
 	clone_manager.recording_stopped.connect(_on_recording_stopped)
+	clone_manager.playback_started.connect(_on_playback_started)
 	clone_manager.playback_stopped.connect(_on_playback_stopped)
 
 	_update_ui()
@@ -57,7 +67,11 @@ func _on_slot_pressed(slot_id: int) -> void:
 
 func _on_record_pressed() -> void:
 	clickFx.play()
+	record_button_texture.click_down()
+	await get_tree().create_timer(0.1).timeout
+
 	if clone_manager.selected_clone_id < 0:
+		record_button_texture.click_up()
 		return
 
 	slide_out()
@@ -66,7 +80,8 @@ func _on_record_pressed() -> void:
 
 func _on_play_pressed() -> void:
 	clickFx.play()
-	slide_out()
+	play_button_texture.click_down()
+	await get_tree().create_timer(0.1).timeout
 
 	var clone_ids: Array[int] = []
 
@@ -75,7 +90,10 @@ func _on_play_pressed() -> void:
 			clone_ids.append(i)
 
 	if clone_ids.size() > 0:
+		slide_out()
 		clone_manager.start_playback(clone_ids)
+	else:
+		play_button_texture.click_up()
 
 func _on_state_changed(new_state: CloneState.State) -> void:
 	if new_state == CloneState.State.IDLE and not is_open:
@@ -87,11 +105,19 @@ func _on_clone_selected(_clone_id: int) -> void:
 func _on_clone_deselected() -> void:
 	_update_ui()
 
+func _on_recording_started(_clone_id: int) -> void:
+	record_button_texture.click_down()
+
 func _on_recording_stopped(_clone_id: int) -> void:
+	record_button_texture.click_up()
 	clone_manager.deselect_clone()
 	slide_in()
 
+func _on_playback_started(_clone_ids: Array[int]) -> void:
+	play_button_texture.click_down()
+
 func _on_playback_stopped() -> void:
+	play_button_texture.click_up()
 	clone_manager.deselect_clone()
 	slide_in()
 
@@ -129,9 +155,9 @@ func _update_slot_highlights() -> void:
 	for i in range(slot_buttons.size()):
 		if i < clone_manager.config.max_clones:
 			if clone_manager.selected_clone_id == i:
-				slot_buttons[i].modulate = Color(1.0, 0.8, 0.0)
+				slot_button_textures[i].click_down()
 			else:
-				slot_buttons[i].modulate = Color.WHITE
+				slot_button_textures[i].click_up()
 		else:
 			slot_buttons[i].visible = false
 

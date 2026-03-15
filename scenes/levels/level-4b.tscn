@@ -1,0 +1,223 @@
+[gd_scene load_steps=19 format=3 uid="uid://dm73pgawn7736"]
+
+[ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="1_eou1s"]
+[ext_resource type="PackedScene" uid="uid://bak62xkbu1v04" path="res://scenes/cassette.tscn" id="2_82q0w"]
+[ext_resource type="PackedScene" path="res://scenes/cyberpunk-shader.tscn" id="3_e84cg"]
+[ext_resource type="Texture2D" uid="uid://bju52kjgk1unh" path="res://art/bg/Interior.png" id="4_y0ehd"]
+[ext_resource type="PackedScene" uid="uid://b80d7j5jpwmhn" path="res://scenes/player.tscn" id="5_d6uki"]
+[ext_resource type="Script" uid="uid://cnbxdnlx48d7p" path="res://scripts/clone_manager.gd" id="6_orkmt"]
+[ext_resource type="Script" uid="uid://bvp0ygp2c6wg2" path="res://scripts/clone_config.gd" id="7_nnqbc"]
+[ext_resource type="Script" uid="uid://c3yn46mhpywyd" path="res://scripts/recording_system.gd" id="8_y6cmi"]
+[ext_resource type="FontFile" uid="uid://vm3adp50g3p0" path="res://fonts/Quadaptor.otf" id="9_osr44"]
+[ext_resource type="PackedScene" uid="uid://ckt4dajo0wct4" path="res://scenes/level-elements/door.tscn" id="10_ooi20"]
+[ext_resource type="PackedScene" uid="uid://crate2preset" path="res://scenes/props/create-norm.tscn" id="12_qtmd7"]
+[ext_resource type="Texture2D" uid="uid://d3xnxmpqbhncl" path="res://ui designs/Cyberpunk_background_1.png" id="13_wy2p3"]
+[ext_resource type="PackedScene" uid="uid://cyuhyisihw572" path="res://scenes/level-elements/pressure-plate.tscn" id="14_en5us"]
+[ext_resource type="PackedScene" uid="uid://c44acsju21ayd" path="res://scenes/props/level-core.tscn" id="15_o2vwu"]
+[ext_resource type="PackedScene" uid="uid://crate1preset" path="res://scenes/props/crate-tall.tscn" id="16_82q0w"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ug2m1"]
+
+[sub_resource type="Resource" id="Resource_ic0r7"]
+script = ExtResource("7_nnqbc")
+metadata/_custom_type_script = "uid://bvp0ygp2c6wg2"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ug2m1"]
+size = Vector2(20, 2000)
+
+[node name="Game" type="Node2D"]
+
+[node name="Diamond" parent="." instance=ExtResource("1_eou1s")]
+
+[node name="CanvasLayer" parent="." instance=ExtResource("2_82q0w")]
+layer = 1000
+
+[node name="cyberpunk-shader" parent="." instance=ExtResource("3_e84cg")]
+layer = 2000
+
+[node name="bg" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="bg"]
+z_index = -1000
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_y0ehd")
+
+[node name="Player" parent="." instance=ExtResource("5_d6uki")]
+position = Vector2(-826.00006, -287)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(-48, 406)
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("WorldBoundaryShape2D_ug2m1")
+
+[node name="CloneManager" type="Node" parent="." node_paths=PackedStringArray("recording_system", "player_node")]
+script = ExtResource("6_orkmt")
+config = SubResource("Resource_ic0r7")
+recording_system = NodePath("../RecordingSystem")
+player_node = NodePath("../Player")
+start_position = Vector2(-826.00006, -287)
+
+[node name="RecordingSystem" type="Node" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("8_y6cmi")
+player = NodePath("../Player")
+
+[node name="Control" type="Control" parent="."]
+z_index = -100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = 351.0
+offset_right = -50.0
+offset_bottom = 351.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SelectionIndicator" type="Label" parent="Control"]
+z_index = 100
+layout_mode = 0
+offset_left = -11.0
+offset_top = -21.0
+offset_right = 12.0
+offset_bottom = 21.0
+theme_override_colors/font_color = Color(0.40784314, 0.73333335, 0.34901962, 1)
+theme_override_font_sizes/font_size = 30
+text = "▼"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectionIndicator2" type="Label" parent="Control"]
+visible = false
+z_index = 100
+layout_mode = 0
+offset_left = -820.0
+offset_top = -200.0
+offset_right = -322.0
+offset_bottom = -123.0
+theme_override_fonts/font = ExtResource("9_osr44")
+theme_override_font_sizes/font_size = 30
+text = "Get here to climb the building 
+and find the core!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SelectionIndicator3" type="Label" parent="Control"]
+visible = false
+z_index = 100
+layout_mode = 0
+offset_left = -362.0
+offset_top = -264.0
+offset_right = 196.0
+offset_bottom = -187.0
+theme_override_fonts/font = ExtResource("9_osr44")
+theme_override_font_sizes/font_size = 30
+text = "flick the lever to 
+unlock the door"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PuzzleElements" type="Node2D" parent="."]
+position = Vector2(0, -134)
+
+[node name="Door" parent="PuzzleElements" instance=ExtResource("10_ooi20")]
+position = Vector2(-388, 470)
+
+[node name="LevelElements" type="Node2D" parent="."]
+position = Vector2(0, -134)
+
+[node name="Crate2" parent="LevelElements" instance=ExtResource("12_qtmd7")]
+position = Vector2(-393, 353)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate7" parent="LevelElements" instance=ExtResource("12_qtmd7")]
+position = Vector2(-822, -32)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate8" parent="LevelElements" instance=ExtResource("12_qtmd7")]
+position = Vector2(-555, -133)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate3" parent="LevelElements" instance=ExtResource("12_qtmd7")]
+position = Vector2(180, 353)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate4" parent="LevelElements" instance=ExtResource("12_qtmd7")]
+position = Vector2(180, 353)
+scale = Vector2(0.3, 0.3)
+
+[node name="Wall" type="StaticBody2D" parent="LevelElements"]
+position = Vector2(786, -21)
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelElements/Wall"]
+shape = SubResource("RectangleShape2D_ug2m1")
+
+[node name="Sprite2D" type="Sprite2D" parent="LevelElements/Wall"]
+modulate = Color(0, 0, 0, 1)
+z_index = -100
+position = Vector2(530, 431)
+rotation = -1.5707964
+texture = ExtResource("13_wy2p3")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_left = -967.0
+offset_top = 405.0
+offset_right = 953.0
+offset_bottom = 1485.0
+texture = ExtResource("13_wy2p3")
+
+[node name="Door" parent="." instance=ExtResource("10_ooi20")]
+position = Vector2(180, 333)
+
+[node name="Door2" parent="." instance=ExtResource("10_ooi20")]
+position = Vector2(-408, -491)
+
+[node name="PressurePlate" parent="." instance=ExtResource("14_en5us")]
+position = Vector2(36, 398)
+
+[node name="LevelCore" parent="." instance=ExtResource("15_o2vwu")]
+position = Vector2(487, 338)
+
+[node name="Crate1" parent="." instance=ExtResource("16_82q0w")]
+position = Vector2(-392, 99.00001)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate2" parent="." instance=ExtResource("16_82q0w")]
+position = Vector2(-392, -48.999992)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate3" parent="." instance=ExtResource("16_82q0w")]
+position = Vector2(-392, -195)
+scale = Vector2(0.3, 0.3)
+
+[node name="Crate4" parent="." instance=ExtResource("16_82q0w")]
+position = Vector2(-392, -340)
+scale = Vector2(0.3, 0.3)
+
+[node name="PressurePlate2" parent="." instance=ExtResource("14_en5us")]
+position = Vector2(-784, 399)
+
+[node name="PressurePlate3" parent="." instance=ExtResource("14_en5us")]
+position = Vector2(-121, 396)
+
+[connection signal="activated" from="PressurePlate" to="PuzzleElements/Door" method="on_switch_toggled"]
+[connection signal="activated" from="PressurePlate2" to="Door2" method="on_switch_toggled"]
+[connection signal="activated" from="PressurePlate3" to="Door" method="on_switch_toggled"]

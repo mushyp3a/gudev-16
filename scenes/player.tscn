@@ -1155,7 +1155,6 @@ collision_mode = 2
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(0.1, 0.1)
-collision_layer = 1
 collision_mask = 2
 script = ExtResource("1_g2els")
 
