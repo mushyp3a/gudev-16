@@ -1,7 +1,7 @@
 [gd_scene load_steps=29 format=3 uid="uid://jfinhcx3ce21"]
 
-[ext_resource type="Script" path="res://scripts/clone-animator.gd" id="1_om8nu"]
-[ext_resource type="Script" path="res://scripts/replay-clone.gd" id="2_menae"]
+[ext_resource type="Script" uid="uid://cpmymecowypes" path="res://scripts/clone-animator.gd" id="1_om8nu"]
+[ext_resource type="Script" uid="uid://boehex7b8mqgb" path="res://scripts/replay-clone.gd" id="2_menae"]
 [ext_resource type="Texture2D" uid="uid://dbnofakh38u23" path="res://art/character/Cyberpunk_torso.png" id="3_om8nu"]
 [ext_resource type="Texture2D" uid="uid://b8cnfvnygom00" path="res://art/character/cyberpunk_head.png" id="4_sdbcs"]
 [ext_resource type="Texture2D" uid="uid://cc8jqbo027jxx" path="res://art/character/Cyberpunk_upper_arm.png" id="5_rqy57"]
@@ -1147,7 +1147,7 @@ color_ramp = SubResource("GradientTexture1D_qhqgy")
 alpha_curve = SubResource("CurveTexture_rqy57")
 
 [node name="ReplayClone" type="CharacterBody2D" groups=["clone"]]
-scale = Vector2(0.075, 0.075)
+scale = Vector2(0.1, 0.1)
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_om8nu")

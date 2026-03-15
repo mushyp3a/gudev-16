@@ -37,8 +37,8 @@ func close() -> void:
 		return
 
 	is_open = false
-	sprite.texture = closed_sprite
 	_set_collision(true)
+	sprite.texture = closed_sprite
 
 func _set_collision(enabled: bool) -> void:
 	for child in get_children():

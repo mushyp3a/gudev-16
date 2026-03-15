@@ -177,5 +177,8 @@ func _process(_delta: float) -> void:
 		if not is_open and clone_manager.current_state == CloneState.State.PLAYING:
 			clone_manager.stop_playback()
 			slide_in()
+		elif not is_open and clone_manager.current_state == CloneState.State.RECORDING:
+			clone_manager.early_stop_recording()
+			slide_in()
 
 	_update_ui()

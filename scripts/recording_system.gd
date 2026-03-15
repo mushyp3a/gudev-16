@@ -36,6 +36,41 @@ func stop_recording() -> void:
 	is_recording = false
 	current_recording_id = -1
 
+func early_stop_recording(current_time_elapsed: float, time_limit: float) -> void:
+	if not is_recording or current_recording_id == -1:
+		return
+
+	var replay = replays[current_recording_id]
+	if replay == null or replay.is_empty():
+		is_recording = false
+		current_recording_id = -1
+		return
+
+	var last_position = replay.positionHistory[-1]
+	var last_facing = replay.facingHistory[-1]
+	var last_velocity_y = replay.velocityYHistory[-1]
+	var last_is_sliding = replay.isSlidingHistory[-1]
+	var last_is_wall_sliding = replay.isWallSlidingHistory[-1]
+	var last_has_double_jump = replay.hasDoubleJumpHistory[-1]
+
+	var time_step = 0.016
+	var t = current_time_elapsed + time_step
+	while t <= time_limit:
+		replay.record(
+			last_position,
+			t,
+			PlayerActions.new([]),
+			last_facing,
+			last_velocity_y,
+			last_is_sliding,
+			last_is_wall_sliding,
+			last_has_double_jump
+		)
+		t += time_step
+
+	is_recording = false
+	current_recording_id = -1
+
 func reset_playback() -> void:
 	for replay in replays:
 		if replay != null:

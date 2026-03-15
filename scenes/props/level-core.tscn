@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c44acsju21ayd"]
+[gd_scene load_steps=10 format=3 uid="uid://c44acsju21ayd"]
 
 [ext_resource type="Script" uid="uid://u61kbpxsxml3" path="res://scripts/level-core.gd" id="1_core_script"]
 [ext_resource type="Texture2D" uid="uid://c40ywp28saast" path="res://art/Cyberpunk_block.png" id="2_core_sprite"]
@@ -7,7 +7,33 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_core"]
 size = Vector2(362, 323)
 
+[sub_resource type="Gradient" id="Gradient_g2els"]
+colors = PackedColorArray(3.85046e-06, 0.85818845, 0.8020454, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qhqgy"]
+gradient = SubResource("Gradient_g2els")
+
+[sub_resource type="Curve" id="Curve_ea4ab"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.2459721), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_il55r"]
+curve = SubResource("Curve_ea4ab")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ea4ab"]
+particle_flag_disable_z = true
+orbit_velocity_min = 1.9600002
+orbit_velocity_max = 1.9600002
+radial_velocity_min = 154.22998
+radial_velocity_max = 154.22998
+gravity = Vector3(0, 0, 0)
+scale_min = 13.44
+scale_max = 13.44
+scale_curve = SubResource("CurveTexture_il55r")
+color_ramp = SubResource("GradientTexture1D_qhqgy")
+
 [node name="LevelCore" type="Area2D"]
+scale = Vector2(0.3, 0.3)
 collision_layer = 2
 script = ExtResource("1_core_script")
 
@@ -19,3 +45,8 @@ shape = SubResource("RectangleShape2D_core")
 
 [node name="VictorySFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_ea4ab")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = -100
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_ea4ab")

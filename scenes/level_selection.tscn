@@ -37,7 +37,7 @@ offset_right = 313.6
 offset_bottom = 1247.4
 script = ExtResource("4_ujbu7")
 tex = NodePath("../../background/TextureRect")
-sceneName = "platformer-scene"
+sceneName = "levels/level-1"
 diamond = NodePath("../../Diamond")
 bump = NodePath("../../lilBump")
 

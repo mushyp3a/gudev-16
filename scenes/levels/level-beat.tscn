@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bi7nagy5qluft"]
+[gd_scene load_steps=18 format=3 uid="uid://bi7nagy5qluft"]
 
 [ext_resource type="PackedScene" path="res://scenes/cyberpunk-shader.tscn" id="1_7jp14"]
 [ext_resource type="Script" uid="uid://bjgdshusis645" path="res://scripts/core-breaker.gd" id="1_breaker"]
@@ -13,6 +13,31 @@
 [ext_resource type="AudioStream" uid="uid://b76prrv6l53kw" path="res://sounds/explosion.wav" id="11_qi5ie"]
 [ext_resource type="PackedScene" uid="uid://dvtyjpruwn8ld" path="res://scenes/diamond.tscn" id="12_qi5ie"]
 
+[sub_resource type="Gradient" id="Gradient_qi5ie"]
+colors = PackedColorArray(3.85046e-06, 0.85818845, 0.8020454, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qhqgy"]
+gradient = SubResource("Gradient_qi5ie")
+
+[sub_resource type="Curve" id="Curve_u83u5"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.2459721), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_il55r"]
+curve = SubResource("Curve_u83u5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fyc1p"]
+particle_flag_disable_z = true
+orbit_velocity_min = 0.5040001
+orbit_velocity_max = 0.5040001
+radial_velocity_min = 606.97
+radial_velocity_max = 606.97
+gravity = Vector3(0, 0, 0)
+scale_min = 45.78
+scale_max = 45.78
+scale_curve = SubResource("CurveTexture_il55r")
+color_ramp = SubResource("GradientTexture1D_qhqgy")
+
 [node name="Game2" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -26,6 +51,7 @@ script = ExtResource("1_breaker")
 
 [node name="background" type="TextureRect" parent="."]
 modulate = Color(0, 0, 0, 1)
+z_index = -1000
 layout_mode = 0
 offset_left = -100.0
 offset_top = -50.0
@@ -48,6 +74,12 @@ offset_bottom = 161.5
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_sk64w")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="core-solid"]
+z_index = -1
+position = Vector2(185, 163.5)
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_fyc1p")
 
 [node name="core-destroyed" type="Control" parent="."]
 visible = false

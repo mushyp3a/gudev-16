@@ -34,6 +34,9 @@ var slide_timer := 0.0
 var slide_cooldown_timer := 0.0
 var slide_direction := 1.0
 
+var wall_jump_enabled := false
+var double_jump_enabled := false
+
 func play_anim(anim_name: String):
 	if animator.current_animation != anim_name:
 		animator.play(anim_name, 0.15)
@@ -95,6 +98,7 @@ func _physics_process(delta):
 			wall.emitting = true
 			slideFx.play()
 			last_wall_normal = get_wall_normal()
+			wall.position.x = abs(wall.position.x) * -last_wall_normal.x
 			velocity.y = move_toward(velocity.y, WALL_SLIDE_GRAVITY, gravity * delta)
 		else:
 			velocity.y += gravity * delta * GRAVITY_MULT
@@ -134,7 +138,7 @@ func _physics_process(delta):
 				jumpFx.play()
 				floor.restart()
 				floor.emitting = true
-			elif is_wall_sliding:
+			elif is_wall_sliding and wall_jump_enabled:
 				if _get_input_direction() > 0 and wall.position.x < 0:
 					wall.position.x *= -1
 				elif _get_input_direction() < 0 and wall.position.x > 0:
@@ -144,7 +148,7 @@ func _physics_process(delta):
 				has_double_jump = true
 				wall_jump_cooldown = 0.18
 				jumpFx.play()
-			elif has_double_jump:
+			elif has_double_jump and double_jump_enabled:
 				ShaderManager.trigger_hit()
 				velocity.y = DOUBLE_JUMP_VELOCITY
 				has_double_jump = false

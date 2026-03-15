@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://crate_disappear"]
+
+[ext_resource type="Script" path="res://scripts/crate-disappear.gd" id="1_crate_disappear"]
+[ext_resource type="Texture2D" uid="uid://36qwgeemxnf3" path="res://art/Cyberpunk_crate_2.png" id="2_crate_disappear"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crate_disappear"]
+size = Vector2(388, 290)
+
+[node name="CrateDisappear" type="StaticBody2D"]
+collision_layer = 2
+script = ExtResource("1_crate_disappear")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_crate_disappear")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_crate_disappear")

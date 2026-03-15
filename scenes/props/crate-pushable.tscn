@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://crate_pushable"]
+
+[ext_resource type="Texture2D" uid="uid://36qwgeemxnf3" path="res://art/Cyberpunk_crate_2.png" id="1_crate_pushable"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_crate_pushable"]
+size = Vector2(388, 290)
+
+[node name="CratePushable" type="RigidBody2D" groups=["player"]]
+collision_layer = 2
+mass = 50.0
+gravity_scale = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_crate_pushable")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_crate_pushable")

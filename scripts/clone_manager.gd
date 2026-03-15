@@ -119,6 +119,12 @@ func stop_recording() -> void:
 	_reset_to_start()
 	recording_stopped.emit(recording_id)
 
+func early_stop_recording() -> void:
+	var recording_id = recording_system.current_recording_id
+	recording_system.early_stop_recording(time_elapsed, config.time_limit)
+	_reset_to_start()
+	recording_stopped.emit(recording_id)
+
 func start_playback(clone_ids: Array[int]) -> void:
 	if not CloneState.can_transition(current_state, CloneState.State.PLAYING):
 		push_warning("CloneManager: Cannot start playback from state %s" % CloneState.get_state_name(current_state))
