@@ -1,7 +1,5 @@
 extends Control
 
-## Firewatch-style intro scene with blurred color patches and text transitions
-
 @export var text_lines: Array[String] = [
 	"The city of lights and dreams...",
 	"Until corps enslaved the population",
@@ -22,14 +20,8 @@ extends Control
 var current_line: int = 0
 var shader_material: ShaderMaterial
 
-# Intro duration calculation:
-# Initial delay: 0.5s
-# Per line: fade_in(0.8s) + display(3.0s) + fade_out(0.8s) = 4.6s
-# 6 lines × 4.6s = 27.6s
-# Total: ~28.1 seconds
 const INTRO_DURATION: float = 28.1
 
-# Color presets - each preset has 3 colors
 var presets = {
 	"police": {
 		"color1": Color(0.0, 0.3, 1.0),  # Bright blue
@@ -71,24 +63,18 @@ func _process(delta):
 
 
 func _ready() -> void:
-	# Fade out global music on intro scene
 	if Music:
 		Music.fade_out(2.0)
 
-	# Fade in intro music (reverse timing of main music)
 	_fade_in_intro_music(2.0)
 
-	# Get shader material
 	shader_material = background_shader.material as ShaderMaterial
 
-	# Start with first preset
 	if preset_sequence.size() > 0:
 		_apply_preset(preset_sequence[0])
 
-	# Hide text initially
 	text_label.modulate.a = 0.0
 
-	# Start intro sequence
 	_start_intro()
 
 func _start_intro() -> void:
@@ -97,25 +83,19 @@ func _start_intro() -> void:
 
 func _show_next_line() -> void:
 	if current_line >= text_lines.size():
-		# Intro finished
 		_finish_intro()
 		return
 
-	# Set text
 	text_label.text = text_lines[current_line]
 
-	# Apply preset for this line if available
 	if current_line < preset_sequence.size():
 		_tween_to_preset(preset_sequence[current_line], fade_duration)
 
-	# Fade in text
 	var tween = create_tween()
 	tween.tween_property(text_label, "modulate:a", 1.0, fade_duration)
 
-	# Wait
 	await get_tree().create_timer(time_per_line).timeout
 
-	# Fade out text
 	tween = create_tween()
 	tween.tween_property(text_label, "modulate:a", 0.0, fade_duration)
 
@@ -153,17 +133,13 @@ func _set_color3(color: Color) -> void:
 	shader_material.set_shader_parameter("color3", color)
 
 func _finish_intro() -> void:
-	# Fade out intro music (reverse timing of fade in)
 	_fade_out_intro_music(2.0)
 
-	# Fade in global music before transitioning
 	if Music:
 		Music.fade_in(2.0)
 
-	# Wait a moment for music to start fading in
 	await get_tree().create_timer(0.5).timeout
 
-	# Transition to level selection
 	diamond.change_scene("res://scenes/level_selection.tscn")
 
 func _fade_in_intro_music(duration: float) -> void:

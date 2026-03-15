@@ -3,14 +3,11 @@ class_name Replay
 var positionHistory:    Array[Vector2]
 var timeHistory:        Array[float]
 var playerActionHistory: Array[PlayerActions]
-
-# Per-frame animation state recorded alongside position
-var facingHistory:       Array[float]   # skeleton.scale.x: 1 or -1
+var facingHistory:       Array[float]
 var velocityYHistory:    Array[float]
 var isSlidingHistory:    Array[bool]
 var isWallSlidingHistory: Array[bool]
 var hasDoubleJumpHistory: Array[bool]
-
 var lastIx: int
 
 func _init(pos: Vector2, t: float, actions: PlayerActions):
@@ -57,7 +54,6 @@ func replayPos(t: float) -> Vector2:
 		return positionHistory[lastIx]
 	return lerpPos(t)
 
-# Returns full animation state at current time, interpolating position
 func sample(t: float) -> Dictionary:
 	for i in range(lastIx, len(positionHistory)):
 		if timeHistory[i] > t:
@@ -78,7 +74,6 @@ func sample(t: float) -> Dictionary:
 		"has_double_jump": hasDoubleJumpHistory[ix],
 	}
 
-## Cleanup all recorded data
 func clear() -> void:
 	positionHistory.clear()
 	timeHistory.clear()
@@ -90,11 +85,9 @@ func clear() -> void:
 	hasDoubleJumpHistory.clear()
 	lastIx = 0
 
-## Check if replay has no recorded data
 func is_empty() -> bool:
 	return positionHistory.size() == 0
 
-## Get total duration of recording in seconds
 func get_duration() -> float:
 	if timeHistory.size() == 0:
 		return 0.0

@@ -8,15 +8,9 @@ extends Area2D
 
 var is_on: bool = false
 var player_nearby: bool = false
-
-## Reference to systems (found dynamically)
 var recording_system: RecordingSystem = null
 var clone_manager: CloneManager = null
-
-# per-slot history: Array of 4 Arrays, each {time, is_on}
 var slotHistory: Array = [[], [], [], []]
-
-# merged timeline of all slots, sorted by time — rebuilt on each startRecording
 var mergedHistory: Array = []
 var lastAppliedState: bool = false
 
@@ -26,14 +20,8 @@ func _ready() -> void:
 	key_prompt.visible = false
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
-	_find_systems()
-	_connect_signals()
-	_apply_state(default_state, false)
 
-## Find the required systems in the scene tree
-func _find_systems() -> void:
 	var root = get_tree().root
-
 	recording_system = root.get_node_or_null("RecordingSystem")
 	if recording_system == null:
 		recording_system = root.find_child("RecordingSystem", true, false)
@@ -42,19 +30,12 @@ func _find_systems() -> void:
 	if clone_manager == null:
 		clone_manager = root.find_child("CloneManager", true, false)
 
-	if recording_system == null:
-		push_warning("Switch: Could not find RecordingSystem node")
-	if clone_manager == null:
-		push_warning("Switch: Could not find CloneManager node")
+	if clone_manager:
+		clone_manager.recording_started.connect(_on_recording_started)
+		clone_manager.playback_started.connect(_on_playback_started)
+		clone_manager.state_changed.connect(_on_state_changed)
 
-## Connect to CloneManager signals for lifecycle events
-func _connect_signals() -> void:
-	if clone_manager == null:
-		return
-
-	clone_manager.recording_started.connect(_on_recording_started)
-	clone_manager.playback_started.connect(_on_playback_started)
-	clone_manager.state_changed.connect(_on_state_changed)
+	_apply_state(default_state, false)
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
@@ -71,16 +52,13 @@ func _process(_delta: float) -> void:
 	if not recording_system or not clone_manager:
 		return
 
-	# Don't process during IDLE or WAITING_INPUT states
 	if clone_manager.current_state == CloneState.State.IDLE or clone_manager.current_state == CloneState.State.WAITING_INPUT:
 		return
 
-	# player input during recording
 	if player_nearby and Input.is_action_just_pressed(action_key):
 		if recording_system.is_recording:
 			toggle()
 
-	# replay merged timeline (clones continue toggling even during recording)
 	if mergedHistory.size() > 0:
 		var sampleTime = clone_manager.time_elapsed
 		var replayed = _sampleMerged(sampleTime)
@@ -91,13 +69,12 @@ func _process(_delta: float) -> void:
 func toggle() -> void:
 	_apply_state(!is_on, true)
 	if recording_system and recording_system.current_recording_id >= 0:
-		# Record the toggle ACTION (just the time), not the result state
 		slotHistory[recording_system.current_recording_id].push_back({"time": clone_manager.time_elapsed})
 	lastAppliedState = is_on
 
 func startRecording(slot: int) -> void:
 	_apply_state(default_state, false)
-	slotHistory[slot] = []  # Start empty - only record toggle actions
+	slotHistory[slot] = []
 	lastAppliedState = default_state
 	_rebuildMerged(slot)
 
@@ -106,7 +83,6 @@ func resetToDefault() -> void:
 	lastAppliedState = default_state
 	mergedHistory = []
 
-# rebuild merged timeline from all slots except the one being recorded
 func _rebuildMerged(recordingSlot: int) -> void:
 	mergedHistory = []
 	for slot in range(4):
@@ -114,15 +90,11 @@ func _rebuildMerged(recordingSlot: int) -> void:
 			continue
 		for entry in slotHistory[slot]:
 			mergedHistory.push_back({"time": entry["time"]})
-	# sort by time
 	mergedHistory.sort_custom(func(a, b): return a["time"] < b["time"])
 
-# sample the merged timeline at time t, including current recording's toggles
 func _sampleMerged(t: float) -> bool:
-	# Build a complete timeline including current recording
 	var complete_timeline = mergedHistory.duplicate()
 
-	# Add current recording's toggles if we're recording
 	if recording_system and recording_system.is_recording and recording_system.current_recording_id >= 0:
 		var current_slot = recording_system.current_recording_id
 		for entry in slotHistory[current_slot]:
@@ -132,7 +104,6 @@ func _sampleMerged(t: float) -> bool:
 	if complete_timeline.size() == 0:
 		return default_state
 
-	# Count how many toggles have occurred up to time t
 	var toggle_count = 0
 	for entry in complete_timeline:
 		if entry["time"] <= t:
@@ -140,8 +111,6 @@ func _sampleMerged(t: float) -> bool:
 		else:
 			break
 
-	# Apply toggles: each toggle flips the state
-	# Odd number of toggles = flipped from default
 	var result = default_state
 	if toggle_count % 2 == 1:
 		result = !default_state
@@ -164,23 +133,18 @@ func _animate_prompt_in() -> void:
 func preparePlayback() -> void:
 	_apply_state(default_state, false)
 	lastAppliedState = default_state
-	# merge all slots for playback
 	mergedHistory = []
 	for slot in range(4):
 		for entry in slotHistory[slot]:
 			mergedHistory.push_back({"time": entry["time"]})
 	mergedHistory.sort_custom(func(a, b): return a["time"] < b["time"])
 
-## Called when CloneManager starts recording for a slot
 func _on_recording_started(slot_id: int) -> void:
 	startRecording(slot_id)
 
-## Called when CloneManager starts playback
 func _on_playback_started(_clone_ids: Array[int]) -> void:
 	preparePlayback()
 
-## Called when CloneManager state changes
 func _on_state_changed(new_state: int) -> void:
-	# Reset to default when returning to IDLE
 	if new_state == CloneState.State.IDLE:
 		resetToDefault()

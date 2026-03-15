@@ -22,7 +22,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animator = $Skeleton2D/hips/AnimationPlayer
 @onready var skeleton = $Skeleton2D
 
-## Reference to CloneManager (found dynamically)
 var clone_manager: CloneManager = null
 
 var has_double_jump := true
@@ -40,14 +39,16 @@ func play_anim(anim_name: String):
 		animator.play(anim_name, 0.15)
 
 func _ready():
-	_find_clone_manager()
+	var root = get_tree().root
+	clone_manager = root.get_node_or_null("CloneManager")
+	if clone_manager == null:
+		clone_manager = root.find_child("CloneManager", true, false)
+
 	ShaderManager.go_to_plan()
 
-	# Connect to CloneManager state changes to control visibility
 	if clone_manager:
 		clone_manager.state_changed.connect(_on_state_changed)
 
-## Reset all movement state (called when returning to spawn)
 func reset_movement_state() -> void:
 	velocity = Vector2.ZERO
 	is_sliding = false
@@ -57,18 +58,6 @@ func reset_movement_state() -> void:
 	wall_jump_cooldown = 0.0
 	has_double_jump = true
 
-## Find the CloneManager node in the scene tree
-func _find_clone_manager() -> void:
-	var root = get_tree().root
-	clone_manager = root.get_node_or_null("CloneManager")
-
-	if clone_manager == null:
-		clone_manager = root.find_child("CloneManager", true, false)
-
-	if clone_manager == null:
-		push_warning("PlayerMovement: Could not find CloneManager node")
-
-## Handle CloneManager state changes to control player visibility
 func _on_state_changed(new_state: CloneState.State) -> void:
 	match new_state:
 		CloneState.State.IDLE:
@@ -81,8 +70,6 @@ func _on_state_changed(new_state: CloneState.State) -> void:
 			visible = false
 
 func _physics_process(delta):
-	# Block all player input while planning or waiting for first move after Record
-	# Player can only move during RECORDING state
 	var frozen = false
 	if clone_manager:
 		frozen = clone_manager.current_state != CloneState.State.RECORDING

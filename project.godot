@@ -22,6 +22,8 @@ levels_completed="*res://levels_completed.gd"
 ShaderManager="*res://scripts/shader-manager.gd"
 Music="*res://scenes/sounds/music.tscn"
 ScreenColorSampler="*res://scripts/screen-color-sampler.gd"
+UIConfig="*res://scripts/ui-config.gd"
+EscapeHandler="*res://scripts/escape-handler.gd"
 
 [display]
 
